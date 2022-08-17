@@ -1,0 +1,118 @@
+\usepackage{amsfonts, amsmath, amssymb, amsthm, thmtools, bm}
+\usepackage{avant} % Use the Avantgarde font for headings
+
+% Boxed/framed environments
+\newtheoremstyle{royalnumbox}%
+{0pt}% Space above
+{0pt}% Space below
+{\normalfont}% Body font
+{}% Indent amount
+{\small\bf\sffamily\color{royal}}% Theorem head font
+{\;}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\sffamily \color{royal} 
+    \thmname{#1} 
+    \thmnumber{#2} \thmnote{\bfseries\color{black}---\nobreakspace#3.}} % Optional theorem note
+\renewcommand{\qedsymbol}{$\blacksquare$}% Optional qed square
+
+\newtheoremstyle{blacknumex}% Theorem style name
+{5pt}% Space above
+{5pt}% Space below
+{\normalfont}% Body font
+{} % Indent amount
+{\small\bf\sffamily}% Theorem head font
+{\;}% Punctuation after theorem head
+{0.25em}% Space after theorem head
+{\sffamily
+    \thmname{#1}
+    \thmnumber{#2}
+    \thmnote{---\nobreakspace#3.}}% Optional theorem note
+
+\newtheorem*{notation}{Notation}
+\newtheorem*{hint}{Hint}
+\newtheorem*{solution}{Solution}
+
+\newcounter{dummy} 
+\numberwithin{dummy}{section}
+
+\theoremstyle{royalnumbox}
+\newtheorem{definitionT}[dummy]{Definition}
+\newtheorem{theoremT}[dummy]{Theorem}
+\newtheorem{lemmaT}[dummy]{Lemma}
+\newtheorem{corollaryT}[dummy]{Corollary}
+\newtheorem{propositionT}[dummy]{Proposition}
+\newtheorem{propertyT}[dummy]{Property}
+\newtheorem{remarkT}[dummy]{Remark}
+
+\theoremstyle{blacknumex}
+\newtheorem{exampleT}[dummy]{Example}
+\newtheorem{exerciseT}[dummy]{Exercise}
+
+\numberwithin{equation}{section}
+
+\RequirePackage[framemethod=default]{mdframed}
+
+% Definition box
+\newmdenv[skipabove=7pt, skipbelow=7pt,
+rightline=false, leftline=true, topline=false, bottomline=false,
+backgroundcolor = reddish!10, 
+linecolor=reddish,
+innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt,
+leftmargin=0cm, rightmargin=0cm, linewidth=4pt,
+innerbottommargin=5pt]{dBox}
+
+% Main Theorem box
+\newmdenv[skipabove=7pt, skipbelow=7pt,
+rightline=false, leftline=true, topline=false, bottomline=false,
+backgroundcolor=c0!10, 
+linecolor=c0,
+innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt,
+leftmargin=0cm, rightmargin=0cm, linewidth=4pt, innerbottommargin=5pt]{tBox}
+
+% Lemma/Corollary/Proposition/Property box
+\newmdenv[skipabove=7pt, skipbelow=7pt,
+rightline=false, leftline=true, topline=false, bottomline=false,
+backgroundcolor = c0!10, 
+linecolor=c0!80,
+innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt,
+leftmargin=0cm, rightmargin=0cm, linewidth=4pt,
+innerbottommargin=5pt]{lBox}
+
+% Example/Remark/Exercise box
+\newmdenv[skipabove=7pt, skipbelow=7pt,
+rightline=false, leftline=true, topline=false, bottomline=false,
+backgroundcolor = mossgreen!10!white,
+linecolor = mossgreen,
+innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt,
+leftmargin=0cm, rightmargin=0cm, linewidth=4pt,
+innerbottommargin=5pt]{exBox}
+
+% Proof box
+\newmdenv[skipabove=7pt, skipbelow=7pt,
+rightline=false, leftline=true, topline=false, bottomline=false,
+linecolor=gray,
+innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt,
+leftmargin=0cm, rightmargin=0cm, linewidth=4pt,
+innerbottommargin=5pt]{proofBox}
+
+% unexaminable
+\newmdenv[skipabove=7pt, skipbelow=7pt,
+    rightline=false, leftline=false, topline=false, bottomline=false,
+    backgroundcolor = gray!10,
+    innerleftmargin=1in, innerrightmargin=1in, innertopmargin=5pt,
+    leftmargin=-1in, rightmargin=-1in, linewidth=4pt,
+    innerbottommargin=5pt]{unexamBox}
+
+% Creates an environment for each type of theorem and assigns it a theorem text style from the "Theorem Styles" section above and a colored box from above
+\newenvironment{definition}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}
+\newenvironment{theorem}{\begin{tBox}\begin{theoremT}}{\end{theoremT}\end{tBox}}
+\newenvironment{lemma}{\begin{lBox}\begin{lemmaT}}{\end{lemmaT}\end{lBox}}
+\newenvironment{proposition}{\begin{lBox}\begin{propositionT}}{\end{propositionT}\end{lBox}}
+\newenvironment{corollary}{\begin{lBox}\begin{corollaryT}}{\end{corollaryT}\end{lBox}}
+\newenvironment{property}{\begin{lBox}\begin{propertyT}}{\end{propertyT}\end{lBox}}
+\newenvironment{remark}{\begin{lBox}\begin{remarkT}}{\end{remarkT}\end{lBox}}
+
+% \newenvironment{proof*}{\begin{proofBox}\begin{proof}}{\end{proof}\end{proofBox}}
+\newenvironment{exercise}{\begin{exBox}\begin{exerciseT}}{\hfill{\color{royal}}\end{exerciseT}\end{exBox}}
+\newenvironment{example}{\begin{exBox}\begin{exampleT}}{{}\end{exampleT}\end{exBox}}
+\newenvironment{unexaminable}{\begin{unexamBox}}{\end{unexamBox}}

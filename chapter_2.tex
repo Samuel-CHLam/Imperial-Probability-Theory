@@ -1,0 +1,748 @@
+\section{Expectation and Integrals}
+\subsection{The Lebesgue Integral}
+First we recall the construction of the Lebesgue integral. Define the expectation of a simple random variable $\xi = \sum_{j=1}^n x_j \chi_{D_j}$ by
+\begin{equation}
+    \E [\xi] = \sum_{j=1}^n x_j \p(D_j),
+\end{equation}
+where the sets $D_j$ are a decomposition of $\Omega$. \\
+
+For an arbitrary non-negative random variable $\xi = \xi(\omega)$ we construct a sequence of simple nonnegative random variables $\{\xi_n \}_{n\ge1}$ such that $\xi_n(\omega) \uparrow \xi(\omega),$ as $n \rightarrow \infty$ for each $\omega \in \Omega$. We then set $\E[\xi] = \lim_{n \rightarrow \infty} \E[\xi_n]$, which exists since $\E[\xi_n] \le \E[\xi_{n+1}]$ (possibly taking the value $+\infty)$.
+\begin{definition}[Expectation]
+The \textbf{expectation} $\E[\xi]$ of a random variable $\xi$ is the Lebesgue integral w.r.t. $\p$
+\begin{equation}
+    \E[\xi] := \lim_{n \rightarrow \infty}\E[\xi_n] =  \int_{\Omega}\xi \d\p = \int_{\Omega} \xi(\omega) \p(\d \omega)
+\end{equation}
+if it exists. We say that $\xi$ is \textbf{integrable} if $\E[|\xi|]$ exists and is finite ($\E[|\xi|]$ exists and is finite $\iff$ $\E[\xi]$ exists and is finite).
+\end{definition}
+To see that this definition is consistent, one has to show it is independent of the choice of $\xi_n \uparrow \xi$. For general random variables (not necessary non-negative), we use the fact that $\xi = \xi^+ - \xi^-$.
+
+\subsection{Properties}
+We recall the following basic properties:
+\begin{property}
+Let $\xi, \eta$ be integrable random variables and $c$ a constant. Then 
+\begin{itemize}
+    \item $\E [c] = c$
+    \item $\E [c\xi] = c\E[\xi]$
+    \item $\xi + \eta$ is integrable and $\E(\xi + \eta) = \E[\xi] + \E[\eta]$
+    \item $\xi \le \eta \implies \E[\xi] \le \E[\eta]$
+    \item if $\xi = \eta$ a.e. w.r.t $\p$ (a.e. $\equiv$ almost surely (a.s) i.e. up to sets of $\p$-measure zero), then $\E[\xi] = \E[\eta]$
+    \item if $\xi \ge 0$ and $\E[\xi] = 0$, then $\xi = 0$ a.s.
+\end{itemize}
+\end{property}
+
+\subsubsection{Exchanging limits and expectations}
+We begin by recalling the following monotone convergence thoerem.
+\begin{theorem}[Monotone convergence theorem (MCT)]
+Let $0 \le \xi_1 \le \xi_2 \le \cdots $ be random variables. Then there exists (finite or infinite)
+\begin{equation}
+    \lim_{n \rightarrow \infty} \E[\xi_n] = \E \sqbracket{\lim_{n \rightarrow \infty} \xi_n}.
+\end{equation}
+\end{theorem}
+
+\begin{remark}
+\begin{itemize}
+    \item[]
+    \item $0 \le \xi_1 \le \cdots$ can be replaced by $\eta \le \xi_1 \le \cdots$ with $\E[\eta] > -\infty$ (just consider $\xi_n - \eta$ instead of $\xi_n$).
+    \item $0 \le \xi_1 \le \cdots$ can be replaced by $\cdots \le \xi_2 \le \xi_1 \le \eta,$ with $\E[\eta] < \infty$.
+\end{itemize}
+\end{remark}
+
+\begin{corollary}
+Let $\{\eta_k\}_{k\ge1}$ be a sequence of non-negative random variables. Then 
+\begin{equation}
+    \E \sqbracket{\sum_{k=1}^\infty \eta_k} = \sum_{k=1}^\infty \E [\eta_k].
+\end{equation}
+
+\end{corollary}
+\begin{theorem}[Fatou's Lemma]
+Let $\{\xi_n\}_{n\ge 1}$ be non-negative random variables. Then
+\begin{equation}
+    \E [\liminf_n \xi_n] \le \liminf_n \E [\xi_n].
+\end{equation}
+\end{theorem}
+\begin{remark}
+\begin{itemize}
+    \item[]
+    \item $\xi_n \ge 0$ can be replaced by $\xi_n \ge \eta$, if $\E [\eta] > -\infty$
+    \item If $\xi_n < \eta,$ $\E [\eta] < \infty,$ the statement holds for $\limsup$ instead.
+\end{itemize}
+\end{remark}
+\begin{hint}
+Apply monotone convergence theorem to $\lambda = \inf_{k>n} \xi_k$.
+\end{hint}
+
+\begin{theorem}[Lebesgue's Theorem on Dominated Convergence]
+Let $\{\xi_n\}_{n\ge 1}$ be random variables such that $\xi_n \rightarrow \xi$ (a.s.). If there exists an integrable random variable $\eta$ ($\E[\eta] < \infty$) such that $|\xi_n|\le \eta, \forall n$, then $\xi$ is integrable ($\E[\xi] < \infty$),
+\begin{equation}
+    \E[\xi_n] \rightarrow \E[\xi],
+\end{equation}
+and 
+\begin{equation}
+    \E[|\xi_n - \xi|] \rightarrow 0
+\end{equation}
+as $n \rightarrow \infty$.
+\end{theorem}
+\begin{corollary}
+Let $\eta, \xi, \xi_1, \dots$ be random variables such that $|\xi_n| \le \eta, \xi_n \rightarrow \xi$ (a.s.) and $\E[\eta^p] < \infty$ for some $p > 0$. Then $\E[|\xi|^p] < \infty$ and $\E[|\xi - \xi_n|^p] \rightarrow 0$ as $n \rightarrow \infty$.
+\end{corollary}
+\begin{remark}
+In all the above theorems, integral over $\Omega$ can be replaced by integral over any measurable $\hat{A} \subset \Omega$.
+\end{remark}
+
+\subsubsection{Change of variables}
+\begin{theorem}[Change of variables / Law of Unconscious Statistician (LOTUS)] \label{thm:LOTUS}
+Let $\xi: (\Omega, \F, \p) \to (\R, \B(\R))$ be a random variable with probability distribution $\p_\xi$. Then if $g = g(x)$ is a Borel function, then for all $A \in \B(\R)$,
+\begin{equation}
+    \int_A g(x) \d\p_\xi = \int_{\xi^{-1}(A)}g(\xi(\omega)) \d\p,
+\end{equation}
+where both integrals exist or not simultaneously. In particular, for $A = \R$ we obtain
+\begin{equation}
+    \E [g(\xi(\omega))] = \int_\Omega g(\xi(\omega))\d\p = \int_{-\infty}^\infty g(x) \d\p_\xi \equiv \int_{-\infty}^\infty g(x) \d F_\xi.
+\end{equation}
+\end{theorem}
+\begin{proof}
+We use the four-step proof. The result clearly holds for $g = \chi_B(x), B \in \B(\R)$. Therefore, also holds for simple $g(x)$ by linearity of the integral. For any measurable $g(x) \ge 0$ consider a sequence of simple $g_n \nearrow g$. The result for $g$ then follows from monotone convergence theorem. For arbitrary measurable $g(x)$ we use $g(x) = g_+ - g_-.$
+\end{proof}
+
+\begin{remark} The theorem guarantees that the expectation only depends on the probability distribution, but NOT the underlying probability space! In particular,
+\begin{enumerate}
+    \item If $\xi$ is discrete ($\F_\xi$ is discrete) taking values $x_1, x_2, \dots$ with probabilities $p_1, p_2, \dots$ then the theorem gives 
+    \begin{equation}
+        \E [g(\xi)] = \sum_{j} g(x_j) p_j
+    \end{equation}
+    \item If $\xi$ is absolutely continuous (i.e. $F_\xi$ is absolutely continuous) with density $f(x)$, then 
+    \begin{equation}
+        \E [g(\xi)] = \int_{-\infty}^\infty g(x)f(x)\d x.
+    \end{equation}
+\end{enumerate}
+This provides a way to calculate expectations of $g(\xi)$ without first being "conscious" with the actual distribution of $g(\xi)$. In addition, it makes sense to talk about expectations of probability distributions \textbf{without} specifying its underlying probability space.\\
+
+So are there any points to specify the underlying probability space of a random variable instead of assuming it to be $(\R, \B(\R), \p_\xi)$? Unfortunately the answer \textit{can be} no, since there is a way to develop probability theory (and notions of random variables) without going through the Kolmogorov constructions. Indeed, the underlying probability space is not important at all in most of the applications in statistics. Nevertheless, this formulation is still helpful in understanding more complicated random variables like stochastic processes.
+\end{remark}
+
+\subsection{Exchanging the Order of Integration}
+
+We now consider product measures, and more specifically expressing integration on product measures as a repeated integral.\\
+
+Suppose $(X_1, \mathcal{M}_1, \mu_1)$ and $(X_2,  \mathcal{M}_2, \mu_2)$ are a pair of measure spaces and consider the product measure $(\mu_1 \times \mu_2)$ on the space 
+\begin{equation}
+	X = X_1 \times X_2 = \{ (x_1, x_2): x_1 \in X_1, x_2 \in X_2 \}.
+\end{equation}
+We assume that the two measure spaces are complete  and $\sigma$-finite .\\
+
+Given a set $E$ in $\mathcal{M}$ we consider the \textit{slices}
+\begin{equation}
+    E_{x_1} = \{ x_2 \in X_2: (x_1, x_2) \in E \} \quad \text{and} \quad E^{x_2} = \{ x_1 \in X_1: (x_1, x_2) \in E \}.
+\end{equation}
+
+\begin{theorem}[Fubini's Theorem] \label{thm:Fubini_Theorem}
+In the setting above, suppose that $f(x_1, x_2)$ is an integrable function on $(X_1 \times X_2, \mu_1 \times \mu_2)$. Then
+\begin{itemize}
+\item For almost every $x_2 \in X_2$, the slice $f^{x_2}(x_1) = f(x_1, x_2)$ is integrable on $(X_1, \mu_1)$. 
+\item $\int_{X_1} f(x_1, x_2) \d \mu_1$ is an integrable function on $X_2$.
+\item We can exchange integrals as followed
+\begin{equation} 
+\int_{X_2} \bigg(\int_{X_1} f(x_1, x_2) \d \mu_1 \bigg) \d \mu_2 = \int_{X_1} \bigg(\int_{X_2} f(x_1, x_2) \d \mu_2 \bigg) \d \mu_1 = \int_{X_1 \times X_2} f \d \mu_1 \times \mu_2.
+\end{equation}
+\end{itemize}
+\end{theorem}
+\begin{remark}
+In general, the product space $(X, \mathcal{M}, \mu)$ is not complete. One can define the completion of this space as follows. Let $\overline{\mathcal{M}}$ be the collection of sets of the form $E \cup Z$, where $E \in \mathcal{M}$ and $Z \subset F$ with $F \in \mathcal{M}$ and $\mu (F) = 0$. Also, define $\overline{\mu}(E \cup Z) = \mu (E)$. Then 
+\begin{itemize}
+    \item $\overline{\mathcal{M}}$ is the smallest $\sigma-$algebra containing $\mathcal{M}$ and all subsets of elements of $\mathcal{M}$ of measure zero.
+    \item The function $\overline{\mu}$ is a measure on $\overline{\mathcal{M}}$, and this measure is complete.
+\end{itemize}
+The theorem continues to hold in this completed space.
+\end{remark}
+In the above theorem we assume that the function $f$ is integrable over the product space. We can relax this condition, but instead we need to assume that $f$ is a non-negative measurable function. This gives us the following theorem
+
+\begin{theorem}[Tonelli's Theorem] \label{thm:Tonelli_theorem}
+Suppose that $f(x_1, x_2) : X_1 \times X_2 \to [0, \infty]$ is a non-negative measurable function on $(X_1 \times X_2, \mu_1 \times \mu_2)$. Then
+\begin{equation}
+\int_{X_2} \bigg(\int_{X_1} f(x_1, x_2) \d \mu_1 \bigg) \d \mu_2 = \int_{X_1} \bigg(\int_{X_2} f(x_1, x_2) \d \mu_2 \bigg) \d \mu_1 = \int_{X_1 \times X_2} f \d \mu_1 \times \mu_2.
+\end{equation}
+\end{theorem}
+Combining Fubini's theorem with Tonelli's theorem gives 
+\begin{theorem}[Fubini-Tonelli Theorem]
+If $f$ is a measurable function, then
+\begin{equation}
+    \int_{X_1} \bigg(\int_{X_2} |f(x_1, x_2)| \d \mu_2 \bigg) \d \mu_1 = \int_{X_2} \bigg(\int_{X_1} |f(x_1, x_2)| \d \mu_1 \bigg) \d \mu_2 = \int_{X_1 \times X_2} |f| \d \mu_1 \times \mu_2.
+\end{equation}
+Besides if any one of these integrals is finite, then
+\begin{equation*}
+    \int_{X_1} \bigg(\int_{X_2} f(x_1, x_2) \d \mu_2 \bigg) \d \mu_1 = \int_{X_2} \bigg(\int_{X_1} f(x_1, x_2) \d \mu_1 \bigg) \d \mu_2 = \int_{X_1 \times X_2} f \d \mu_1 \times \mu_2.
+\end{equation*}
+\end{theorem}
+The absolute value of $f$ in the conditions above can be replaced by either the positive or the negative part of $f$. These forms include Tonelli's theorem as a particular case as the negative part of a non-negative function is zero and has a finite integral. Informally all these conditions say that the double integral of $f$ is well defined, though possibly infinite.\\
+
+The advantage of the Fubini–Tonelli over Fubini's theorem is that the repeated integrals of the absolute value of $|f|$ may be easier to study than the double integral. As in Fubini's theorem, the single integrals may fail to be defined on a measure $0$ set. \\
+
+Here is an application of the Fubini-Tonelli theorem:
+
+\begin{proposition}[$\E$ and tail probabilities] \label{prop:exp_tail}
+Let $\xi$ be a non-negative integrable random variable. Then
+\begin{equation}
+    \E[\xi] = \int_{[0,\infty)}\p(\xi \ge x) \, \d x. \label{eq:exp_tail}
+\end{equation}
+\end{proposition}
+\begin{proof}
+We have
+\begin{align}
+    \E[\xi] = \int_{[0, \infty)}x \, \d \p_\xi
+    = \int_{[0, \infty)} \bigg( \int_0^x \, \d t \bigg) \, \d \p_\xi
+    =\int_{[0, \infty)} \p(\xi \ge t) \, \d t,
+\end{align}
+where we applied Fubini's theorem to 
+\begin{equation}
+    g(t,x) = 
+    \begin{cases}
+     1, & 0\le t \le x,\\
+     0, & \text{otherwise.}
+    \end{cases}
+\end{equation}
+\end{proof}
+
+\begin{exercise}
+Generalise the above proof to prove that if $\xi \geq 0$ and $p \geq 1$ then
+\begin{equation}
+\E[\xi^p] = \int_0^\infty py^{p-1} \p(\xi\geq y) \, dy \label{eq:exp_p_tail}
+\end{equation}
+Verify the formula \ref{eq:exp_tail} and \ref{eq:exp_p_tail} for some simple distributions, e.g. the exponential $\mathsf{Exp}(\lambda)$ distribution with density $f(x) = \lambda e^{-\lambda x}$.
+\end{exercise}
+
+\subsection{Jensen's Inequality and $L^p$ Spaces}
+For a random variable $X:(\Omega,\F) \to (\R,\B(\R))$ we want to study how integrable it is. We define the following notions of integrability:
+
+\begin{definition}[The space $\L^p(\Omega)$] Let $p \in [1,\infty)$.
+\begin{itemize}
+    \item We say that $\xi$ is in $\L^p(\Omega)$ if $\E(|\xi|^p)$ exists and is finite. For such $\xi$ we define the function
+    \begin{align}
+        \norm{\,.\,}_{\L^p(\Omega)} : \L^p(\Omega) &\to \R_{\geq 0} \\
+        \xi &\mapsto (\E(|\xi|^p))^{1/p}
+    \end{align}
+    \item We also say that $\xi \in \L^\infty(\Omega)$ if there is an $M < \infty$ such that $|\xi(\omega)|\leq M$ almost everywhere. For such $\xi$ we define the function
+    \begin{align}
+        \norm{\,.\,}_{\L^\infty(\Omega)} : \L^\infty(\Omega) &\to \R_{\geq 0} \\
+        \xi &\mapsto \inf \set{M \geq 0 \,|\, |\xi| \leq M \text{ almost everywhere }}
+    \end{align}
+    \end{itemize}
+    If there is no ambiguity, we drop the $\Omega$ when writing $\L^p$ spaces.
+\end{definition}
+
+We would like to address two central questions:
+\begin{enumerate}
+    \item Do we know anything about the inclusions of $\L^p$ spaces?
+    \item Do we know any information about the $\L^p$ spaces itself?
+\end{enumerate}
+
+The ultimate goal is to establish that $\L^p(\Omega)$ is almost a normed vector space, so that we can carry further analysis using tools from functional analysis. Before we address the above questions, let us recall the following important inequality in analysis:
+
+\subsubsection{Convex Functions and Jensen Inequality}
+We recall some notions of convexity.
+\begin{definition}[Convexity] \phantom{blah\\}
+\begin{itemize}
+    \item A set $E \subseteq \R^n$ \footnote{You can safely assume $n = 1$ for this section, and treat any gradient/Hessian as derivatives.} is convex if, for all $x,y \in \Omega$ and $\lambda \in [0,1]$, the point $(1-\lambda) x + \lambda y \in \Omega$.
+    \item Let $E \subseteq \R^n$ be a convex set. A function $g:E \to \R$ is convex (downward) if, for all $x,y \in \Omega$ and $\lambda \in [0,1]$, 
+    \begin{equation}
+        g((1-\lambda) x + \lambda y) \leq (1-\lambda) g(x) + \lambda g(y)
+    \end{equation}
+    \item Let $E \subseteq \R^n$ be a convex set. A function $g:E\to \R$ is concave (upward) if $-g$ is convex.
+\end{itemize}
+\end{definition}
+
+For the following analysis we assume $E = \R^n$ for simplicity, although removing this assumption won't affect much. We recall the following characterisations of a convex function:
+
+\begin{proposition}[Characterisations of a convex function] Let $g:\R^n \to \R$
+\begin{itemize}
+    \item If $g \in C^1(\mathbb{R}^n)$ (i.e. first-time continuously differentiable), then $g$ is convex iff for all $x, x_0 \in \mathbb{R}^n$, we have
+    \begin{equation}
+        g(x) \geq g(x_0) + \nabla g(x_0)^\top (x - x_0) 
+    \end{equation}
+    where $\nabla g(x_0)$ is the gradient (total derivative) of $g$ at $x_0$.
+    \item If $g \in C^2(\mathbb{R}^n)$ (i.e. second-time continuously differentiable), then $g$ is convex iff for all $x \in \mathbb{R}^n$, we have the Hessian $\nabla \nabla^\top g(x)$ being positive semi-definite.
+\end{itemize}
+\end{proposition}
+
+\begin{exercise}
+Prove the above characterisations.
+\end{exercise}
+
+We also recall the following theorem
+\begin{proposition}[Existence of subgradient]
+Let $g: \R^n \to \R$ be a convex function. Then for all $x_0 \in \R^n$, there is a vector $v \in \R^n$ (depending on $x_0$) such that for all $x \in \R^n$, we have
+\begin{equation} \label{eq:subgradient}
+    g(x) \geq g(x_0) + v^\top (x - x_0)
+\end{equation}
+Any vectors $v$ satisfying \eqref{eq:subgradient} is called a subgradient of $g$ at $x_0$.
+\end{proposition}
+
+The proof is beyond our scope. \\
+
+With the above lemma we can prove the Jensen's inequality for expectation:
+\begin{theorem}[Jensen's Inequality]
+Let $\xi$ be an integrable random variable and let $g:\R \to \R$ be a measurable, convex downward function. Then
+\begin{equation}
+    g(\E [\xi]) \leq \E [g(\xi)]
+\end{equation}
+\end{theorem}
+\begin{proof}
+If $g(x)$ is convex downward, for each $x_0 \in \R$ there is a number $v$ such that
+\begin{equation}
+    g(x) \ge g(x_0) + v(x - x_0)
+\end{equation}
+for all $x \in \R$. Putting $x = \xi$ and $x_0 = \E [\xi]$, we find that
+\begin{equation}
+    g(\xi) \ge g(\E[\xi]) + v(\xi - \E [\xi])
+\end{equation}
+and by taking expectation for both sides we get  $g(\E [\xi]) \le \E [g(\xi]).$
+\end{proof}
+
+\subsubsection{Inclusions of $\L^p$ spaces}
+We can immediately observe that if $\xi \in \L^\infty(\Omega)$ then $\xi \in \L^p(\Omega)$ for any $p \in [1,\infty)$. To show this we let $E$ be the set $\set{\omega \in \Omega \,|\, |\xi(\omega)| > M }$. Then $\p(E) = 0$. Therefore 
+\begin{equation} \label{eq:Holder_infty}
+    \E(|\xi|^p) = \E(|\xi|^p \chi_{\Omega \setminus E}) \leq M^p \p(E) = M^p < \infty
+\end{equation}
+We therefore have $\L^\infty(\Omega) \subseteq \L^p(\Omega)$ for all $p \in [1,\infty)$.\\
+
+Let us also compare $L^p(\Omega)$ and $L^q(\Omega)$ for $p<q$. From the Jensen's inequality we can prove the following:
+\begin{corollary}[Lyapunov's Inequality] \label{cor:lyapunov_ineq}
+If $0 < p < q < \infty$,
+\begin{equation}
+    (\E[|\xi|^p])^{1/p} \le (\E[|\xi|^q])^{1/q}
+\end{equation}
+and therefore $\L^q(\Omega) \subseteq \L^p(\Omega)$
+\end{corollary}
+
+\begin{hint}
+Consider $f(x) = x^{q/p}$
+\end{hint}
+
+\begin{proof}
+To prove this, let $r = q/p$. Then putting $\eta = |\xi|^p$ and applying Jensen's inequality to $g(x) = |x|^r$ (check that it is convex), we obtain $|\E[\eta]|^r \le \E[|\eta|^r]$, i.e.
+\begin{equation*}
+    (\E[|\xi|^p])^{q/p} \le \E[|\xi|^{q}]
+\end{equation*}
+from which the result follows. Therefore if $\E[|\xi|^q] < \infty$ then $\E[|\xi|^p] = (\E[|\xi|^q])^{p/q} < \infty$, and then $\xi \in \L^p(\Omega)$.
+\end{proof}
+
+\begin{exercise}
+Prove that composition of convex function is convex. Check that $g_1(x) = x^r$ is convex whenever $x \geq 0$, and that $g_2(x) = |x|$ is convex whenever $x \in \R$. Conclude that $g(x) = |x|^r$ is convex.
+\end{exercise}
+
+The following chain of inequalities among absolute moments is a consequence of Lyapunov's inequality:
+\begin{equation*}
+    \E[|\xi|] \le (\E[|\xi|^2])^{1/2} \le \cdots \le (\E[|\xi|^n])^{1/n} \leq ...
+\end{equation*}
+
+or equivalently
+\begin{equation*}
+    \norm{\xi}_{\L^1(\Omega)} \le \norm{\xi}_{\L^2(\Omega)} \le \cdots \le \norm{\xi}_{\L^n(\Omega)} \leq ... \leq \norm{\xi}_{\L^\infty(\Omega)}.
+\end{equation*}
+
+which yields
+\begin{equation*}
+    \L^\infty(\Omega) \subseteq ... \subseteq \L^n(\Omega) \subseteq \L^2(\Omega) \subseteq \L^1(\Omega)
+\end{equation*}
+
+\begin{remark}
+As a warning, Lyapunov inequality is only true when $\p$ is a \textbf{finite} (e.g. probability measure). It is NOT true if we try to generalise the definition of $\L^p$ spaces to other measure spaces.
+\end{remark}
+
+We will later show that, indeed when $p \nearrow \infty$ we have $\norm{\xi}_{\L^p(\Omega)} \nearrow \norm{\xi}_{L^\infty(\Omega)}$. We will leave it as an exercise for the next part. \\
+
+We also define the notion of moments
+\begin{definition}[Moments]
+Let $\xi \in \L^p(\Omega)$. For integers $0 \leq k \leq p$, we define the its $k$-th moments being equal to $\E(\xi^k)$.
+\end{definition}
+
+\subsubsection{$\L^p(\Omega)$ and its seminorm}
+We note that for all $p \in [1,\infty]$, the space $\L^p(\Omega)$ is a \textit{vector space}:
+\begin{itemize}
+    \item Let $p \in [1,\infty)$. Notice by convexity, for all $a,b \in \R$,
+    \begin{equation*}
+        \abs{\frac{a+b}{2}}^p \leq \frac{|a|^p + |b|^p}{2} \iff |a+b|^p \leq 2^{p-1} (|a|^p + |b|^p)
+    \end{equation*}
+    We therefore have, for all $\xi, \eta \in \L^p(\Omega)$ and $\lambda \in \R$,
+    \begin{equation*}
+        \E[|\xi + \lambda \eta|^p] \leq 2^{p-1}(\E[|\xi|^p] + |\lambda| \E[|\eta|^p]) < \infty
+    \end{equation*}
+    and hence $\xi + \lambda \eta \in \L^p(\Omega)$.
+    \item Let $\xi, \eta \in \L^\infty(\Omega)$, such that $|\xi|, |\eta| \leq M$ almost everywhere. Define $E_1 := \set{\omega \,|\, |\xi| > M}$ and $E_2 := \set{\omega \,|\, |\eta| > M}$. For $\omega \in \Omega \setminus (E_1 \cup E_2)$, we have
+    \begin{equation} \label{eq:Minkowski_infty}
+        |\xi(\omega) + \lambda \eta(\omega)| \leq (1+\lambda) M < \infty
+    \end{equation}
+    Finally note that $E_1 \cup E_2$ has measure zero, so $\xi + \lambda \eta \in \L^\infty(\Omega)$.
+\end{itemize}
+
+Recall, in the definition of $\L^p(\Omega)$, we have define the function $\norm{\,.\,}_{\L^p(\Omega)}$. One would hope that this function is a norm of $\L^p(\Omega)$ in the following sense:
+
+\begin{definition}[Seminorm and Norm] Consider a vector space $V$, and let $\norm{\,.\,}:V \to \R_{\geq 0}$ be a function. $\norm{\,.\,}$ is a \textbf{seminorm} if it is
+\begin{itemize}
+    \item Absolutely homogeneous: for all $\lambda \in \R, v \in V$
+    \begin{equation}
+        \norm{\lambda \xi} = |\lambda| \norm{\xi}
+    \end{equation}
+    \item Triangle inequality: for all $u,v \in V$,
+    \begin{equation}
+        \norm{u + v} \leq \norm{u} + \norm{v}
+    \end{equation}
+\end{itemize}
+In particular if it holds that $\norm{v} = 0 \iff v = 0$, then $\norm{\,.\,}$ is a norm.
+\end{definition}
+
+Unfortunately this is not true: in fact $\norm{\xi}_{\L^p(\Omega)} = 0 \iff \xi = 0$ \textbf{almost} everywhere. Nevertheless, we can prove that $\norm{\,.\,}_{\L^p(\Omega)}$ is a \textbf{semi}-norm. To begin, it is trivial to see from linearity that $\norm{\,.\,}_{L^p(\Omega)}$ is absolutely homogeneous. The main task is hence to check if triangle inequality is satisfied for $\norm{\,.\,}_{L^p(\Omega)}$. Showing this for the case $p = \infty$ is not hard: we can run through the steps in proving \eqref{eq:Minkowski_infty} to show that 
+\begin{equation*}
+    |\xi(\omega) + \eta(\omega)| \leq \norm{\xi}_{\L^\infty(\Omega)} + \norm{\eta}_{\L^\infty(\Omega)}
+\end{equation*}
+almost everywhere, and therefore $\norm{\xi + \eta}_{L^\infty}$ as an infinmum must not be greater than $\norm{\xi}_{\L^\infty(\Omega)} + \norm{\eta}_{\L^\infty(\Omega)}$.\\
+
+We now try to prove the triangle inequality for the case when $p<\infty$. We need the following important stepping stones:
+
+\begin{proposition}[Young's Inequality]
+Let $p \in (1,\infty)$ and $q$ such that $(1/p) + (1/q) = 1$. Then $\forall a,b > 0$
+\begin{equation} \label{eq:Young}
+    ab \leq \frac{a^p}{p} + \frac{a^q}{q}
+\end{equation}
+\end{proposition}
+
+\begin{hint}
+Consider $f(x) = -\ln x$.
+\end{hint}
+
+\begin{proof}
+Note that $f(x) = -\ln x$ is a convex function for all $x > 0$, we have
+\begin{equation*}
+    -\ln\bracket{\frac{a^p}{p} + \frac{a^q}{q}} \leq -\frac{1}{p} \ln a^p - \frac{1}{q} \ln b^q
+\end{equation*}
+which simplifies to our Young's inequality \eqref{eq:Young}.
+\end{proof}
+
+\begin{proposition}[Hölder's Inequality]
+Let $p \in [1,\infty]$. Define $q \in [1,\infty]$ such that $(1/p)+(1/q) = 1$ (in particular $q = \infty$ when $p = 1$). If $\xi \in \L^p(\Omega)$ and $\eta \in \L^q(\Omega)$, then
+\begin{equation} \label{eq:Holder}
+    \norm{\xi \eta}_{\L^1(\Omega)} := \E[|\xi \eta|] \leq \norm{\xi}_{\L^p(\Omega)} \norm{\eta}_{\L^q(\Omega)}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+We first prove a more trivial case when $p = 1$ and $q = \infty$: define the set $E := \set{\omega \,|\, |\xi(\omega)| > \norm{\xi}_{L^\infty(\omega)}}$, which has measure zero. Then, similar to the inequality \eqref{eq:Holder_infty}, we have
+\begin{equation}
+    \E[|\xi \eta|] = \E[|\xi \eta| \chi_{\Omega \setminus E}] \leq \norm{\xi}_{L^\infty(\Omega)} \E[|\eta|] = \norm{\xi}_{L^\infty(\Omega)} \norm{\eta}_{L^1(\Omega)}
+\end{equation}
+We can similarly prove for the case when $p = \infty$ and $q = 1$, so wlog assume $p,q < \infty$. We can apply Young's inequality \eqref{eq:Young} to show that for all $\lambda > 0$, we have
+\begin{align*}
+    \E\sqbracket{|\lambda \xi \eta|} \leq \E\sqbracket{\frac{|\lambda|^p |\xi|^p}{p} + \frac{|\eta|^q}{q}} = \frac{\lambda^p \E[|\xi|^p]}{p} + \frac{\E[|\eta|^q]}{q}
+\end{align*}
+Divide both sides by $\lambda$ yields
+\begin{align} \label{eq:Holder_intermediate_1}
+    \E\sqbracket{|\xi \eta|} = \frac{\lambda^{p-1} \E[|\xi|^p]}{p} + \frac{\E[|\eta|^q]}{\lambda q} =: f_{\xi, \eta}(\lambda)
+\end{align}
+Here comes the important part - since \eqref{eq:Holder_intermediate_1} is true for all $\lambda > 0$, \textit{we can make the inequality as tight as possible by minimising the RHS}. Specifically, we can rewrite \eqref{eq:Holder_intermediate_1} as
+\begin{align}
+    \E\sqbracket{|\xi \eta|} \leq \inf_{\lambda > 0} f_{\xi, \eta}(\lambda)
+\end{align}
+Let us carefully find the minimum of $f_{\xi,\eta}(\lambda)$. We note that 
+\begin{equation} \label{eq:Holder_intermediate_2}
+    f'_{\xi,\eta}(\lambda) = \underbrace{\frac{p-1}{p}}_{=1/q}  \E[|\xi|^p] \lambda^{p-2} - \frac{1}{q} \E[|\eta|^q] \lambda^{-2} = \frac{\E[|\xi|^p]}{q\lambda^2} \bracket{\lambda^p - \frac{\E[|\eta|^q]}{\E[|\xi|^p]}} 
+\end{equation}
+So we have $\displaystyle{f'_{\xi,\eta}(\lambda) = 0 \iff \lambda = \lambda^* := \bracket{\frac{\E[|\eta|^q]}{\E[|\xi|^p]}}^{1/p}}$. In particular, $f'_{\xi, \eta}(\lambda) < 0$ whenever $\lambda < \lambda^*$ and $f'_{\xi, \eta}(\lambda) > 0$ whenever $\lambda > \lambda^*$, so indeed $f_{\xi,\eta}(\lambda^*)$ is indeed the global minimum of $f_{\xi,\eta}(\lambda)$. Plugging into \eqref{eq:Holder_intermediate_2}, we have
+\begin{equation}
+    \E[|\xi \eta|] \leq \bracket{\frac{\E[|\eta|^q]}{\E[|\xi|^p]}}^{\frac{p-1}{p}} \frac{\E[|\xi|^p]}{p} + \bracket{\frac{\E[|\eta|^q]}{\E[|\xi|^p]}}^{-1/p} \frac{\E[|\eta|^q]}{q} =  \norm{\xi}_{\L^p(\Omega)} \norm{\eta}_{\L^q(\Omega)}
+\end{equation}
+completing the proof.
+\end{proof}
+
+We can finally utilise the Hölder's inequality to prove the triangle inequality.
+
+\begin{proposition}[Triangle inequality for $\norm{\,.\,}_{\L^p}$/Minkowski's Inequality]
+If $\E[|\xi|^p] < \infty$, $\E[|\eta|^p] < \infty, 1\le p \le \infty$, then we have $\E[|\xi + \eta|^p]<\infty$ and 
+\begin{equation*}
+    (\E[|\xi + \eta|^p])^{1/p} \le (\E[|\xi|^p])^{1/p} + (\E[|\eta|^p])^{1/p}.
+\end{equation*}
+\end{proposition}
+
+\begin{hint}
+Note $|\xi + \eta|^p \leq |\xi + \eta|^{p-1}(|\xi| + |\eta|)$ and use Holder's inequality.
+\end{hint}
+
+\begin{proof}
+We only need to take care the case when $p<\infty$. The Hölder inequality says
+\begin{equation}
+    \E[|\xi + \eta|^p] \leq \E[|\xi + \eta|^{p-1} (|\xi| + |\eta|)] \leq \left(\E\sqbracket{|\xi + \eta|^{p-1})^{\frac{p}{p-1}}}\right)^{1-1/p} (\norm{\xi}_{\L^p(\Omega)} + \norm{\eta}_{\L^p(\Omega)})
+\end{equation}
+which simplifies to the Minkowski inequality.
+\end{proof}
+
+We have therefore shown that, for all $p \in [1,\infty]$, the function $\norm{\,.\,}_{\L^p(\Omega)}$ is a seminorm of the vector space $\L^p(\Omega)$. In fact this seminorm induces a norm in the following quotient space $L^p(\Omega) = \L^p(\Omega) / \sim$, where $\sim$ is the following equivalent relation
+\begin{equation} \label{eq:equiv_relation_Lp}
+    f \sim g \iff f = g \; \p\text{-almost everywhere.} 
+\end{equation}
+
+\begin{unexaminable}
+\begin{exercise}
+First check that $\sim$ is an equivalent relation. Then check that $L^p(\Omega)$ is a vector space by defining a suitable addition and scalar multiplication. (Remember to check that these operations are well defined!)
+\end{exercise}
+
+The norm is given by the following: writing $[f]_\sim$ being the equivalent class containing $f$, then
+\begin{equation}
+    \norm{[f]_\sim}_{L^p(\Omega)} = \norm{f}_{\L^p(\Omega)}
+\end{equation}
+
+\begin{exercise}
+First check that the above norm is well-defined in the sense that the value is independent of the choice of elements in $[f]_\sim$. Then check that it is a norm.
+\end{exercise}
+\end{unexaminable}
+
+For the following chapters, we abuse notations and replace $\norm{[f]_\sim}_{L^p(\Omega)}$ with $\norm{f}_{L^p}$. Just note that if we have $\norm{f}_{L^p} = 0$ only imply that $f = 0$ almost surely. Since $L^p$ is a normed vector space, the norm induces a metric $d_{L^p}(\xi,\eta) = (\E[|\xi - \eta|^p])^{1/p}$, and we can define a notion of convergence from this metric:
+
+\begin{definition}[$L^p$ convergence] \label{def:Lp_convergence} The sequence $\xi_1,\xi_2,...$ of (equivalence classes of) random variables converges in $L^p$ (moments of order $p$) to the random variable $\xi$ if as $n \to \infty$
+\begin{equation}
+    (\E[|\xi_n - \xi|^p])^{1/p} \to 0 \iff \E[|\xi_n - \xi|^p] \to 0
+\end{equation}
+\end{definition}
+
+\begin{remark}[Reverse Triangle Inequality] Note that if the sequence $(\xi_i)_{i\geq 1}$ converges in $L^p$ to $\xi$, then as $i \to \infty$,
+\begin{equation}
+    0 \leq |\norm{\xi_i}_{L^p} - \norm{\xi}_{L^p}| \leq \norm{\xi_i - \xi}_{L^p} \to 0
+\end{equation}
+i.e. $\norm{\xi_i}_{L^p} \to \norm{\xi}_{L^p}$.
+\end{remark}
+
+\begin{unexaminable}
+Let us also define the following space for convenience
+\begin{definition}[The $L^{\infty-}(\Omega)$ space] Define 
+\begin{equation}
+    L^{\infty-}(\Omega) = \bigcap_{p \geq 1} L^p(\Omega)
+\end{equation}
+
+Note that $L^\infty(\Omega) \neq L^{\infty-}(\Omega)$. For instance, any random variable $X$ which are normally distributed are in $L^{\infty-}(\Omega)$ but not in $L^\infty(\Omega)$.
+\end{definition}
+\end{unexaminable}
+
+% Optional - prove that L^p space is Banach.
+
+\subsection{Tail Bounds}
+Most large samples results concern about extreme events, e.g. whether the value of a random variable deviates from its mean. This section builds necessary tools to develop upper bounds of the probability of such events. These bounds are usually called the "tail bounds" since they corresponds to the "tail" of the densities of random variables (if they exist). In particular, we will see how the tail bounds are related to integrability of the random variables.\\
+
+\green{
+\begin{example}[Tail bounds for specific random variables]
+To motivate, consider the following random variables living on the same probability space $(\Omega, \F, \p)$ which has zero mean (expectation). We would like to bound the probability of tail event $\p(X > c)$ for $c \gg 1$ \footnote{This means much greater than. We will also use this when performing formal asymptotic analysis.}.
+\begin{enumerate}
+    \item $\xi_1$ following a normal distribution $\mathbf{N}(0,1)$ with density
+    \begin{equation*}
+        f_1(x) = \frac{1}{\sqrt{2\pi}} \exp \bracket{-\frac{x^2}{2}}, \quad x \in \R
+    \end{equation*}
+    For such case, we have 
+    \begin{align*}
+        \p(\xi_1 > c) &= \int_c^\infty \frac{1}{\sqrt{2\pi}} \frac{x}{c} \exp \bracket{-\frac{x^2}{2}}\, dx
+        \leq \int_c^\infty \frac{1}{\sqrt{2\pi}} \frac{x}{c} \exp \bracket{-\frac{x^2}{2}}\, dx
+        = \frac{1}{c \sqrt{2\pi}} \exp\bracket{-\frac{c^2}{2}} =: r_1(c)
+    \end{align*}
+    \item $\xi_2$ following a double exponential (Laplace) distribution $\text{Laplace}(1)$ with density
+    \begin{equation*}
+        f_2(x) = \frac{1}{2} e^{-|x|}
+    \end{equation*}
+    For such case, we have 
+    \begin{align*}
+        \p(\xi_2 > c) &= \int_c^\infty \frac{1}{2}\exp \bracket{-x}\, dx
+        = \frac{1}{2} \exp(-c) =: r_2(c)
+    \end{align*}
+    \item $\xi_3$ following a Cauchy distribution $\text{Cauchy}(1)$ with density
+    \begin{equation*}
+        f_3(x) = \frac{1}{\pi (1+x^2)}
+    \end{equation*}
+    For such case, we have
+    \begin{align*}
+        \p(\xi_3 > c) = \frac{1}{2} - \frac{1}{\pi} \arctan{c} = \frac{1}{\pi} \arctan{\frac{1}{c}} \leq \frac{1}{\pi c} =: r_3(c)
+    \end{align*}
+\end{enumerate}
+From this it is clear that $\p(X > c)$ decays much faster for normal distribution than double exponential distribution, and Cauchy distribution admits the slowest decay. In particular, we have $r_3(c) \gg r_2(c) \gg r_1(c)$ in the sense that $r_1(c)/r_2(c) \to 0$ and $r_2(c)/r_3(c) \to 0$ when $c \to \infty$.\\
+\end{example}
+
+\begin{exercise}[Moments for some distributions] Verify the following observations for the above random variables concerning their even moments ($\xi_1, \xi_2$ has zero odd moments, why?)
+\begin{enumerate}
+    \item $\xi_1$ has $2k$-th moments $m_{1,k} = (2k-1)!! := (2k-1) \times ... \times 3 \times 1 = (2k)!/(2^k k!)$ for all $k \in \Z_{\geq 1}$.
+    \item $\xi_2$ has $2k$-th moments $m_{2,k} = (2k)!$, and
+    \item $\xi_3$ has $2k$-th moments $m_{3,k} = \infty$.
+\end{enumerate}
+
+Therefore, we see that $\infty = m_{3,k} \gg m_{2,k} \gg m_{1,k}$ as $k \to \infty$ (in the sense that as $k \to \infty$ we have $m_{1,k}/m_{2,k} \to 0$.) We therefore suspect that there is a connection between the tail bounds and the growth of moments. 
+\end{exercise}}
+
+\begin{unexaminable}
+\begin{exercise}[Sharpness of tail bounds]
+Note that the tail bounds we have derived for $\p(\xi_1 > c)$ and $\p(\xi_3 > c)$ are not sharp. Try to prove the lower bounds for them and show that both $\p(\xi_1 > c)/\p(\xi_2 > c)$ and $\p(\xi_2 > c) / \p(\xi_3 > c) \to 0$ as $c \to \infty$.
+\end{exercise}
+
+\begin{hint}
+To control $\p(\xi_3 > c)$ consider the Taylor series (with remainder) for $\arctan{x}$. To control $\p(\xi_1 > c)$, use a suitable integration by part to obtain an asymptotic expansion of $\p(\xi_1 > c)$. Here is another slicky way to derive the desired asymptotic expansion: consider the function $M(c) := \lambda \p(\xi_1 > c) / \phi(c)$ with $\phi(c) = \exp(-c^2/2)/\sqrt{2\pi}$ (the Mill's ratio). Verify that
+\begin{equation}
+    M(c) = \int_0^\infty \exp\bracket{-x - \frac{x^2}{2c^2}} \, dx
+\end{equation}
+Then expand $\exp(-x^2/2c^2)$ and exchange integral and infinite sum \textbf{with care} to conclude that
+\begin{equation} \label{eq:Mill_expansion}
+    \p(\xi_1 > c) = c^{-1} \phi(c) \sum_{k=0}^\infty \frac{(-1)^k (2k-1)!!}{c^{2k}}
+\end{equation}
+The inequalities derived from truncating the above expansion is called the \textit{Mill-Ratio inequalities}. One of the example is:
+\begin{equation} \label{eq:Mill_Ratio_basic}
+    \bracket{\frac{1}{c} - \frac{1}{c^3}} \phi(c) \leq \p(\xi_1 > c) \leq \frac{1}{c} \phi(c)
+\end{equation}
+\end{hint}
+\end{unexaminable}
+
+Before we delve into further discussions, let us define the following notions of moments for our convenience
+
+\begin{definition}[Central Moments]
+The $k$-th central moment (for $k \geq 1$) of a random variable $\xi$ is the expectation $\E((\xi - \E(\xi))^k)$ whenever $\E(|\xi|^k) < \infty$. In particular the first central moment is zero.
+Some of the central moments have special names:
+\begin{itemize}
+    \item The 2nd central moment $\V(\xi) := \E((\xi-\E(\xi))^2)$ is called the \textbf{variance}.
+    \item The 3rd central moment $\E((\xi-\E(\xi))^3)$ is called the \textbf{skewness}.
+    \item The 4th central moment $\E((\xi-\E(\xi))^4)$ is called the \textbf{kurtosis}.
+\end{itemize}
+\end{definition}
+
+% I have moved the notion of covariance to section 3.2
+
+With the above notions, we can state the central inequality which we use for deriving useful tail bounds.
+
+\begin{theorem}[Markov Inequality]
+Let $\xi$ be a non-negative integrable random variable and $c>0$ being a constant. Then
+\begin{equation}
+    \p(\xi \ge c) \le \frac{\E[\xi]}{c}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{equation*}
+    \E[\xi] \ge \E[\xi \cdot \chi_{\xi \ge c}] \ge c \E[\chi_{\xi \ge c}] = c \p(\xi \ge c).
+\end{equation*}
+\end{proof}
+
+\begin{remark} A natural generalisation of the Markov inequality is the following: let $\xi$ be a random variable, $g$ be a Borel function such that $g(\xi)$ is non-negative. Assume $c>0$ is a constant and that $\E[g(\xi)]$ exists, then
+\begin{equation} \label{eq:Markov}
+    \p(g(\xi) \ge c) \le \frac{\E[g(\xi)]}{c}.
+\end{equation}
+\end{remark}
+
+Let us interrupt our discussion of tail bound by proving an interesting result regarding $L^p$ norms:
+
+\begin{example}[Limits of $L^p$ norms] Let the random variable $\xi$ defined on probability space $(\Omega,\F,\p)$ be in $L^\infty(\Omega)$. We want to establish the fact that $\lim_{p \to \infty} \norm{\xi}_{L^p} = \norm{\xi}_{L^\infty}$. Consider an arbitrary increasing sequence $(p_i)_{i \geq 1}$ such that $p_i \to \infty$ as $i \to \infty$. The Lyapunov inequality shows that the sequence $(\norm{\xi}_{L^{p_i}})_{i\geq 1}$ is a monotonic increasing sequence upper bounded by $\norm{\xi}_{L^\infty}$. Therefore the sequence has a limit satisfying
+\begin{equation}
+    \limsup_{i \to \infty} \norm{\xi}_{L^{p_i}} \leq \norm{\xi}_{L^\infty}
+\end{equation}
+We now show that the limit of sequence $(\norm{\xi}_{L^{p_i}})_{i\geq 1}$ is lower bounded by $\norm{\xi}_{L^\infty}$. Let $\alpha \in (0,\norm{\xi}_{L^\infty})$, then by Markov inequality, for all $i$
+\begin{equation}
+    \alpha^{p_i} \p(|\xi| > \alpha) \leq \norm{\xi}^{p_i}_{L^{p_i}} 
+\end{equation}
+equivalently
+\begin{equation}
+    \norm{\xi} \geq \alpha (\p(|\xi| > \alpha))^{1/p_i}
+\end{equation}
+Sending $p_i$ \textbf{with $\alpha$ being fixed} we have
+\begin{equation}
+    \liminf_{i \to \infty} \norm{\xi}^{p_i} \geq \alpha \underbrace{\liminf_{i \to \infty} (\p(|\xi| > \alpha))^{1/p_i}}_{=1} = \alpha
+\end{equation}
+We finally finish by sending $\alpha \to \norm{\xi}_{L^\infty}$ to conclude that
+\begin{equation}
+    \liminf_{i \to \infty} \norm{\xi}^{p_i} \geq \norm{\xi}_{L^\infty}
+\end{equation}
+as desired.
+\end{example}
+
+How powerful Markov inequality \eqref{eq:Markov} is for proving tail bounds for specific distribution depend on the integrability of $\xi$. For instance, if we know that $\xi \in L^p(\Omega)$ when $p \geq 1$, then 
+
+\begin{corollary} For all $\varepsilon > 0$, we have
+\begin{equation} \label{eq:Lp_Chebyshev}
+    \p(|\xi - \E[\xi]| \ge \varepsilon) = \p(|\xi - \E[\xi]|^p \ge \varepsilon^p) \le \frac{\E[|\xi - \E[\xi]|^p]}{\varepsilon^p}.
+\end{equation}
+\end{corollary}
+
+We emphasise the special case when $p = 2$: in such case we have the \textbf{Chebyshev Inequality}:
+\begin{equation} \label{eq:Chebyshev}
+    \p(|\xi - \E[\xi]| \ge \varepsilon) \le \frac{\V[\xi]}{\varepsilon^2}
+\end{equation}
+
+\subsubsection{Chernoff Bound and Moment Generating Function (MGF)}
+
+For the case when $\xi \in L^{\infty-}(\Omega)$ and that the $k$-th moment does not grow "too quick", one may consider choosing an optimal $p$ such that the RHS of \eqref{eq:Lp_Chebyshev} is minimised. This is rarely done in practice. Instead, we consider the moment generating function:
+\begin{definition}[Moment Generating Function (MGF)] The moment generating function of a random variable $\xi$ is defined as
+\begin{equation}
+    M_\xi(t) = \E[\exp(tX)] = \int_\R e^{tx} dF_\xi(x)
+\end{equation}
+\end{definition}
+
+Moment generating function does not necessary exists for all values of $t \in \R$ (e.g. for random variables $\xi$ with Cauchy distribution, $M_\xi(t) = \infty$ for all $t \neq 0$, and is equal to $1$ for $t = 0$). However, if we show that $M_\xi(t) < \infty$ for a small neighborhood of zero (say $t \in (-h,h)$), then we can show the following
+
+\begin{corollary}[Chernoff (Exponential Chebyshev) Inequality]
+Let $\xi$ be a non-negative random variable, then for all $\varepsilon > 0, t \in (0,h)$
+\begin{equation} \label{eq:Chernoff}
+    \p(\xi \ge \varepsilon) = \p(e^{t\xi} \ge e^{t\varepsilon}) \le \frac{\E[e^{t\xi}]}{e^{t\varepsilon}} = \frac{M_X(t)}{e^{t\varepsilon}}
+\end{equation}
+\end{corollary}
+
+\begin{unexaminable}
+The existence of moment generating function at a neighborhood of zero captures how the $k$-th moments grow. In fact, if $\xi \in L^{\infty-}(\Omega)$, then one can show that:
+\begin{proposition}[Generating moments from MGF]
+$M_\xi(t)$ is smooth (infinitely diffentiable) at $t = 0$ with, for all $k \in \Z_{\geq 0}$
+\begin{equation}
+    \E[X^\xi] = \frac{\d M_\xi}{\d t} \bigg|_{t=0}
+\end{equation}
+\end{proposition}
+
+\begin{hint}
+Use differentiation under integral.
+\end{hint}
+
+\begin{proof} We show for the case when $k = 1$ - the other cases can be generalised by induction etc. We note that for all $x$, $e^{tx}$ is differentiable, and for all $t \in (-h/2,h/2)$, $e^{tx} \in L^1(\R, \B(\R), \p_\xi)$. We finally check that the function $|x|e^{tx}$ is integrable under $\p_\xi$ (i.e. $\E[|\xi|e^{t\xi}] < \infty$). Note that for all $t \in (-h/2,h/2)$
+\begin{equation} \label{eq:Holder_MGF}
+    \E[|\xi|e^{t\xi}] \overset{\text{(Hölder)}}{\leq} \norm{\xi}_{L^2} M_\xi(2t) < \infty
+\end{equation}
+So we can use differentiation under integral to conclude that $\E[\xi] = M_\xi'(0)$.
+\end{proof}
+
+Moreover, we can show 
+\begin{proposition}[Bounds for moments] If in addition $\xi \geq 0$, then for all $t \in (-h,h)$
+\begin{equation}
+    \E[\xi^k] \leq \bracket{\frac{k}{te}}^k M_\xi(t)
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+We utilise the inequality $1+x \leq e^{x}$ for $x \in \R$ (check by e.g. calculus!), then we have $x \leq e^{x-1}$. Replacing $x$ with $t\xi/k$ yields
+\begin{equation}
+    \frac{t\xi}{k} \leq \exp\bracket{\frac{t\xi}{k}-1}
+\end{equation}
+Raising power by $k$ and take expectation completes the proof.
+\end{proof}
+
+This inequality shows that the if we can control the moment generating function $M_\xi(t)$, then we can control the growth of moments as $k \to \infty$.
+\end{unexaminable}
+
+Let us use the following example to illustrate how Markov inequality can be used in proving several tail bounds
+\begin{example}[Tail bounds for Gaussian] Consider $\xi$ following a standard normal distribution $\mathbf{N}(0,1)$. The $(2k)$-th moments of $\xi$ is given by $(2k-1)!!$, and therefore we have, for all $k \geq 1$ and $c > 0$,
+\begin{equation} \label{eq:normal_naive_Chebyshev}
+    \p(X > c) \leq \frac{(2k-1)!!}{c^{2k}}
+\end{equation}
+As a warning, even though using larger $k$ will lead to a faster rate of decay as $c \to \infty$, the numerator is also larger, so it is harder to use the bound for practical applications. We can obtain a much sharper bound than any of the \eqref{eq:normal_naive_Chebyshev} by consider the Chernoff bounds: notice that
+\begin{equation}
+    \E[e^{t\xi}] = \frac{1}{\sqrt{2\pi}}\int_\R e^{tx - x^2/2} \, dx = \exp{\frac{t^2}{2}} \frac{1}{\sqrt{2\pi}}\int_\R e^{-(x-t)/2} \, dx = \exp{\frac{t^2}{2}}
+\end{equation}
+and therefore by Chernoff bound \eqref{eq:Chernoff} we have
+\begin{equation} \label{eq:normal_Chernoff_with_t}
+    \p(\xi > c) \leq \exp\bracket{\frac{t^2}{2} - ct} = \exp\bracket{-\frac{c^2}{2} + \frac{1}{2}(t-c)^2}
+\end{equation}
+Since \eqref{eq:normal_Chernoff_with_t} holds for all $t > 0$, we can choose the optimal $t$ such that the RHS is minimised. In our case we choose $c > 0$ to obtain
+\begin{equation} \label{eq:normal_Chernoff}
+    \p(\xi > c) \leq \exp\bracket{\frac{t^2}{2} - ct} = \exp\bracket{-\frac{c^2}{2}}
+\end{equation}
+This is almost optimal comparing with our previous Mill-ratio inequalities, in the sense that the RHS is off by a factor of $C/\lambda$, with $C$ being a constant independent of $c$. It is also surprisingly useful in practice.
+\end{example}
+
+\begin{unexaminable}
+We make a final remark regarding MGF
+\begin{remark}[MGF and large sample results]
+As seen in previous classes in probability, we can use MGF to establish large-sample results like Central Limit Theorem, since MGF determines all moments of a random variable. However, we will not use this approach here, as MGF really doesn't exist for random variables $\xi \notin L^{\infty-}(\Omega)$, and even if it exists, it will not be defined for all $t \in \R$. Instead, we will consider the characteristic functions (CF) for proving large-sample results, since it exists for random variables (and is uniformly continuous on $\R$). We will discuss this further in Chapter 6.
+\end{remark}
+\end{unexaminable}
+\newpage

@@ -377,20 +377,20 @@ Let $\xi,\eta$ be a real-valued random variable.
 \begin{enumerate}
     \item Find the characteristic function of $\xi$ if $\xi$ follows a triangular distribution with density
     \begin{equation}
-        f(t) = (1-|x|)_+ := (1-|x|) \vee 0,
+        f(t) = (1-|t|)_+ := (1-|t|) \vee 0,
     \end{equation}
-    then use the third inversion formula to show that the characteristic function of $\eta$ is $\varphi_\eta(t) = (1-|x|)_+$, where the $\eta$ follows a Polya's distribution \footnote{We follow the naming convention in \cite{Durrett}.} with density
+    then use the third inversion formula to show that the characteristic function of $\eta$ is $\varphi_\eta(t) = (1-|t|)_+$, where the $\eta$ follows a Polya's distribution \footnote{We follow the naming convention in \cite{Durrett}.} with density
     \begin{equation}
-        f(t) = \frac{1-\cos x}{\pi x^2}.
+        f(t) = \frac{1-\cos t}{\pi t^2}.
     \end{equation}
     We will need this distribution to prove a theorem for the characterisation of characteristic function in section 6.4.
     \item Find the characteristic function of $\xi$ if $\xi$ follows a Laplace (bilateral exponential) distribution with density
     \begin{equation}
-        f(x) = \exp(-|x|)/2,
+        f(t) = \exp(-|t|)/2,
     \end{equation}
     and hence find the characteristic function of $\eta$ if $\eta$ follows a Cauchy distribution with density
     \begin{equation}
-        f(x) = (\pi(1+x^2))^{-1}.
+        f(t) = (\pi(1+t^2))^{-1}.
     \end{equation}
 \end{enumerate}
 \end{exercise}
@@ -503,7 +503,7 @@ Then
 \end{theorem}
 We turn our attention to some special cases in which the Lindeberg condition is satisfied and consequently, the central limit theorem is valid.
 \begin{itemize}
-    \item Let the \textit{Lyapunov condition} be satisifed: for some $\delta > 0$
+    \item Let the \textit{Lyapunov condition} be satisfied: for some $\delta > 0$
     \begin{equation*}
         \frac{1}{D_n^{2 +\delta}} \sum_{k=1}^n \E[|\xi_k - m_k|^{2+\delta}] \to 0 \quad n \to \infty.
     \end{equation*}
@@ -575,50 +575,118 @@ Verify the characteristic function for the above (standard) Cauchy distribution.
 \end{exercise}
 
 \subsection{More about constructing characteristic function}
-\textcolor{red}{This section will be finished in the later edition.}
+The following theorems determine whether a function $\varphi$ is a characteristic function of some measure on $\R$, and if so, whether we can easily construct the underlying measure. The constructions are usually difficult, and therefore are not usually covered in great detail. Nevertheless, the proofs in this section serve as great examples of using tools developed in the previous chapter. For further discussions please refer to \cite{characteristic_function}.
+
+\subsubsection{Bochner-Khinchin Theorem}
 \begin{theorem}[Bochner-Khinchin]
 Let $\varphi(t)$ be continuous, $t\in \R$, with $\varphi(0) = 1$. A necessary and sufficient condition that $\varphi(t)$ is a characteristic function is that it is positive semi-definite, i.e. that for all real $t_1, \dots, t_n$ and all complex $\lambda_1, \dots, \lambda_n$, $n=1,2,\dots$,
 \begin{equation*}
     \sum_{j,k = 1}^n \varphi(t_j - t_k)\lambda_j \overline{\lambda}_k \ge 0.
 \end{equation*}
 \end{theorem}
-\begin{theorem}[Polya's Theorem]
-Let a continuous even function $\varphi(t)$ satisfy $\varphi(t) \ge 0$, $\varphi(0) = 1$, $\varphi(t) \to 0$ as $t \to \infty$ and let $\varphi(t)$ be convex on $0 \le t < \infty$ (hence also on $(0, \infty)$). Then $\varphi(t)$ is a characteristic function.
+
+To show necessity, we note that if $\varphi$ is a characteristic function of a real-valued random variable $\xi$, then 
+\begin{equation*}
+    \sum_{j,k = 1}^n \varphi(t_j - t_k)\lambda_j \overline{\lambda}_k \ge 0 = \E\sqbracket{\eta\bar{\eta}} = \E[|\eta|^2] \geq 0, \quad \eta = \sum_{j=1}^n \lambda_j e^{t_j \xi}. 
+\end{equation*}
+
+The fact that one can construct a probability measure with a positive semi-definite characteristic function is a deep fact in Fourier analysis, and the proof for general cases is beyond our scope. The case for $\varphi$ being integrable is covered in the third inversion formula.
+
+\subsubsection{Polya's Criterion}
+\begin{theorem}[Polya's criterion]
+Let a continuous even real-valued function $\varphi(t)$ satisfy $\varphi(t) \ge 0$, $\varphi(0) = 1$, $\varphi(t) \to 0$ as $t \to \infty$ and let $\varphi(t)$ be convex on $0 \le t < \infty$ (hence also on $(0, \infty)$). Then $\varphi(t)$ is a characteristic function.
 \end{theorem}
+
+As an observation, we note that the function $\varphi(t)$ must be strictly decreasing over $[0,\infty)$ (see Lemma 2.5 of \cite{convex_decay}). To see this, we let $0<r<s$, then there is $t_0 > s$ such that $0<f(t_0)<f(r)/2$. By convexity, we have
+\begin{equation*}
+    f(s) \leq \frac{f(t_0) - f(r)}{t_0 - r} (s - r) + f(r) < f(r).
+\end{equation*}
+
+The Polya's criterion relies on the following simple observation of characteristic function.
+\begin{exercise}[Convex combination of characteristic function]
+Let $\varphi_k(t)$, $k=1,2,\dots$ be characteristic functions and let the nonnegative numbers $\lambda_k$ satisfy $\sum_{k=1}^n \lambda_k = 1$. Show that for all $n \in \Z_{\geq 1}$
+\begin{equation*}
+    \sum_{k=1}^n \lambda_k \varphi_k(t)
+\end{equation*}
+is a characteristic function. Extend the above result for $n = \infty$.
+\end{exercise}
+
+As it turns out, any function $\varphi(t)$ can be approximated by a convex combination of the characteristic function of a Polya's distribution $\varphi(t) = (1-|t|)_+$. Let us, therefore, follow the arguments in \cite{Billingsley} and complete the proof of Polya's criterion.
+
 \begin{unexaminable}
-\begin{proof}
-\red{Sketch of proof needed. (Not necessary full proof).}
-\end{proof}
-\end{unexaminable}
-This theorem provides a very convenient method of constructing characteristic functions. Examples are
-\begin{align*}
-    \varphi_1(t) &= e^{-|t|}\\
-    \varphi_2(t) &= \begin{cases}
-    1 - |t| & |t| \le 1,\\
-    0 & |t| > 1.
-    \end{cases}
-\end{align*}
-Another is the function $\varphi_3(t)$ drawn below. On $[-a, a]$, as, the function $\varphi_3(t)$ coincides with $\varphi_2(t)$. However, the corresponding distribution functions $F_2$ and $F_3$ are evidently different.
-
+\begin{exercise} \label{ex:Polya_polygon}
+Consider a function $\varphi(t)$ as constructed as below: suppose that $d_1, d_2, ... > 0$ with $\sum_{k\geq 1} d_k = \infty$, and $s_1 \geq s_2 \geq ... \geq 0$ such that $s_k \searrow 0$ and $\sum_{k=1}^\infty s_k d_k = 1$. We further let $d_0 = 0$, $s_0 = 1$ for convenience, and $D_n = \sum_{k=0}^n d_k$. Define $\varphi(t)$ as 
+\begin{equation}
+    \varphi(t) = \sum_{n\geq 0} \bracket{1 - \bracket{\sum_{k=0}^n s_k d_k} - s_{n+1} (d_{n+1}-|t|)} \chi_{[D_n, D_{n+1})}(|t|)
+\end{equation}
 \begin{center}
-\includegraphics[scale=0.7]{figures/charact_functions.png}
+    \input{figures/polya_polygon.tex}
 \end{center}
+The graph of $\varphi(t)$ for $t\geq 0$ is shown above with thick lines. Let further that $\varphi_0(t) := (1-|t|)_+$ be the characteristic function of the Polya's distribution. Show that $\varphi(t)$ is a convex combination of the characteristic function $\varphi_0(t/t_n)$ for some sequence $t_1, t_2, ...$, and hence is itself a characteristic function.
+\end{exercise}
 
-This example shows that in general two characteristic functions can be the same on a finite interval without their distribution functions being
-the same.
+\begin{hint}
+We may first assume that $s_k = 0$ for $k > m$ and prove the above statement by induction on $m$, before sending $m \to \infty$ in a suitable way. For the case when $s_k = 0$ for $k > m$ we have $\sum_{k=1}^m d_k s_k = 1$, and that $\varphi(t)$ is a \textbf{linear} combination of the functions $\varphi(s_1 t), ... \varphi(s_m t)$. We may therefore let
+\begin{equation}
+    \varphi(t) = \sum_{i=1}^m \lambda_i \varphi(s_i t)
+\end{equation}
+for some $\lambda_1,...,\lambda_m$, and solve for $\lambda_i$'s by considering the case when $t = D_1,...,D_m$. Finally, show that $\lambda_1 + ... + \lambda_m = 1$.
+\end{hint}
 
-\begin{theorem}[Marcinkiewicz's Theorem]
+\begin{remark}
+The construction above indicates that two different distributions might possess characteristic functions which agree with each other over a finite interval containing $0$.
+\end{remark}
+
+\begin{exercise}
+Complete the proof of Polya's criterion by noting that any function satisfying Polya's criterion itself can be approximated by functions in the form as in exercise \ref{ex:Polya_polygon}.
+\end{exercise}
+
+\begin{hint}
+A suggested candidate for the sequence of functions is as followed: define $\varphi_n(t)$ on $t \in [0,n]$ so that it is piecewise linear and passes through the points $(0,1), (1/n, \varphi(1/n)), (2/n, \varphi(2/n))...$, and extend by $\varphi_n(-t) = \varphi_n(t)$. The slope for each line segment decreases due to the convexity of $\varphi(t)$, so that $\varphi(t)$ is continuous and possesses a right derivative $\varphi'(t)$ with $|\varphi'(|t|)| \to 0$ as $t \to \infty$.\\
+
+Uniform convergence can be shown as follow: fix $\epsilon > 0$, then there exists $M,N$ such that $\varphi_n(t), \varphi(t) < \epsilon$ for all $n \geq N$, uniformly for all $t$ with $|t|>M$. Then in the interval $[-M,M]$, show that $\varphi_n(t) \to \varphi(t)$ uniformly.
+\end{hint}
+\end{unexaminable}
+
+% This theorem provides a very convenient method of constructing characteristic functions. Examples are
+% \begin{align*}
+%     \varphi_1(t) &= e^{-|t|}\\
+%     \varphi_2(t) &= \begin{cases}
+%     1 - |t| & |t| \le 1,\\
+%     0 & |t| > 1.
+%     \end{cases}
+% \end{align*}
+% Another is the function $\varphi_3(t)$ drawn below. On $[-a, a]$, as, the function $\varphi_3(t)$ coincides with $\varphi_2(t)$. However, the corresponding distribution functions $F_2$ and $F_3$ are evidently different.
+
+% \begin{center}
+% \includegraphics[scale=0.7]{figures/charact_functions.png}
+% \end{center}
+
+% This example shows that in general two characteristic functions can be the same on a finite interval without their distribution functions being
+% the same.
+
+\subsubsection{Marcinkiewicz Theorem}
+\begin{theorem}[Marcinkiewicz's Theorem] \label{thm:Marcinkiewicz}
 If a characteristic function $\varphi(t)$ is of the form $e^{p(t)}$, where $p(t)$ is a polynomial, then this polynomial is of degree at most $2$.
 \end{theorem}
-It follows, for example, that $e^{-t^4}$ is not a characteristic function. 
 
-\begin{proof}
-\red{Sketch of proof needed. (Not necessary full proof). In particular, what's wrong with the function $e^{-t^4}$?}
-\end{proof}
+\begin{example}
+As a quick example, $e^{-t^4}$ is not a characteristic function of any real-valued random variables.
+\end{example}
 
-\subsection{Cumulants}
+\begin{unexaminable}
+Let us prove a simpler version of Marcinkiewicz's theorem, which assumes $p(t) = t^3 q(t)$ for polynomial $q(t)$. Recall that the first and second derivatives of the characteristic function represent the first and second moments. Therefore, 
+
+\begin{exercise}[see (\cite{Durrett}, exercise 3.3.16)]
+Show that if $\varphi(t)$ is the characteristic function of the real-valued random variable $\xi$ such that $\lim_{t\to 0 } (\varphi(t) - 1)/t^2 = c > -\infty$, then $\E[\xi] = 0$ and $\E[\xi^2] = -2c < \infty$. In particular, if $\varphi(t) = 1+o(t^2)$, then $\E[\xi^2] = 0$ (with variance = 0) and $\varphi(t) = 1$.
+\end{exercise}
+
+So if $\varphi(t)$ is indeed a characteristic function, then by Taylor expansion we have $\varphi(t) = 1+o(t^2)$, so $\varphi(t) \equiv 1$ and $q(t) \equiv 0$. The actual proof of Marcinkiewicz's theorem is beyond our scope.
+\end{unexaminable}
+
+\subsubsection{Cumulants}
 \begin{definition}
-If there exists expansion 
+If there exists an expansion 
 \begin{equation*}
     \log \varphi_\xi(t) = \sum_{k=0}^n \frac{(it)^k}{k!} s_k + o(|t|^n), \quad t \to 0,
 \end{equation*}
@@ -631,8 +699,6 @@ Show that
 \end{equation*}
 \end{exercise}
 
-\red{What is $s_3$, $s_4$ and so on? Turns out there is a connection between cumulants and moments via counting the total possible non-crossing partitions. This is a fundamental ingredient of non-commutative (free) probability. I may try to include a sketch of arguments here.}
-
 \begin{remark}
 \begin{itemize}
     \item[]
@@ -643,6 +709,8 @@ Show that
     \item In general, by Marcinkiewsicz's Theorem if for a random variable $\xi$ there exists $n$ such that $s_k = 0,$ for all $k \ge n$, then also $s_k = 0$ for all $k \ge 3$ and $\xi \sim N(s_1, s_2)$.
 \end{itemize}
 \end{remark}
+
+\subsubsection{Degenerate distributions}
 The following theorem shows that a property of the characteristic function of a random variable can lead to a non-trivial conclusion about the nature of the random variable
 \begin{theorem}
 Let $\varphi(t)$ be a characteristic function of $\xi$.
@@ -702,11 +770,6 @@ Let $\varphi(t)$ be a characteristic function of $\xi$.
     \begin{equation*}
         \p(\xi = k) = \frac{1}{2\pi} \int_{-\pi}^\pi e^{-ikt} \varphi_\xi(t) \d t, \quad k = 0, \pm 1, \pm 2, \dots
     \end{equation*}
-    \item Let $\varphi_k(t)$, $k=1,2,\dots,n$ be characteristic functions and let the nonnegative numbers $\lambda_k$ satisfy $\sum_{k=1}^n \lambda_k = 1$. Show that 
-    \begin{equation*}
-        \sum_{k=1}^n \lambda_k \varphi_k(t)
-    \end{equation*}
-    is a characteristic function.
     \item Show that if $\varphi(t)$ is a characteristic function, then $\Re[\varphi(t)]$ is also a characteristic function, but $\Im[\varphi(t)]$ is not.
 \end{enumerate}
 \end{exercise}

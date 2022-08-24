@@ -1,4 +1,6 @@
 # Probability Theory @ Imperial College London
+## Jointly written by [Ivan Kirev](https://github.com/ivankirev13) and [Samuel Lam](https://samuel-chlam.github.io)
+
 This is the GitHub repository for an exposition of Probability Theory, written based on the lecture with the same name given at Imperial College London in spring 2022 by [Dr. Igor Krasovsky](https://www.imperial.ac.uk/people/i.krasovsky). This is an exposition with an excessive amount of motivations, examples and extra content, so if you only need a handbook for (last-minute) revision, you should read the following [notes by Jason Yi](https://github.com/JasonKYi/y3_notes/blob/main/Probability_Theory/Probability_Theory.pdf).
 
 # [Click here for PDF Preview](https://github.com/Samuel-CHLam/Imperial-Probability-Theory/blob/main/Probability_Theory.pdf) 

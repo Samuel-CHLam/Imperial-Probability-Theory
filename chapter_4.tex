@@ -136,11 +136,11 @@ By symmetry we also obtain
 \begin{equation} \label{eq:Bernoulli_hoeffding}
     \p\bracket{\abs{\frac{S_n}{n} - p} > \epsilon} \leq 2\exp(-2n\epsilon^2)
 \end{equation}
-We obtain a much sharper bound than \eqref{eq:Bernoulli_Chebyshev} since we now have exponential decay rather than a quadratic decay. The trick of isolate the term $-nt\epsilon$ and bounding $\phi(t)$ by a quadratic function is common, since this can be generalised with any random variables $S_n \in L^\infty(\Omega)$. Such a bound is called a \textit{Hoeffding bound}, and we will discuss that further in latter chapter.
+We obtain a much sharper bound than \eqref{eq:Bernoulli_Chebyshev} since we now have exponential decay rather than a quadratic decay. The trick of isolating the term $-nt\epsilon$ and bounding $\phi(t)$ by a quadratic function is common, as this can be generalised with any random variables $S_n \in L^\infty(\Omega)$. Such a bound is called a \textit{Hoeffding bound}.
 \end{remark}
 \end{unexaminable}
 
-\subsubsection{$L^2$ Weak Law of Large Numbers}
+\subsubsection{$L^2$ Weak Law of Large Numbers (WLLN)}
 Let us study how the weak law of large numbers can be generalised. We first formally define the definition of convergence in probability. The definition holds for not only real-valued random variables, but also random variables taking values in a Polish space $(X,\B(X))$ (equipped with the Borel $\sigma$-algebra) associated with a metric $d$. Recall that a metric space is Polish if it is complete and separable (see remark \ref{rmk:PolishSpace}). 
 \begin{definition}
 A sequence $\xi_1, \xi_2, \dots $ of random variables from probability space $(\Omega,\F,\p)$ to Polish space $(X,\B(X))$ with metric $d$ converges \textit{in probability}, or \textit{in measure $\p$}, to the random variable $\xi$ (denoted by $\xi_n \xrightarrow{p} \xi$) if for every $\varepsilon > 0$
@@ -149,7 +149,7 @@ A sequence $\xi_1, \xi_2, \dots $ of random variables from probability space $(\
 \end{equation*}
 \end{definition}
 
-\begin{exercise}[Properties of convergence in probability]
+\begin{exercise}[Properties of convergence in probability] \label{ex:prop_of_conv_in_prob}
 Let $(\xi_i)_{i\geq 1}$, $(\eta_i)_{i \geq 1}$ are sequences of random variables on $(\Omega,\F,\p)$, and also let $\xi$, $\eta$ be random variables on $(\Omega,\F,\p)$
 \begin{enumerate}
     \item Check that the limit of convergence in probability is almost surely unique: if $\xi_i$ converges in probability to $\xi$ and $\xi'$ then $\xi = \xi'$ almost surely.
@@ -196,17 +196,234 @@ By Chebyshev's inequality and since $\xi_j$ are uncorrelated, for all $\epsilon 
 \end{equation}
 \end{proof}
 
-% More examples
-% Monte-carlo integration
-% Weierstrass Approximation Theorem
+Here we list out some applications to the $L^2$ weak law of large numbers.
+\begin{example}[Monte Carlo Integration] \label{eg:Monte_Carlo_L2}
+Consider $f$ being a measurable function on $[0,1]$ with \\ $C := \int_0^1 |f(x)|^2 < \infty$ (e.g. $f$ being uniformly bounded by some number $M$). We would like to evaluate the integral
+\begin{equation*}
+    \theta = \int_0^1 f(x) \, dx,
+\end{equation*}
+which is often intractable. We note that if $U$ is a random variable on some probability space $(\Omega,\F,\p)$ with uniform  distribution $\mathsf{Unif}[0,1]$, then $\theta = \E[f(U)]$. (Note: a candidate of such random variable would be $U: \omega \in ([0,1],\B[0,1],\Leb) \mapsto \omega$). One may therefore hope to estimate $\theta$ using the following "empirical mean": first define random variables $U_1(\omega), U_2(\omega), ... \iid \mathsf{Unif}[0,1]$ using e.g. construction as detailed in section 4.1, then evaluate the following empirical mean
+\begin{equation}
+\hat{\theta}_n(\omega) := \frac{f(U_1(\omega))+...+f(U_n(\omega))}{n}
+\end{equation}
+Then it is quite clear that $\E[\hat{\theta}_n] = \theta$. Moreover, since the random variables $f(U_i)$ are independent, identically distributed with finite variance $\V[f(U_i)] = \E[(f(U_i))^2] - \theta^2 = C-\theta^2 < \infty$, so by $L^2$ WLLN we see that $\hat{\theta}_n(\omega) \overset{n\to\infty}\to \theta$ in probability.
+\end{example}
 
-\subsubsection{Weak Law of Large Number for uniformly integrable sequences*}
+The second example concerns about uniform approximation of a continuous function defined on a compact set (in particular $[0,1]$) using polynomials. It turns out the $L^2$ WLLN for the coin-flip scenario provides an elegant proof for the following Weierstrass approximation theorem.
+
+\begin{theorem}[Weierstrass Approximation Theorem]
+Let $C_b([0,1])$ be the set of all bounded continuous functions $f:[0,1]\to \R$. If $f(p) \in C_b([0,1])$, then for all $\epsilon > 0$, there is a polynomial $P(p)$ such that
+\begin{equation}
+    \sup_{p \in [0,1]} |f(p) - P(p)| < \epsilon.
+\end{equation}
+This means that the set of all polynomials is dense in $C_b([0,1])$.
+\end{theorem}
+
+To prove the theorem, it suffices to construct a sequence of polynomial $f_1, f_2, ...$ such that $f_n(p) \overset{n\to\infty}\to f(p)$ uniformly on $[0,1]$. Our sequence will be the following:
+\begin{equation}
+f_n(p) = \E\sqbracket{f\bracket{\frac{S_n}{n}}} = \sum_{k=0}^n \sqbracket{{n\choose k} (1-p)^{n-k} p^k} f\bracket{\frac{k}{n}},
+\end{equation}
+
+where $S_n$ is as defined in the coin-flip setting as in section 4.1. The motivation comes from a corollary of Slutsky's theorem for convergence in distribution (corollary \ref{cor:prob_implies_dist}), which we will discuss further in the next chapter. Make sure to understand the proof below thoroughly, as we will use the trick of splitting sums in a lot of other proofs.
+
+\begin{proof} 
+We note that (check!)
+\begin{equation} \label{eq:weierstrass_difference}
+    |f_n(p) - f(p)| \leq \sum_{k=0}^n \sqbracket{{n\choose k} (1-p)^{n-k} p^k} \abs{f\bracket{\frac{k}{n}} - f(p)}
+\end{equation}
+So we want to control the difference $\abs{f\bracket{k/n} - f(p)}$. We know that for fixed $\epsilon > 0$, there is a $\delta > 0$ such that $|x-y|<\delta \implies |f(x)-f(y)| < \epsilon$. We know that for each $k$, we have either (1) $|k/n - p| < \delta$ or (2) $|k/n - p| > \delta$. If case (1) holds, then we have $|f(k/n) - f(p)| < \epsilon$, which is nice. By using Chebyshev inequality (see \eqref{eq:Bernoulli_Chebyshev}), we will see that any $k$ that falls into the case (2) won't contribute too much to the sum in the RHS of \eqref{eq:weierstrass_difference}. That motivates us to split this sum into two parts:
+\begin{align*} \label{eq:weierstrass_difference}
+    |f_n(p) - f(p)| &\leq \textcolor{orange}{\underbrace{\sum_{\set{k\,|\,|k/n-p|<\delta}} \sqbracket{{n\choose k} (1-p)^{n-k} p^k} \abs{f\bracket{\frac{k}{n}} - f(p)}}_{\mathsf{(A)}}} \\
+    &\phantom{=} + \textcolor{violet}{\underbrace{\sum_{\set{k\,|\,|k/n-p|\geq \delta}} \sqbracket{{n\choose k} (1-p)^{n-k} p^k} \abs{f\bracket{\frac{k}{n}} - f(p)}}_{\mathsf{(B)}}}.
+\end{align*}
+We note that (check again!)
+\begin{align*}
+    \textcolor{orange}{\mathsf{(A)} < \epsilon \sum_{\set{k\,|\,|k/n-p|<\delta}} \sqbracket{{n\choose k} (1-p)^{n-k} p^k} \leq \epsilon};
+\end{align*}
+and that $M:= \sup_{p\in[0,1]}|f(p)|$ exists, so that
+\begin{align*}
+    \textcolor{violet}{\mathsf{(B)} \leq 2M\sum_{\set{k\,|\,|k/n-p|\geq\delta}} \sqbracket{{n\choose k} (1-p)^{n-k} p^k} = 2M\p\bracket{|S_n/n - p| \geq \delta}\leq \frac{2Mp(1-p)}{n\delta^2},}
+\end{align*}
+Since $p(1-p) = 1/4 - (p-1/2)^2 \leq 1/4$, we see that $ \textcolor{violet}{\mathsf{(B)} \leq 2/(n\delta^2)}$, which converges to zero as $n \to \infty$ uniformly for $p \in [0,1]$. This implies that for a sufficiently large $n$ (depending on $\epsilon$), we have $|f_n(p) - f(p)| < 2\epsilon$, completing the proof.
+\end{proof}
+
+\begin{exercise}[$L^2$ Weak Law of Large Number for weakly correlated random variables] Let $\xi_1, \xi_2, ...$ be random variables on a common probability space $(\Omega,\F,\p)$ with $\E[\xi_i] = 0$ and $\E[\xi_i \xi_j] = r_{|i-j|}$, where $(r_k)_{k\geq 1}$ is a sequence of real numbers such that $r_k \overset{k\to\infty}\to 0$. Let $S_n = \sum_{i=1}^n \xi_i$. Show that $S_n/n \overset{n\to\infty}\to 0$ in probability. 
+\end{exercise}
+
+\begin{hint}
+The idea is to expand 
+\begin{equation}
+\V\sqbracket{\frac{\xi_1 + ... + \xi_n}{n}} = \frac{1}{n^2} \sum_{i,j=1}^n \E[\xi_i \xi_j]
+\end{equation}
+and to count how many of the terms $\E[\xi_i \xi_j]$ satisfies $|i-j|=k$. 
+\end{hint}
+
+If you have done some time series, then you will know from this exercise that any time average of a moving average or autoregressive $\mathsf{AR}(1)$ processes have time averages converging to zero. 
+
 \begin{unexaminable}
-Can we try to weaken the assumption that $\xi \in L^2$, to say, $\xi \in L^1$?
+\subsubsection{Weak Law of Large Numbers for uniformly integrable random variables}
+How far can we generalise the weak law of large numbers? It is unfortunate that the weak law of large numbers does not hold for any sequences of random variables. Here is an example:
+\begin{example}
+Consider $\xi_1, \xi_2, ...$ being independent and identically distributed, so that they follow a Cauchy distribution with the following density function
+\begin{equation}
+f(x) = \frac{1}{\pi(1+x^2)}
+\end{equation}
+The Cauchy distribution is famously know for $\E[|\xi_1|] = \infty$ and that $\E[\xi]$ being undefined. In Chapter 6, we will show that $(\xi_1 + ... + \xi_n)/n$ continues to be a Cauchy distribution as above, hence does not converge to any mean!
+\end{example}
+
+However, we may still generalise the weak law of large numbers a little bit further. To explain the loosen condition on the sequence of random variables, let us first define the notion of uniform integrability:
+\begin{definition}[Uniform Integrability]
+Consider a family (or sequence) of random variables $\set{\xi_\alpha}_{\alpha \in A}$, defined on a common probability space $(\Omega,\F,\p)$ with $A$ being an index set (e.g. $A = \N$ or $\R_{>0}$). We say that the family $\set{\xi_\alpha}_{\alpha \in A}$ is uniformly integrable if 
+\begin{equation}
+    \lim_{x \to \infty} \bracket{\sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| > x}}}} = 0
+\end{equation}
+\end{definition}
+
+\begin{remark}
+This is a slightly stronger condition than $\set{\xi_\alpha}_{\alpha \in A}$ being uniformly $L^1$ bounded. To show that any uniformly integrable families $\set{\xi_\alpha}_{\alpha \in A}$ are uniformly $L^1$ bounded, fix an $\epsilon > 0$, then by definition one can choose sufficiently large $x > 0$ such that $\sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| > x}}} < \epsilon$. Therefore, we have 
+\begin{equation*}
+\sup_{\alpha \in A} \E\sqbracket{\abs{\xi_\alpha}} \leq \sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| > x}}} + \sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| \leq x}}} \leq \epsilon + x < \infty.
+\end{equation*}
+To show the converse is false, we consider the random variables $\xi_i(\omega) = i \chi_{[0,1/i]}(\omega)$ on the space $([0,1], \B([0,1]), \Leb)$. The sequence of random variables $(\xi_i)_{i\geq 1}$ is clearly uniformly $L^1$ bounded, but it is also clear that $\lim_{x \to \infty} \bracket{\sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| > x}}}} \geq 1$, which shows that the converse is false.
+\end{remark}
+
+\begin{exercise}
+Show that in the following cases, the families $\set{\xi_\alpha}_{\alpha \in A}$ are uniformly integrable:
+\begin{enumerate}
+\item $\set{\xi_{\alpha}}_{\alpha \in A}$ are $L^p$ bounded.
+\item $\xi_{\alpha}$ are identically distributed with $\xi_\alpha \in L^1$.
+\end{enumerate}
+\end{exercise}
+
+\begin{hint}
+For (1) use H\"{o}lder inequality. For (2), split $\xi_\alpha = \xi_\alpha \chi_{|\xi_\alpha|>x} + \xi_\alpha \chi_{|\xi_\alpha|\leq x}$ with a carefully chosen $x$.
+\end{hint}
+
+We are now ready to state the WLLN for uniformly integrable random variables.
+\begin{theorem}[Weak Law of Large Number for uniformly integrable random variables] Let $(\xi_i)_{i\geq 1}$ be an independent, uniformly integrable sequence of random variables. Then 
+\begin{equation*}
+\frac{S_n^{(c)}}{n} = \frac{1}{n} \sum_{i=1}^n (\xi_i - \E[\xi_i]) \overset{n\to\infty}\to 0 \quad \text{in probability.}
+\end{equation*}
+\end{theorem}
+
+\begin{hint}
+Without loss of generality, we assume that $\E[\xi_i] = 0$, which is fine by the above remark that the means are uniformly bounded. The reason for introducing the notion of uniform integrability is so that we may use the trick of truncation, which goes as follow: given a random variable $\xi_i$, not necessary integrable. We may choose a sufficiently large number $R>0$ and consider the random variables $\tilde{\xi}_{i,R} = \xi_i \chi_{|\xi_i| \leq R}$. The random variables $\tilde{\xi}_{i,R}$ are mutually independent and are in $\mathcal{L}^\infty(\Omega)$, which, in turn, are in $\mathcal{L}^p$ for all $p \geq 1$. We will show that there is an extremely small probability that $\tilde{\xi}_{i,R} \neq \xi_{i}$, so we may pretty much replace $\xi_{i}$ with $\tilde{\xi}_{i,R}$ and utilise the $L^2$ WLLN. We may even prove something stronger, that 
+\begin{equation*}
+\frac{S_{n,R}^{(c)}}{n} \overset{n\to\infty}\to 0 \; \text{in} \; L^1, \quad S_{n,R}^{(c)} = \sum_{i=1}^n (\xi_{i,R} - \E[\xi_{i,R}])
+\end{equation*}
+\end{hint}
+
+\begin{proof}
+Fix an arbitrary $R>0$. We recall $S_n^{(c)} = \sum_{i=1}^n (\xi_i - \E[\xi_i])$. Then we know that 
+\begin{equation*}
+\E\abs{S_n^{(c)}/n} \leq \E\abs{S_{n,R}^{(c)}/n} + \E\abs{\bracket{S_n - S_{n,R}}^{(c)}/n}
+\end{equation*}
+Now note that 
+\begin{equation*}
+\E\abs{S_{n,R}^{(c)}/n} \overset{\text{(H\"older)}}\leq \sqrt{\E[S_{n,R}^{(c)}]^2}/n \overset{\text{(independence)}}\leq \frac{1}{n} \sqrt{\sum_{i=1}^n \E(\tilde{\xi}_{i,R} - \E[\tilde{\xi_{i,R}}])^2}.  
+\end{equation*}
+Since $|\xi_{n,R}-\E[\xi_{n,R}]| \leq 2R$, we see that $\E\abs{S_{n,R}^{(c)}/n} \leq 2R/\sqrt{n} \overset{n\to\infty}\to 0$. Finally, 
+\begin{align*}
+\E\abs{\frac{S_n^{(c)} - S_{n,R}^{(c)}}{n}} &= \frac{1}{n}\E\abs{\sum_{i=1}^n \bracket{\xi_i \chi_{\set{|\xi_i|>R}} - \E\sqbracket{\xi_i \chi_{\set{|\xi_i|>R}}}}} \\
+&\leq \frac{2}{n} \sum_{i=1}^n \E|\xi_i \chi_{\set{|\xi_i|>R}}| 
+\leq 2 \sup_i \E\sqbracket{|\xi_i| \chi_{\set{|\xi_i|>R}}} \overset{R\to\infty}\to 0
+\end{align*}
+This shows that $S_n^{(c)}/n \overset{n\to\infty}\to 0$, and hence in probability.
+\end{proof}
+
+Therefore, we have the following $L^1$ iid Weak Law of Large Numbers.
+\begin{theorem} \label{thm:WLLN1}
+Let $\xi_1, \xi_2, ...$ be i.i.d. with $\E|\xi_1|<\infty$. Let $S_n = \sum_{i=1}^n \xi_n$ and $\mu = \E[\xi_1]$. Then $S_n/n - \mu \overset{n\to\infty}\to 0$ in probability.
+\end{theorem}
+
+\begin{example}[Monte-Carlo Integration, continued]
+Returning to the example \ref{eg:Monte_Carlo_L2}, we see that Monte-Carlo method is still valid for any integrable functions $f \in L^1[0,1]$.
+\end{example}
+
+\subsubsection{Triangular Arrays}
+We may also look at an array of random variables as arranged below
+\begin{equation*}
+\begin{array}{ccccc}
+    \xi_{1,1} &  &  &  & \\
+    \xi_{2,1} & \xi_{2,2} &  &  & \\
+    \xi_{3,1} & \xi_{3,2} & \xi_{3,3} &  & \\
+    \xi_{4,1} & \xi_{4,2} & \xi_{4,3} &  \xi_{4,4} & \\
+    \vdots & \vdots & \vdots & \vdots & \ddots
+\end{array}
+\end{equation*}
+(i.e. $\xi_{n,k}$ with $n$ being row index and $k \in [n] := \set{1,2,...,n}$ being the column index). We would like to know if the sum of rows $S_n = \sum_{k=1}^n \xi_{n,k}$ converges in probability. If the entries in each columns are equal (i.e. $\xi_{m,k} = \xi_{n,k}$ for all $k,m,n$), then we may use WLLN to conclude the convergence. The WLLN can be naturally generalised to the case when the random variables on each row are independent, and we leave the proof as an exercise.
+\begin{exercise} \label{ex:L2_WLLN_Array}
+Under the above settings, if $\mu_n = \E[S_n], \sigma^2_n = \V[S_n]$ and $\sigma_n^2/b_n^2 \to 0$ then 
+\begin{equation*}
+\frac{S_n - \mu_n}{b_n} \overset{n\to\infty}\to 0 \quad \text{in} \; L^2 \; \text{and in probability.}
+\end{equation*}
+\end{exercise}
+
+We may prove the following more general version of the weak law of large numbers for triangular arrays.
+\begin{theorem}[Weak Law of Large Number for triangular arrays]
+Under the above settings, we let $b_n > 0$ with $b_n \overset{n\to\infty}\to \infty$ and $\tilde{\xi}_{n,k} = \xi_{n,k} \chi_{\set{|\xi_{n,k}| > b_n}}$. Suppose that as $n\to\infty$,
+\begin{enumerate}
+\item $\sum_{k=1}^n \p(|\xi_{n,k}| > b_n) \overset{n\to\infty}\to 0$, and
+\item $\sum_{k=1}^n \E[\tilde{\xi}_{n,k}^2 / b_n^2] \overset{n\to\infty}\to 0$,
+\end{enumerate}
+then by letting $a_n = \sum_{k=1}^n \E[\tilde{\xi}_{n,k}]$, we have 
+\begin{equation*}
+\frac{S_n - a_n}{b_n} \overset{n\to\infty}\to 0 \quad \text{in} \; L^2 \; \text{and in probability.}
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+Let $\tilde{S}_n = \sum_{k=1}^n \tilde{\xi}_{n,k}$. We note that 
+\begin{equation*}
+\p\bracket{\abs{\frac{S_n - a_n}{b_n}} > \epsilon} \leq \p\bracket{S_n \neq \tilde{S}_n} + \p\bracket{\abs{\frac{\tilde{S}_n - a_n}{b_n}} > \epsilon}
+\end{equation*}
+The first term of RHS can be bounded by a union bound:
+\begin{equation*}
+    \p\bracket{S_n \neq \tilde{S}_n} \leq \p\bracket{\bigcup_{k=1}^n \set{\tilde{\xi}_{n,k} \neq \xi_{n,k}}} \leq \sum_{k=1}^n \p(|\xi_{n,k}| > b_n) \overset{n\to\infty}\to 0, 
+\end{equation*}
+and the second term can be bounded by Chebyshev inequality:
+\begin{align*}
+\p\bracket{\abs{\frac{\tilde{S}_n - a_n}{b_n}} > \epsilon} \leq \frac{1}{\epsilon^2} \E\abs{\frac{\tilde{S}_n - a_n}{b_n}}^2 \leq \frac{1}{\epsilon^2} \sum_{k=1}^n \frac{\E[\tilde{\xi}_{n,k}^2]}{b_n^2} \overset{n\to\infty}\to 0.
+\end{align*}
+\end{proof}
+
+As a corollary, we may further weaken the condition of the weak law of large numbers when the random variables $(\xi_i)_{i\geq 1}$ are i.i.d.
+
+\begin{corollary}[Weak Law of Large Numbers for nearly integrable random variables]
+Let $\xi_1, \xi_2, ...$ be i.i.d. with $y\p(|\xi|_1 > y) \overset{y\to\infty}\to 0$. Let $S_n = \sum_{i=1}^n \xi_n$ and $\mu_n = \E[\xi_1 \chi_{\set{|\xi_1|\leq n}}]$. Then $S_n/n - \mu_n \overset{n\to\infty}\to 0$ in probability.
+\end{corollary}
+
+\begin{proof}
+We may apply the WLLN for triangular array with $\xi_{n,k} =: \xi_k$ for all $k \in [n]$ and $b_n = n$. The first condition is satisfied as 
+\begin{equation*}
+\sum_{k=1}^n \p(|\xi_{n,k}| > n) = n\p(|\xi_1| > n) \overset{n\to\infty}\to 0.
+\end{equation*}
+To check condition (2), we call the following relationship between moments and tail probability: for all $\xi \in L^2$ we have equation \eqref{eq:exp_p_tail}
+\begin{equation}
+\E[\xi^2] = \int_0^\infty 2y \p(\xi\geq y) \, dy
+\end{equation}
+Applying this formula yields:
+\begin{equation}
+\E[\tilde{\xi}^2_{n,1}/n] = \frac{1}{n}\int_0^\infty 2y\p(|\tilde{\xi}_{n,1}| > y) \, dy = \frac{1}{n}\int_0^n 2y\p(|\tilde{\xi}_1| > y) \, dy
+\end{equation}
+We finally use dominated (or bounded) convergence theorem to show that this quantity tends to zero as $n\to\infty$. Let $g(y) = 2y \p(|\xi_1| > y)$ for $y\geq 0$. By assumption, we note that $g(y) \overset{n\to\infty} 0$. Since $0 \leq g(y) \leq 2y$ for any $y \geq 0$, we know that $g(y)$ is bounded on any $y \in [0,r]$ for any $r<\infty$, hence on the entire $[0,\infty)$. We also note that
+\begin{equation}
+    \E[\tilde{\xi}^2_{n,1}/n] = \frac{1}{n} \int_0^n g(y) \, dy = \int_0^1 g(ny) \, dy
+\end{equation}
+and that $g(ny) \overset{n\to\infty}{\to} 0$ almost surely, so by DCT we have $\E[\tilde{\xi}^2_{n,1}/n] \overset{n\to\infty}\to 0$ as desired.
+\end{proof}
+
+\begin{exercise}
+Show that the above version of weak law of large numbers implies the $L^1$ WLLN (theorem \ref{thm:WLLN1}).
+\end{exercise}
+
+\begin{hint}
+Use DCT to check that the required condition is satisfied, and that $\mu_n = \E[\xi_1 \chi_{\set{|\xi_1|>n}}] \overset{n\to\infty}\to \mu$. Then use question 2 in exercise \ref{ex:prop_of_conv_in_prob} to conclude.
+\end{hint}
 \end{unexaminable}
 
 \subsection{Local and Central Limit Theorem}
-We now return to our coin flipping scenario. Recall we have $S_n = \xi_1 + \xi_2 + \cdots + \xi_n$, where $\xi_j$ are iid as $\mathsf{B}(1,p)$ as constructed in section 4.1. As discussed in previous section, $S_n$ tends to be close to $np$ for large $n$. 
+We now return to our coin-flipping scenario. Recall we have $S_n = \xi_1 + \xi_2 + \cdots + \xi_n$, where $\xi \iid \mathsf{B}(1,p)$ as constructed in section 4.1. As discussed in previous section, $S_n$ tends to be close to $np$ for large $n$. 
 \begin{center}
     \includegraphics[scale=0.8]{sa.png}
 \end{center}
@@ -278,7 +495,7 @@ Refining the analysis to incorporate the $O(1/n)$ correction is hard as it invol
 With this we can briefly sketch the asymptotic analysis of binomial coefficient. Let's say $n,k,n-k$ all tends to infinity (e.g. $k = np$ for $k \in (0,1)$), then we can use Stirling's formula to obtain
 \begin{align*}
     {n\choose k} &= \frac{n!}{k! (n-k)!} \\
-    &= \frac{\sqrt{n}}{\sqrt{2\pi k(n-k)}} \frac{(n/e)^n}{(k/e)^k ((n-k)/e)^{n-k}} \textcolor{violet}{\frac{1+O(1/n)}{(1+O(1/n))1+O(1/n)}}\\
+    &= \frac{\sqrt{n}}{\sqrt{2\pi k(n-k)}} \frac{(n/e)^n}{(k/e)^k ((n-k)/e)^{n-k}} \textcolor{violet}{\frac{1+O(1/n)}{(1+O(1/n))(1+O(1/n))}}\\
     &= \frac{\sqrt{n}}{\sqrt{2\pi k(n-k)}}  \exp\bracket{n \ln n - k \ln k - (n-k) \ln (n-k)}\textcolor{violet}{\frac{1+O(1/n)}{(1+O(1/n))(1+O(1/n))}}
 \end{align*}
 

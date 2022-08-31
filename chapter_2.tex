@@ -390,7 +390,13 @@ Recall, in the definition of $\L^p(\Omega)$, we have define the function $\norm{
 In particular if it holds that $\norm{v} = 0 \iff v = 0$, then $\norm{\,.\,}$ is a norm.
 \end{definition}
 
-Unfortunately this is not true: in fact $\norm{\xi}_{\L^p(\Omega)} = 0 \iff \xi = 0$ \textbf{almost} everywhere. Nevertheless, we can prove that $\norm{\,.\,}_{\L^p(\Omega)}$ is a \textbf{semi}-norm. To begin, it is trivial to see from linearity that $\norm{\,.\,}_{L^p(\Omega)}$ is absolutely homogeneous. The main task is hence to check if triangle inequality is satisfied for $\norm{\,.\,}_{L^p(\Omega)}$. Showing this for the case $p = \infty$ is not hard: we can run through the steps in proving \eqref{eq:Minkowski_infty} to show that 
+Unfortunately this is not true: in fact $\norm{\xi}_{\L^p(\Omega)} = 0 \iff \xi = 0$ \textbf{almost} everywhere. Nevertheless, we have
+\begin{theorem}
+For all $p \in [1,\infty)$, the function $\norm{\,.\,}_{\L^p(\Omega)}$ is a \textbf{semi}-norm on $\mathcal{L}^p(\Omega)$.
+\end{theorem}
+
+\begin{unexaminable}
+\textit{Proof.} To begin, it is trivial to see from linearity that $\norm{\,.\,}_{L^p(\Omega)}$ is absolutely homogeneous. The main task is hence to check if triangle inequality is satisfied for $\norm{\,.\,}_{L^p(\Omega)}$. Showing this for the case $p = \infty$ is not hard: we can run through the steps in proving \eqref{eq:Minkowski_infty} to show that 
 \begin{equation*}
     |\xi(\omega) + \eta(\omega)| \leq \norm{\xi}_{\L^\infty(\Omega)} + \norm{\eta}_{\L^\infty(\Omega)}
 \end{equation*}
@@ -466,12 +472,13 @@ Note $|\xi + \eta|^p \leq |\xi + \eta|^{p-1}(|\xi| + |\eta|)$ and use Holder's i
 \end{hint}
 
 \begin{proof}
-We only need to take care the case when $p<\infty$. The Hölder inequality says
+We only need to take care of the case when $p<\infty$. The Hölder inequality says
 \begin{equation}
     \E[|\xi + \eta|^p] \leq \E[|\xi + \eta|^{p-1} (|\xi| + |\eta|)] \leq \left(\E\sqbracket{|\xi + \eta|^{p-1})^{\frac{p}{p-1}}}\right)^{1-1/p} (\norm{\xi}_{\L^p(\Omega)} + \norm{\eta}_{\L^p(\Omega)})
 \end{equation}
-which simplifies to the Minkowski inequality.
+which yields the required Minkowski inequality.
 \end{proof}
+\end{unexaminable}
 
 We have therefore shown that, for all $p \in [1,\infty]$, the function $\norm{\,.\,}_{\L^p(\Omega)}$ is a seminorm of the vector space $\L^p(\Omega)$. In fact this seminorm induces a norm in the following quotient space $L^p(\Omega) = \L^p(\Omega) / \sim$, where $\sim$ is the following equivalent relation
 \begin{equation} \label{eq:equiv_relation_Lp}
@@ -480,16 +487,18 @@ We have therefore shown that, for all $p \in [1,\infty]$, the function $\norm{\,
 
 \begin{unexaminable}
 \begin{exercise}
-First check that $\sim$ is an equivalent relation. Then check that $L^p(\Omega)$ is a vector space by defining a suitable addition and scalar multiplication. (Remember to check that these operations are well defined!)
+First check that $\sim$ is an equivalence relation. Then check that $L^p(\Omega)$ is a vector space by defining a suitable addition and scalar multiplication. (Remember to check that these operations are well-defined!)
 \end{exercise}
+\end{unexaminable}
 
-The norm is given by the following: writing $[f]_\sim$ being the equivalent class containing $f$, then
+The norm is given by the following: writing $[f]_\sim$ being the equivalence class containing $f$, then
 \begin{equation}
     \norm{[f]_\sim}_{L^p(\Omega)} = \norm{f}_{\L^p(\Omega)}
 \end{equation}
 
+\begin{unexaminable}
 \begin{exercise}
-First check that the above norm is well-defined in the sense that the value is independent of the choice of elements in $[f]_\sim$. Then check that it is a norm.
+Firstly, check that the above norm is well-defined, such that the value is independent of the choice of elements in $[f]_\sim$. Then check that it is a norm.
 \end{exercise}
 \end{unexaminable}
 

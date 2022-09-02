@@ -372,7 +372,7 @@ Show that the function $f$ as defined above is continuous by dominated convergen
 \end{exercise}
 
 We may use the third inversion formula to find the characteristic function for even more distributions.
-\begin{exercise}
+\begin{exercise} \label{ex:CF_Polya_Cauchy}
 Let $\xi,\eta$ be a real-valued random variable.
 \begin{enumerate}
     \item Find the characteristic function of $\xi$ if $\xi$ follows a triangular distribution with density
@@ -395,7 +395,7 @@ Let $\xi,\eta$ be a real-valued random variable.
 \end{enumerate}
 \end{exercise}
 
-\subsection{Central Limit Theorem via Characteristic Functions}
+\subsection{Central Limit Theorems}
 We are almost able to prove the Central Limit Theorem. We need to prove the final (and the most important) step, the Levi's continuity theorem, which says if 
 
 \begin{theorem}[Levi's Continuity theorem] \label{thm:levi_continuity}
@@ -460,7 +460,7 @@ We finally note that $\p_n \to \nu$ weakly, otherwise there is a point $y \in \R
 \end{proof}
 \end{unexaminable}
 
-Once we have the Levi's continuity theorem, we also have the following central limit theorems for free.
+Once we have the Levi's continuity theorem, we also have the following central limit theorems (CLTs) for free.
 
 \begin{theorem}[Central Limit Theorem for Independent Identically Distributed Random Variables]
 Let $\xi_1, \xi_2, \dots $ be a sequence of independent identically distributed (nondegenerate) random variables with $\E[\xi_1^2]] < \infty$ and $S_n = \xi_1 + \cdots + \xi_n$. Then as $n \to \infty$
@@ -471,7 +471,7 @@ Let $\xi_1, \xi_2, \dots $ be a sequence of independent identically distributed 
 \begin{remark}
 The result can also be written as 
 \begin{equation*}
-    \frac{S_n - \E[S_n]}{\sqrt{\V[S_n]}} \xrightarrow{d} N(0,1).
+    \frac{S_n - \E[S_n]}{\sqrt{\V[S_n]}} \xrightarrow{d} \mathsf{N}(0,1).
 \end{equation*}
 \end{remark}
 \begin{proof}
@@ -490,40 +490,166 @@ Since $\E[\xi_1^2] < \infty$, we have by properties of characteristic functions 
 \end{equation*}
 So $\varphi_n(t) = [1 - t^2/(2n) + o(1/n)]^n \to e^{-t^2/2}$ for all $t \in \R$. This is the characteristic function of $\mathsf{N}(0,1)$ and so the result follows by continuity theorem.
 \end{proof}
-\begin{theorem}[Central Limit Theorem for Independent Random Variables]
-Let $\xi_1, \xi_2, \dots$ be a sequence of independent random variables with finite second moments $\E[\xi_j] < \infty$ and distribution functions $F_j$ for all $j$. Let $$m_j = \E[\xi_j], \sigma_j^2 = \V[\xi_j] >0,\quad S_n = \xi_1 + \cdots + \xi_n \text{ and } D_n^2 = \sum_{j=1}^n \sigma_j^2.$$ 
-Suppose that the Lindeberg condition is satisfied: for every $\varepsilon > 0$
-\begin{equation*}
-    \frac{1}{D_n^2}\sum_{k=1}^n \int_{\{x:|x-m_k|\ge \varepsilon D_n \}} (x-m_k)^2 \d F_k(x) \to 0, \quad n \to \infty.
-\end{equation*}
+
+\subsubsection{Lindeberg-Feller Theorem}
+With more delicate analysis, we may prove another central limit theorem, known as the Lindeberg-Feller theorem.
+
+\begin{theorem}[Lindeberg CLT for independent random variables]
+Let $\xi_1, \xi_2, \dots$ be a sequence of independent random variables on same probability space $(\Omega,\F,\p)$ with finite second moments $\E[\xi_j^2] < \infty$. Let 
+$$m_j = \E[\xi_j], \quad \sigma_j^2 = \V[\xi_j] >0,\quad S_n = \xi_1 + \cdots + \xi_n \text{ and } D_n^2 = \sum_{j=1}^n \sigma_j^2.$$ 
+Suppose that the \textbf{Lindeberg condition} is satisfied: for every $\varepsilon > 0$
+\begin{equation} \label{eq:Lindeberg_original}
+    \frac{1}{D_n^2}\sum_{k=1}^n \E\sqbracket{|\xi_k - m_k|^2 \chi_{\set{|\xi_k-m_k|\ge \varepsilon D_n}}} \overset{n\to\infty} \to 0.
+\end{equation}
 Then 
 \begin{equation*}
-    \frac{S_n - \E[S_n]}{\sqrt{\V[S_n]}} \xrightarrow{d} N(0,1).
+    \frac{S_n - \E[S_n]}{D_n} \xrightarrow{d} \mathsf{N}(0,1).
 \end{equation*}
 \end{theorem}
-We turn our attention to some special cases in which the Lindeberg condition is satisfied and consequently, the central limit theorem is valid.
-\begin{itemize}
-    \item Let the \textit{Lyapunov condition} be satisfied: for some $\delta > 0$
-    \begin{equation*}
-        \frac{1}{D_n^{2 +\delta}} \sum_{k=1}^n \E[|\xi_k - m_k|^{2+\delta}] \to 0 \quad n \to \infty.
-    \end{equation*}
-    Let $\varepsilon > 0$. Then
-    \begin{align*}
-        \E[|\xi_k - m|^{2+\delta}] &= \int_{-\infty}^\infty |x - m_k|^{2+\delta} \d F_k(x)\\
-        &\ge \int_{\{x: x|x-m_k| \ge \varepsilon D_n\}} |x - m_k|^{2+\delta}  \d F_k(x)\\
-        &\ge \varepsilon^\delta D_n^\delta \int_{\{x: |x-m_k| \ge \varepsilon D_n\}} (x - m_k)^{2}  \d F_k(x),
-    \end{align*}
-    and therefore 
-    \begin{equation*}
-        \frac{1}{D_n^2}\sum_{k=1}^n \int_{\{x: |x-m_k| \ge \varepsilon D_n\}} (x - m_k)^{2}  \d F_k(x) \le \frac{1}{\varepsilon^\delta} \frac{1}{D_n^{2 + \delta}} \sum_{k=1}^n \E[|\xi_k - m_k|^{2 + \delta}].
-    \end{equation*}
-    Consequently, the Lyapunov condition implies the Lindeberg condition.
-    \item Suppose that there exists $K$ such that for all $n \ge 1$
-    \begin{equation*}
-        |\xi_k| \le K < \infty, \quad \forall k,
-    \end{equation*}
-    where $D_n \to \infty$ as $n \to \infty$. This condition also implies Lindeberg condition (exercise).
-\end{itemize}
+
+The idea of proof is similar to the one proving CLT for iid random variables, but the proof itself is too cumbersome to be included in our notes. If interested you may refer to theorem 3.4.10 of \cite{Durrett}.
+
+\begin{remark}[Other formulation of CLT] \label{rmk:other_CLT}
+We note that some literature has different versions of the above Lindeberg Theorem. For instance, Durrett states in \cite{Durrett} that under the above setting, if the following version of the Lindeberg condition is satisfied: if $D_n^2 \to \sigma^2 \in (0,\infty)$ (i.e. finite and \textbf{not tending to zero}); and for all $\epsilon > 0$,
+\begin{equation}
+    \sum_{k=1}^n \E\sqbracket{|\xi_k - m_k|^2 \chi_{\set{|\xi_k-m_k|\ge \varepsilon}}} \overset{n\to\infty} \to 0,
+\end{equation}
+then
+\begin{equation*}
+S_n - \E[S_n] \xrightarrow{d} \mathsf{N}(0,\sigma^2)
+\end{equation*}
+We show that the new Lindeberg theorem $\implies$ original Lindeberg theorem, we first note that we may squeeze the following limits:
+\begin{align*}
+    \frac{1}{D_n^2} \sum_{k=1}^n \E\sqbracket{|\xi_k - m_k|^2 \chi_{\set{|x-m_k|\ge \varepsilon D_n}}} &\leq \frac{1}{D_n^2} \sum_{k=1}^n \E\sqbracket{|\xi_k - m_k|^2 \chi_{\set{|x-m_k|\ge \varepsilon D_1}}} \\
+    &\leq \frac{1}{D_1^2} \sum_{k=1}^n \E\sqbracket{|\xi_k - m_k|^2 \chi_{\set{|x-m_k|\ge \varepsilon D_1}}} \overset{n\to\infty} \to 0.
+\end{align*}
+So the original Lindeberg condition is satisfied, and by the original Lindeberg theorem, we have
+\begin{equation*}
+    \frac{S_n - \E[S_n]}{D_n} \xrightarrow{d} \mathsf{N}(0,1).
+\end{equation*}
+Notice that we also have $D_n/\sigma \nearrow 1$ as $n \to \infty$, so by Slutsky's theorem (proposition \ref{prop:mult_of_weak_limits}), we have 
+\begin{equation*}
+    \frac{S_n - \E[S_n]}{\sigma} \xrightarrow{d} \mathsf{N}(0,1),
+\end{equation*}
+which yields our desire convergence. In fact, by rescaling the random variables, we know that if $d_n^2 := D_n^2 / n \to \sigma^2 / n$, and that 
+\begin{equation}
+    \frac{1}{n} \sum_{k=1}^n \E\sqbracket{|\xi_k - m_k|^2 \chi_{\set{|\xi_k-m_k|\ge \varepsilon \sqrt{n}}}} \overset{n\to\infty} \to 0,
+\end{equation}
+then 
+\begin{equation*}
+S_n - \E[S_n] \xrightarrow{d} \mathsf{N}(0,\sigma^2/n)
+\end{equation*}
+To prove the converse, we need to introduce an suitable array of random variables. Since this is unexaminable, we will defer the proof to the end of this section. The reason of noting such equivalence is that the Lindeberg condition is that we don't need to deal with the sum $D_n^2$, so the Lindeberg condition is now easier to handle.
+\end{remark}
+
+We turn our attention to some special cases in which the Lindeberg condition is satisfied and consequently, the central limit theorem is valid. One of the most prominent example is the Lyapunov condition.
+\begin{corollary}[Lyapunov's CLT]
+Assume the above settings, and in addition assume that the sequence $(\xi_k)_{\geq 1}$ satisfy the \textbf{Lyapunov condition}: there is some $\delta > 0$ such that as $n \to \infty$,
+\begin{equation}
+    \frac{1}{D_n^{2 +\delta}} \sum_{k=1}^n \E[|\xi_k - m_k|^{2+\delta}] \to 0.
+\end{equation}
+Then the sequence $(\xi_k)_{\geq 1}$ satisfies the Lindeberg condition, and central limit theorem hold.
+\end{corollary}
+
+\begin{proof}
+Let $\varepsilon > 0$. Convince yourself that
+\begin{align*}
+    \E[|\xi_k - m|^{2+\delta}] 
+    \geq \E\sqbracket{|\xi_k - m_k|^{2+\delta} \chi_{\set{|\xi_k-m_k| \ge \varepsilon D_n}}} 
+    \geq \varepsilon^\delta D_n^\delta \E\sqbracket{|\xi_k - m_k|^{2+\delta} \chi_{\set{|\xi_k-m_k| \ge \varepsilon D_n}}},
+\end{align*}
+and conclude that 
+\begin{equation*}
+    \frac{1}{D_n^2}\sum_{k=1}^n \int_{\{x: |x-m_k| \ge \varepsilon D_n\}} (x - m_k)^{2}  \d F_k(x) \le \frac{1}{\varepsilon^\delta} \frac{1}{D_n^{2 + \delta}} \sum_{k=1}^n \E[|\xi_k - m_k|^{2 + \delta}].
+\end{equation*}
+Consequently, the Lyapunov condition implies the Lindeberg condition.
+\end{proof}
+
+We also note the following special case, with the proof being left as an exercise.
+\begin{exercise} \label{ex:Lindeberg_for_bounded_rv}
+Under the above settings, suppose that there exists $K$ such that for all $n \ge 1$
+\begin{equation*}
+    |\xi_k| \le K < \infty, \quad \forall k,
+\end{equation*}
+and that $D_n \to \infty$ as $n \to \infty$, then the sequence $(\xi_k)_{k\geq 1}$ also implies Lindeberg condition.
+\end{exercise}
+
+\begin{unexaminable}
+Recall the setup of array of independent random variables in subsubsection 4.2.4, i.e. random variables $\xi_{n,k}$ with $n$ being row index and $1 \leq k \leq n$, so that on each selected row $n$ we have $\xi_{n,k}$ mutually independent. With this setup, we may state the full version of the Lindeberg theorem:
+\begin{theorem}[Lindeberg CLT for array of random variables]
+Let $(\xi_{n,k})_{n\geq 1, \, 1\leq k\leq n}$ be an array of random variables, each of them having finite second moments. Let 
+\begin{equation*}
+m_{n,k} = \E[\xi_{n,k}], \quad S_n = \sum_{k=1}^n \xi_{n,k}, \quad D_n^2 = \sum_{k=1}^n \V[\xi_{n,k}^2].
+\end{equation*}
+Suppose that the following Lindeberg condition holds: for every $\varepsilon > 0$, 
+\begin{equation}
+    \frac{1}{D_n^2}\sum_{k=1}^n \E\sqbracket{|\xi_{n,k} - m_{n,k}|^2 \chi_{\set{|\xi_{n,k}-m_k|\ge \varepsilon D_n}}} \overset{n\to\infty} \to 0.
+\end{equation}
+Then 
+\begin{equation*}
+    \frac{S_n - \E[S_n]}{D_n} \xrightarrow{d} \mathsf{N}(0,1).
+\end{equation*}
+Alternatively, if the following version of Lindeberg condition holds: $D_n^2 \nearrow \sigma^2 \in (0,\infty)$ as $n \to \infty$, and that 
+\begin{equation}
+    \sum_{k=1}^n \E\sqbracket{|\xi_{n,k} - m_{n,k}|^2 \chi_{\set{|\xi_{n,k}-m_k|\ge \varepsilon}}} \overset{n\to\infty} \to 0,
+\end{equation}
+then 
+\begin{equation*}
+    S_n - \E[S_n] \xrightarrow{d} \mathsf{N}(0,\sigma^2).
+\end{equation*}
+\end{theorem}
+
+The Lindeberg CLT for independent random variables $(\xi_k)_{k\geq 1}$ immediate follows from the above Lindeberg CLT for array of random variables by setting $\xi_{n,k} \equiv \xi_k$ for all $n$. The above generalisation of Lindeberg CLT allows us to translate in between the original Lindeberg's CLT and the Durrett's formulation of Lindeberg CLT in \cite{Durrett}: \footnote{Thanks for the StackExchange post: \url{https://math.stackexchange.com/questions/3917501/lindeberg-feller-alternative-formulation-in-durrett}.}
+
+\begin{remark}[continued from remark \ref{rmk:other_CLT}]
+We note that the implication from the new Lindeberg condition to the original Lindeberg condition can be seen as followed: under the above setting, we define the new random variables $\eta_{n,k} := (\xi_{n,k} - m_{n,k})/D_n$. Then for this new array of random variables, we have $\tilde{D}_{n}^2 := \sum_{k=1}^n \V[\eta_{n,k}] \equiv 1$. Moreover, as $n\to\infty$,
+\begin{equation}
+    \frac{1}{D_n^2}\sum_{k=1}^n \E\sqbracket{|\xi_{n,k} - m_{n,k}|^2 \chi_{\set{|\xi_{n,k}-m_k|\ge \varepsilon D_n}}} = \sum_{k=1}^n \E\sqbracket{|\eta_{n,k}|^2 \chi_{\set{|\eta_{n,k}|\ge \varepsilon}}} \to 0,
+\end{equation}
+so
+\begin{equation*}
+    \tilde{S}_n := \sum_{k=1}^n \eta_{n,k} = \frac{S_n - \E[S_n]}{D_n} \xrightarrow{d} \mathsf{N}(0,1)
+\end{equation*}
+as desired. In particular, this prove the converse in remark \ref{rmk:other_CLT}.
+\end{remark}
+
+The corresponding version of Lyapunov's CLT for an array of random variable is as followed:
+\begin{corollary}[Lyapunov's CLT]
+Assume the above array setup, and in addition assume that the sequence $(\xi_k)_{\geq 1}$ satisfy the \textbf{Lyapunov condition}: there is some $\delta > 0$ such that as $n \to \infty$,
+\begin{equation}
+    \frac{1}{D_n^{2 +\delta}} \sum_{k=1}^n \E[|\xi_{n,k} - m_{n,k}|^{2+\delta}] \to 0.
+\end{equation}
+Then the sequence $(\xi_k)_{\geq 1}$ satisfies the Lindeberg condition, and central limit theorem hold.
+\end{corollary}
+
+As a final note, the Lindeberg CLT admits a partial converse, as discovered by Feller. This theorem is usually combined with the Lindeberg CLT to form the Lindeberg-Feller theorem, although this theorem is of little use in our course.
+\begin{theorem}[Feller's theorem]
+assuming the above setup, and in addition we have $(S_n - \E[S_n])/D_n \xrightarrow{d} \mathsf{N}(0,1)$ and $(\max_i \V[\xi_{n,k}])/D_n^2 \to 0$ (i.e. for each row there isn't a "dominating" random variable $\xi_{n,k}$ with variance dominating the sum variance along the row, then the Lindeberg condition holds. 
+\end{theorem}
+\end{unexaminable}
+
+\subsubsection{Counterexample of CLT when the random variable is not squared integrable}
+Does CLT still hold even when $\E[\xi_1^2] = \infty$? Let $\xi_1, \xi_2, \dots$ be i.i.d. with Cauchy distribution, i.e. with density
+\begin{equation*}
+    f = \frac{\theta}{\pi(x^2 + \theta^2)}, \quad \theta>0.
+\end{equation*}
+Then, as shown in question 2 of exercise \ref{ex:CF_Polya_Cauchy}, we have
+\begin{equation*}
+    \varphi_{\xi_1}(t) = e^{-\theta |t|}, t \in \R,
+\end{equation*}
+which implies that 
+\begin{equation*}
+    \varphi_{S_n/n} (t) = (e^{-\theta|t|/n})^n = e^{-\theta|t|},
+\end{equation*}
+and thus $S_n/n$ also has the Cauchy distribution (instead of Normal)!
+
+\subsection{Berry-Esseen Inequality}
+The Central Limit Theorem for iid random variables and question 1 of exercise \ref{ex:uniform_conv_of_dist} implies that, if $F_n(x)$ is the distribution function of the random variable $(S_n - \E[S_n])/\sqrt{\V[S_n]}$, then we have
+\begin{equation}
+\sup_{x} |F_n(x) - \Phi(x)| \overset{n\to\infty}\to 0.
+\end{equation}
+
+In what rate does the LHS decay? It turns out that if $(\xi_k)_{k\geq 1}$ are iid with $\xi_1 \in L^3$, then we have the following Berry-Esseen inequality.
 \begin{theorem}[Berry-Esseen Inequality]
 Let $\xi_1, \xi_2, \dots$ be a sequence of independent and identically distributed random variables with $\E[|\xi_1|^3] < \infty$. Then
 \begin{equation*}
@@ -534,6 +660,9 @@ where the absolute constant $C$ satisfies the inequality
     \frac{1}{\sqrt{2\pi}} \le C < 0.8.
 \end{equation*}
 \end{theorem}
+
+There are many proofs to this famous theorem, but we do not intend to include any of them as they are too technical for this course. In fact, finding the optimal constant $C$ is an active research area, and mathematicians continue to develop different tools in making the Berry-Esseen Inequality even sharper. Nevertheless, we know that the rate $\ord(1/\sqrt{n})$ is optimal, and that $C \geq 1/\sqrt{2\pi}$.
+
 \begin{remark}
 $O(1/\sqrt{n})$ is optimal. Indeed, let $\xi_1, \xi_2, \dots$ be independent and identically distributed Bernoulli random variables, 
 \begin{equation*}
@@ -549,30 +678,6 @@ and therefore,
 \end{equation*}
 Then $\E[|\xi_1|^3] = 1 = \sigma_1$, so the theorem cannot be improved in terms of $O(1/\sqrt{n})$ and $C \ge \frac{1}{\sqrt{2\pi}}$.
 \end{remark}
-
-\begin{example}[Cauchy Distribution]
-What happens if $\E[\xi^2] = \infty$? Let $\xi_1, \xi_2, \dots$ be i.i.d. with Cauchy distribution, i.e. with density
-\begin{equation*}
-    f = \frac{\theta}{\pi(x^2 + \theta^2)}, \quad \theta>0.
-\end{equation*}
-Then 
-\begin{equation*}
-    \varphi_{\xi_1}(t) = \frac{\theta}{\pi} \int_{-\infty}^\infty  \frac{e^{itx}}{x^2 + \theta^2}\d x = e^{-t\theta}, \, \,t>0
-\end{equation*}
-and similarly for $t < 0$. So
-\begin{equation*}
-    \varphi_{\xi_1}(t) = e^{-\theta |t|}, t \in \R,
-\end{equation*}
-which implies that 
-\begin{equation*}
-    \varphi_{S_n/n} (t) = (e^{-\theta|t|/n})^n = e^{-\theta|t|},
-\end{equation*}
-and thus $S_n/n$ also has the Cauchy distribution!
-\end{example}
-
-\begin{exercise}
-Verify the characteristic function for the above (standard) Cauchy distribution.
-\end{exercise}
 
 \subsection{More about constructing characteristic function}
 The following theorems determine whether a function $\varphi$ is a characteristic function of some measure on $\R$, and if so, whether we can easily construct the underlying measure. The constructions are usually difficult, and therefore are not usually covered in great detail. Nevertheless, the proofs in this section serve as great examples of using tools developed in the previous chapter. For further discussions please refer to \cite{characteristic_function}.

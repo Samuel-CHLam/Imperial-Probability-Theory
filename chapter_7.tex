@@ -372,7 +372,7 @@ and therefore
 \begin{unexaminable}
 We finally note an observation regarding convergence in probability:
 \begin{corollary}
-Let $\xi, (\xi_n)_{n\geq 1}$ be random variables on the probability space $(\Omega,\F,\p)$. Then $\xi_n \to \xi$ in probability as $n \to \infty$ iff for any subsequence, ther is a further subsequence that converges $\p$-a.s. to $\xi$.
+Let $\xi, (\xi_n)_{n\geq 1}$ be random variables on the probability space $(\Omega,\F,\p)$. Then $\xi_n \to \xi$ in probability as $n \to \infty$ iff for any subsequence, there is a further subsequence that converges $\p$-a.s. to $\xi$.
 \end{corollary}
 \begin{proof}
 The $(\Rightarrow)$ direction is proven in theorem \ref{thm:subsequence_conv_prob}. For $(\Leftarrow)$, we note that almost sure convergence implies convergence in probability. We also recall a basic fact that in metric space, if $(a_m)$ is a sequence such that for any subsequence there is a further subsequence that converges to some element $a$, then $a_m \to a$. Since convergence in probability is metrisable as shown in exercise \ref{ex:metric_for_conv_in_prob}, we may directly use this result to complete the proof.
@@ -507,7 +507,7 @@ so we have
 
 With this maximal inequality, we may prove the Kolmogorov's three series theorem, which states that the almost sure convergence of a (truncated) random series depends on the convergence of three deterministic series. Here we will prove the statement in three steps:
 
-\begin{lemma}[Three series theorem, part I]
+\begin{lemma}[Three-series theorem, part I] \label{lem:three_series_1}
 Suppose $\xi_1, \xi_2, ...$ are independent real-valued series and have $\E[\xi_i] = 0$ for all $i$. If we know that $\sum_{i\geq 1} \V[\xi_i] < \infty$, then $\sum_{i\geq 1} \xi_i$ converges almost surely.
 \end{lemma}
 
@@ -527,7 +527,7 @@ so one can send $m \to \infty$ (by continuity from below):
 as desired, so the series $S_n$ converges almost surely.
 \end{proof}
 
-\begin{theorem}[Three series theorem, part II]
+\begin{theorem}[Three-series theorem, part II] \label{thm:three_series_2}
 Let $\xi_1, \xi_2, \dots$ be independent random variables. If $\sum_{n=1}^\infty \E[\xi_n]$ and $\sum_{n=1}^\infty \V[\xi_n]$ converge, then $\sum_{n=1}^\infty \xi_n$ converges a.s.
 \end{theorem}
 
@@ -536,25 +536,35 @@ This follows by breaking the random series into two parts:
 \begin{equation}
 \sum_{i=1}^\infty \xi_i = \sum_{i=1}^\infty (\xi_i - \E[\xi_i]) + \sum_{i=1}^\infty \E[\xi_i],
 \end{equation}
-provided that the two series in the RHS actually converges, so the theorem follows.
+provided that the two series in the RHS actually converge, so the theorem follows.
 \end{proof}
 
 \begin{unexaminable}
-The above three series theorem is enough for our application, but for completion let us state the full Kolmogorov's three series theorem:
-\begin{corollary}[Three series theorem, part III] 
-Let $\xi_1, \xi_2, ...$ be independent random variables. Let further $A>0$, and $\eta_i = \xi_i \chi_{|\xi_i| \leq A}$ be the truncated random variables. Then $\sum_{i\geq 1} \xi_i$ converges almost surely if and only if the following three series converges:
+The above thre-series theorem is enough for our application, but for completion let us state the full Kolmogorov's three-series theorem:
+\begin{corollary}[Three-series theorem, part III] \label{cor:three_series_3}
+Let $\xi_1, \xi_2, ...$ be independent random variables. Let further $A>0$ be \textbf{some} constant, and $\eta_i = \xi_i \chi_{|\xi_i| \leq A}$ be the truncated random variables. Then $\sum_{i\geq 1} \xi_i$ converges almost surely if and only if the following three series converge:
 \begin{center}
 (1) $\sum_{i\geq 1} \p(|\xi_i| > A)$, (2) $\sum_{i\geq 1} \E[\eta_i]$ and (3) $\sum_{i\geq 1} \V[\eta_i]$
 \end{center}
-When $A = \infty$ this theorem reduces to part II.
+When $A = \infty$ this theorem reduces to part II. Moreover, when $\sum_{n=1}^\infty \xi_n$ converges a.s., then for all $A>0$ the conditions (1)-(3) holds.
 \end{corollary}
 
 \begin{proof}
-We only prove the sufficiency part. Notice that part II guarantees that $\sum_{i\geq 1} \eta_i$ converges almost surely, and the convergence of $\sum_{i\geq 1} \p(|\xi_i| > A)$ means that $\p(|\xi_i| > A \text{ i.o.}) = 0$ by the first Borel-Cantelli lemma. Therefore, almost surely $\xi_i = \eta_i$ eventually, and in such case $\sum_{i\geq 1} \xi_i$ converges.
+(Sufficiency). Notice that part II guarantees that $\sum_{i\geq 1} \eta_i$ converges almost surely, and the convergence of $\sum_{i\geq 1} \p(|\xi_i| > A)$ means that $\p(|\xi_i| > A \text{ i.o.}) = 0$ by the first Borel-Cantelli lemma. Therefore, almost surely $\xi_i = \eta_i$ eventually, and in such case $\sum_{i\geq 1} \xi_i$ converges. \\
+
+(Necessity). We prove that a.s. convergence $\implies$ (1) $\implies$ (3) $\implies$ (2). Proving the first implication is simple: provided that $\xi_i$ are independent, we know from the second Borel-Cantelli lemma that if (1) does not hold then $\p(|\xi_i|>A \text{ i.o.}) = 1$, and that $\lim_{n\to\infty} \sum_{i=1}^n \xi_i$ may not exist.\\
+
+We now prove (1) $\implies$ (3) by assuming (1) is true but (3) is false for contradiction, then by exercise \ref{ex:Lindeberg_for_bounded_rv}, we know that
+\begin{equation*}
+    \frac{\tilde{S}_n - \E[\tilde{S}_n]}{D_n} \xrightarrow{d} \mathsf{N}(0,1), \quad \tilde{S}_n = \sum_{i=1}^n \E[\eta_i], \; D_n = \sum_{i=1}^n \V[\eta_i].
+\end{equation*}
+Now since $\sum_{i\geq 1} \xi_i$ converges almost surely, so is $\sum_{i\geq 1} \eta_i$, so by sequencing the sequence $T_n = (\sum_{i=1}^n \eta_i) / D_n \overset{n\to\infty}\to 0$ almost surely (hence also in probability). Therefore, by Slutsky's theorem (proposition \ref{prop:addition_of_weak_limits}) we know that $S_n - T_n \xrightarrow{d} \mathsf{N}(0,1)$. But $S_n - T_n = -\bracket{\sum_{i=1}^n \E[\eta_i]}/D_n$, which is not random. We have a contradiction, so (1) $\implies$ (3). \\
+
+We finally prove that (1) and (3) $\implies$ (2). This follows from part I of the three series theorem (lemma \ref{lem:three_series_1}), that $\lim_{n\to\infty} \sum_{i=1}^n (\eta_i - \E[\eta_i])$ exists. Provided that $\lim_{n\to\infty} \sum_{i=1}^n \eta_i$ exists as well, we know that (2) holds.
 \end{proof}
 \end{unexaminable}
 
-We are half-way through proving Kolmogorov's strong law of large number. To complete the proof we have to prove a few technical lemmas concerning the convergence of weighted mean of the first terms of a converging sequence. You should be able to prove the following lemmas yourself using tools from elementary analysis classes.
+We are now halfway through proving Kolmogorov's strong law of large numbers. To complete the proof we have to prove a few technical lemmas concerning the convergence of the weighted mean of the first terms of a converging sequence. You should be able to prove the following lemmas yourself using tools from elementary analysis classes.
 
 \begin{lemma}[Toeplitz] \label{lem:Toeplitz}
 Let $\{a_n\}$ be a sequence of nonnegative numbers, $b_n = \sum_{i=1}^n a_i$, $b_1 = a_1 > 0$, and $b_n \uparrow \infty, n \to \infty$. Let $\{ x_n \}_{n \ge 1}$ be a sequence of numbers converging to $x$. Then
@@ -614,7 +624,7 @@ Can you draw parallels between the above formula and integration by parts?
 \begin{proof}
 Dividing $b_n$ yields:
 \begin{equation}
-    \frac{1}{b_n} \sum_{j=1}^n b_j x_j = S_n - \underbrace{\frac{b_0 S_0}{b_n}}_{\to \infty} - \frac{1}{b_n} \sum_{j=1}^n a_j S_j.
+    \frac{1}{b_n} \sum_{j=1}^n b_j x_j = S_n - \underbrace{\frac{b_0 S_0}{b_n}}_{\to 0} - \frac{1}{b_n} \sum_{j=1}^n a_j S_j.
 \end{equation}
 So when $n\to \infty$, we see that $b_n^{-1} \sum_{j=1}^n b_j x_j \overset{n\to\infty}{\to} 0$ by Toeplitz lemma.
 \end{proof}
@@ -647,7 +657,7 @@ Note that
 \begin{equation*}
 \sum_{k\geq 1} \V\sqbracket{\frac{\xi_k - \E[\xi_k]}{b_k}} = \sum_{k\geq 1} \frac{\V[\xi_k]}{b_k^2} < \infty,
 \end{equation*}
-so by Kolmogorov's three series theorem the sum $\sum_{k\geq 1} (\xi_k - \E[\xi_k])/b_k$ converges almost surely, and by Toeplitz theorem applied on this series the desired result holds.
+so by part II of Kolmogorov's three series theorem (theorem \ref{thm:three_series_2}) the sum $\sum_{k\geq 1} (\xi_k - \E[\xi_k])/b_k$ converges almost surely, and by Toeplitz theorem applied on this series the desired result holds.
 \end{proof}
 
 In the case where the variables $\xi_1, \xi_2, \dots$ are not only independent but also identically distributed, we can obtain a strong law of large numbers without requiring (as in the theorem above) the existence of the second moment, provided that the first absolute moment exists.
@@ -659,7 +669,7 @@ Let $\xi_1, \xi_2, \dots$ be a sequence of independent identically distributed r
 \end{theorem}
 
 \begin{proof}
-We first recall the relationship between tail probabilities and expectation: if $\xi\geq 0$ is an integrable random variable, then
+We first recall the relationship between tail probabilities and expectation (see \eqref{eq:exp_tail}): if $\xi\geq 0$ is an integrable random variable, then
 \begin{equation}
     \E[\xi] = \int_{[0,\infty)}\p(\xi \ge x) \, \d x.
 \end{equation}
@@ -682,7 +692,7 @@ But we note that
     &= \sum_{k=1}^\infty \E[\xi_n^2 \chi_{|\xi_1| \in [k-1,k)}] \underbrace{\bracket{\sum_{n=k}^\infty \frac{1}{n^2}}}_{\leq 2/k} \\
     &= 2\sum_{k=1}^\infty \E\bracket{|\xi| \underbrace{\frac{|\xi|}{k}}_{\leq 1} \chi_{\set{|\xi_1| \in [k-1,k)}}} \leq 2\E[|\xi_1|] < \infty,
 \end{align*}
-so by three series theorem we know that $n^{-1} \sum_{i=1}^n (\tilde{\xi}_i - \E[\tilde{\xi}_i]) \overset{n\to\infty} 0$ $\p$-a.s, which completes the proof.
+so by three series theorem we know that $n^{-1} \sum_{i=1}^n (\tilde{\xi}_i - \E[\tilde{\xi}_i]) \overset{n\to\infty}\to 0$ $\p$-a.s, which completes the proof.
 \end{proof}
 
 \begin{remark}
@@ -712,7 +722,7 @@ and using one of our lemmas above, we have $\E[|\xi_1|] < \infty$. It then follo
 % \end{equation*}
 % \end{remark}
 
-Here we state an application in number theory.
+Here we state an application of the above theorem in number theory.
 \begin{example}[Borel's theorem on normal number]
 Recall the Radamacher functions on $([0,1], \B[0,1], \Leb)$ as defined in section 4.1, denoted as $\xi_1, \xi_2, ...$. By the strong law of large numbers, we have the following result of Borel: almost every number in $[0, 1)$ is normal, in the sense that with probability $1$ the proportion of zeroes and ones in its binary expansion tends to $\frac12$, i.e.,
 \begin{equation*}
@@ -720,14 +730,7 @@ Recall the Radamacher functions on $([0,1], \B[0,1], \Leb)$ as defined in sectio
 \end{equation*}
 \end{example}
 
-\subsection{Random Walk}
-% At this stage, we are prepared to look at a huge class of stochastic processes, namely random walk. Let us first give a precise definition of a stochastic process:
-% \begin{definition}[Stochastic Process]
-% A stochastic process is an indexed family of a random variable $(X_t)_{t \in I}$, where for all $t \in I$, $X_t: (\Omega,\F,\p) \to (E,\mathcal{E})$ is a random variable. 
-% \end{definition}
-
-% We are mostly interested for the case when $I = \bN, \Z, [0,\infty)$
-
+\subsection{Baby Law of Iterated Logarithms}
 Let us define the notion of the rates of convergence. Without loss of generality, we assume $\mu = 0$ by subtracting each random variable $\xi_i$ with its mean.
 \begin{definition}[Rate of convergence]
 \begin{enumerate}
@@ -786,5 +789,5 @@ where
 i.e. $\forall \varepsilon > 0$, $(1 + \varepsilon) \psi$ is upper and $(1 - \varepsilon) \psi$ is lower for $S_n$.
 \end{theorem}
 
-\textcolor{red}{We will defer the proof to later chapters.}
+We will defer the proof to later chapters.
 \newpage

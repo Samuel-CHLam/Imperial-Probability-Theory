@@ -46,6 +46,7 @@
 \usepackage{etoolbox}
 \usepackage{enumerate} % for numbering with [a)] format 
 \usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage[export]{adjustbox}
 
 % colors
 \usepackage{xcolor}
@@ -61,6 +62,7 @@
 \definecolor{reddish}{cmyk}{0, 0.64, 0.64, 0.2}
 \definecolor{one}{cmyk}{0, 0.6, 0.46, 0.69}
 \definecolor{two}{cmyk}{0.11, 0, 0.72, 0.16}
+\definecolor{imperialorange}{RGB}{255,134,24}
 
 % Choice of font
 \ifxetex
@@ -77,13 +79,17 @@
 \usepackage{fancyhdr}
 
 \setlength{\headheight}{14.5pt}
-\pagestyle{fancy}
+
 \renewcommand{\headrulewidth}{0.1pt}
 \renewcommand{\footrulewidth}{0.1pt}
 \captionsetup{margin=10pt,font=small,labelfont=bf}
-
 \renewcommand{\sectionmark}[1]{\markboth{\normalfont\sffamily\bfseries\thesection\hspace{5pt}#1}{}}
 \renewcommand{\subsectionmark}[1]{\markright{\sffamily\thesubsection\hspace{5pt}#1}}
+
+\fancypagestyle{toc}{%
+    \fancyhead[L]{}
+    \fancyhead[R]{\normalfont\sffamily\bfseries\thesection\hspace{5pt} Contents}
+}
 
 % sections
 \usepackage{titlesec}
@@ -91,7 +97,6 @@
 \titleformat{\section}{\normalfont\Large\sffamily\bfseries}{\color{royal} \thesection}{1em}{}
 \titleformat{\subsection}{\normalfont\large\sffamily\bfseries}{\color{royal} \thesubsection}{0.8em}{}
 \titleformat{\subsubsection}{\normalfont\sffamily\bfseries}{\color{royal} \thesubsubsection}{0.75em}{}
-
 
 % content page
 \usepackage{titletoc} % Required for manipulating the table of contents
@@ -154,6 +159,8 @@
 
 % drawing
 \usepackage{tikz, tikz-cd}
+\usetikzlibrary{calc, backgrounds}
+
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 

@@ -1,4 +1,6 @@
 \section{Conditioning and Disintegration}
+In studying stochastic processes $(\xi_\alpha)_{\alpha \in A}$, we want to see how different random variables are related to each other. In particular, we want to see if observing one random variable will give more information on other random variables. For this, we need the notion of conditional probability and expectation.
+
 \subsection{Conditional Probability}
 \subsubsection{The Discrete Case}
 Let $(\Omega, \F, \p)$ be a probability space. We recall the notions of conditional probability on an event: 
@@ -162,7 +164,7 @@ All problems can be solved solely by checking the definition. For example, in qu
 \begin{solution} (For question 2):
 This is perhaps the most tricky question, but again we try to resort to the definition \eqref{eq:conditional_probability_sigma_algebra}. Here we want to show for all $G \in \G$
 \begin{equation}
-    E[\xi] \E[\chi_G] \E[\chi_G \E[\xi]] = \E[\chi_G \xi]
+    \E[\xi] \E[\chi_G] \E[\chi_G \E[\xi]] = \E[\chi_G \xi]
 \end{equation}
 which is true by the independence assumption. This makes sense, because the $\sigma$ algebra does not give additional information about the random variable $\xi$.
 \end{solution}

@@ -629,7 +629,7 @@ Dividing $b_n$ yields:
 So when $n\to \infty$, we see that $b_n^{-1} \sum_{j=1}^n b_j x_j \overset{n\to\infty}{\to} 0$ by Toeplitz lemma.
 \end{proof}
 
-With this, we may prove Kolmogorov's lemma, which laid a foundation for some of the most important theorems relating to almost sure convergence of random series.
+With this, we may prove Kolmogorov's lemma, which laid a foundation for some of the most important theorems relating to the almost sure convergence of random series.
 
 \begin{theorem}[Kolmogorov]
 Let $\xi_1, \xi_2,\dots$ be a sequence of independent random
@@ -731,7 +731,7 @@ Recall the Radamacher functions on $([0,1], \B[0,1], \Leb)$ as defined in sectio
 \end{example}
 
 \subsection{Baby Law of Iterated Logarithms}
-Let us define the notion of the rates of convergence. Without loss of generality, we assume $\mu = 0$ by subtracting each random variable $\xi_i$ with its mean.
+Let us define the notion of the rates of convergence, following chapter 4 of \cite{Probability-2}. Without loss of generality, we assume $\mu = 0$ by subtracting each random variable $\xi_i$ with its mean.
 \begin{definition}[Rate of convergence]
 \begin{enumerate}
     \item[]
@@ -790,4 +790,148 @@ i.e. $\forall \varepsilon > 0$, $(1 + \varepsilon) \psi$ is upper and $(1 - \var
 \end{theorem}
 
 We will defer the proof to later chapters.
+
+\subsection{Glivenko-Cantelli Theorem}
+\begin{unexaminable}
+Let us also use Kolmogorov's SLLN to prove one of the most fundamental theorems in statistics - the Glivenko-Cantelli theorem. The theorem essentially says that to study the distribution of a random variable, one can draw many samples from this random variable and look at the "empirical measure" as we will define. For simplicity, we will limit our discussion to real-valued random variables.
+
+\begin{definition}[Empirical Distribution]
+Assume $\xi$ is a random variable on $(\Omega, \F, \p)$. The samples from this random variable can be represented by the finite sequence of random variables $(\xi_i(\omega))_{i \geq 1}^n$ on the same probability space that has the same distribution as $\xi$. The \textbf{empirical measure} associated with the above sample is the random variable from $(\Omega,\F,\p)$ to the space of probability measure on $(\R,\B(\R))$
+\begin{equation}
+\mu_n(\omega) = \frac{1}{n} \sum_{i=1}^n \delta_{\xi_i(\omega)}.
+\end{equation}
+
+The empirical measure as defined above is associated with the following \textbf{empirical distribution (function)}, as defined as a random variable $(\Omega,\F,\p)$ that outputs a distribution function on $(\R,\B(\R))$
+\begin{equation}
+    [F_n(\omega)](x) = [\mu_n(\omega)]((-\infty,x]) = \sum_{i=1}^n \delta_{\xi_i(\omega)}((-\infty,x]) = \frac{1}{n} \sum_{i=1}^n \chi_{(-\infty, x]}(\xi_i(\omega)).
+\end{equation}
+\end{definition}
+
+We recall the following notations: $F_\xi(x)$ being the distribution function of $\xi$, and for any functions with left limits $f(x-) = \lim_{t \to x^-} f(t)$. We then immediately see the following:
+
+\begin{lemma}{Pointwise Convergence of Empirical Processes}{}
+For all fixed $x\in \R$, we have $[F_n(\omega)](x) \to F_\xi(x)$ and $[F_n(\omega)](x-) \to F_\xi(x-)$ $\omega$-a.s.
+\end{lemma}
+
+\begin{proof}
+Fix $x \in \R$. We look at the collection $(\chi_{(-\infty,x]}(\xi_i))_{i \geq 1}$. This is in $L^\infty$ (hence in $L^1$) since 
+\begin{equation*}
+\E(\chi_{(-\infty,x]}(\xi_i)) = \p(\xi_i \leq x) = \p(\xi \leq x) = F_\xi(x) \leq 1
+\end{equation*}
+
+In addition, the collection is independent. This is clear from the fact that $(\xi_i)_{i \geq 1}$ (hence $(\sigma(\xi_i))_{i \geq 1}$) are independent and $\sigma(\I_{(-\infty,x]}(\xi_i))$ is a sub-$\sigma$-algebra of $\sigma(\xi_i)$. 
+\begin{equation*}
+    \sigma(\chi_{(-\infty,x]}(\xi_i)) = \set{\phi, \,  \xi_i^{-1}((-\infty,x]), \, \xi_i^{-1}((-\infty,x])^c, \Omega} \subseteq \sigma(\xi_i)
+\end{equation*}
+Finally, the distribution of $\chi_{(-\infty, x]}(\xi_i)$ is identical for all $i$. Therefore by SLLN:
+\begin{equation*}
+    \forall x \in \R, \; \xi_i\p(\set{\omega \in \Omega \, | \, [F_n(x)](\omega) \to F_\xi(x)}) = 1
+\end{equation*}
+We may also prove that $[F_n(\omega)](x-) \to F_\xi(x-)$ $\omega$-a.s. by replacing $(-\infty,x]$ in the above argument to $(-\infty,x)$.
+\end{proof}
+
+This, in particular, implies that $\mu_n(\omega) \to \p_\xi$ almost surely. By question 1 of exercise \ref{ex:uniform_conv_of_dist}, we know that if $F_\xi(x)$ is continuous then
+\begin{equation*}
+    \sup_x |[F_n(\omega)](x) - F_\xi(x)| \overset{n\to\infty}\to 0, \quad \omega \text{-a.s.}
+\end{equation*}
+The Glivenko-Cantelli theorem is an extension of the above result for the case when $F_\xi(x)$ is not necessarily continuous.
+\begin{theorem}[Glivenko-Cantelli Theorem]
+Under the above settings, we have 
+\begin{equation*}
+    \sup_x |[F_n(\omega)](x) - F_\xi(x)| \overset{n\to\infty}\to 0, \quad \omega \text{-a.s.}
+\end{equation*}
+\end{theorem}
+
+\begin{hint}
+Let us define the "grid-points" as in the proof of theorem \ref{thm:conv_in_dist_func}. We know that at those grid points, $[F_n(x)](\omega)$ is closed to $F_\xi(x)$. The monotonicity of $F_n(x)$ and $F_\xi(x)$ guarantees that even if $x$ is not those grid points, $F_n(x)(\omega)$ is not too far from $F_\xi(x)$.
+\end{hint}
+
+\begin{proof}
+Fix $\epsilon > 0$ and let $k$ be a positive integer such that $1/k < \epsilon/2$. We define the "grid points" $x_{j,k} = F^{-1}(j/k) = \sup \set{x \,|\, F_\xi(x) < j/k}$ for all $j = 1, ..., k-1$ (as defined in the probability integral transform, see proposition \ref{prop:prob_transform}). For our convenience define $x_{0,k} = -\infty$ and $x_{k,k} = \infty$. Note that the sequence of grid points $(x_{j,k})_{j=0}^k$ is non-decreasing. With this we ensure that any $x$ in $\R \cup \set{\pm \infty}$ must fall into exactly one of the interval $[x_{j,k},x_{j+1,k})$ (note that the intervals might be singletons.)\\
+
+\begin{center}
+\includegraphics[scale=0.3]{figures/Fig1.2.jpg}
+\end{center}
+\vspace{12pt}
+
+By pointwise convergence, for all $j=1,...,k-1$ there are positive integers $N_{j,k,\omega}$ such that for all $n \geq N_{j,k,\omega}$ we have 
+\begin{equation*}
+|[F_n(\omega)](x_{j,k}) - F_\xi(x_{j,k})| < 1/2k.
+\end{equation*}
+
+There are also positive integers $N^-_{j,k,\omega}$ such that for all $n \geq N_{j,k,\omega}$ we have 
+\begin{equation*}
+|[F_n(\omega)](x_{j,k}-) - F_\xi(x_{j,k}-)| < 1/2k.
+\end{equation*}
+
+Take $N_{k,\omega} = \max{(\max_{j=1,...,k-1} N_{j,k,\omega}, \max_{j=1,...,k-1} N^-_{j,k,\omega})}$, we have for all $n \geq N_{k,\omega}$,
+\begin{equation*}
+\forall j = 1,...,k-1, \quad |[F_n(\omega)](x_{j,k}) - F_\xi(x_{j,k})| < 1/2k.
+\end{equation*}
+Now let $x \in \R$ be falling into one of the intervals $[x_{j,k}, x_{j+1,k})$. We immediately have
+\begin{equation*}
+    [F_n(\omega)](x_{j,k}) \leq [F_n(\omega)](x) \leq [F_n(\omega)](x_{j,k+1}-) \leq [F_n(\omega)](x_{j,k+1}).
+\end{equation*}
+In particular, when $n \geq N_{k,\omega}$, we have
+\begin{gather*}
+    F_\xi(x_{j,k})-1/2k < [F_n((\omega)](x_{j,k}) F_\xi(x_{j,k})+1/2k, \\
+    F_\xi(x_{j+1,k}-)-1/2k \leq [F_n(\omega)](x_{j+1,k}-) < F_\xi(x_{j+1,k}-)+1/2k.
+\end{gather*}
+This lead to 
+\begin{equation*}
+[F_n(\omega)](x) \in \bracket{F_\xi(x_{j,k})-\frac{1}{2k}, \,  F_\xi(x_{j+1,k})+\frac{1}{2k}}
+\end{equation*}
+\newpage
+
+But we also have 
+\begin{equation*}
+F_\xi(x) \in \left[ F_\xi(x_{j,k}), \,  F_\xi(x_{j+1,k}-) \right) \subseteq \bracket{F_\xi(x_{j,k})-\frac{1}{2k}, \,  F_\xi(x_{j+1,k})+\frac{1}{2k}}
+\end{equation*}
+
+\begin{center}
+\includegraphics[scale=0.3]{figures/Fig1.3.jpg}
+\end{center}
+\captionof*{figure}{The bound of $[F_n(\omega)](x)$ (labelled as $[F_n(x)](\omega)$) for $x \in [x_{j,k}, x_{j,k+1})$}
+\vspace{12pt}
+The interval at RHS has length $2/k$, so $|[F_n(\omega)](x) - F_X(x)| < 2/k < \epsilon$. This leads to uniform convergence.
+\end{proof}
+
+\begin{remark}
+We note that there is an analogue of the central limit theorem, which says that as $n \to \infty$,
+\begin{equation}
+\sqrt{n} \sup_x \abs{[F_n(x)](\omega) - F_X(x)} \xrightarrow{d} \mathsf{KS} 
+\end{equation}
+where $\mathsf{KS}$ is the Kolmogorov-Smirnov distribution, defined on $[0,\infty)$ with distribution function
+\begin{equation}
+F_{\mathsf{KS}}(\alpha) = 1-2 \sum_{n=1}^\infty (-1)^{n+1} e^{-2n^2\alpha^2}.
+\end{equation}
+If interested, please refer to the 
+\end{remark}
+\end{unexaminable}
+
+\subsection{Interlude: Stochastic processes}
+
+\begin{unexaminable}
+We will soon move on from the discussion of limiting theorems to stochastic analysis. Stochastic analysis studies the class of objects called stochastic processes, which is now defined below: 
+\begin{definition}[Stochastic Process]
+Stochastic process $(\xi_\alpha)_{\alpha \in A}$ with index $\alpha$ is a collection of random variables on a common probability space $(\Omega,\F,\p)$.
+\end{definition}
+
+For simplicity we assume the output of a stochastic process be a Polish space $(X,\B(X))$ equipped with metric $d$, e.g. $(\R^n, \B(\R^n))$ or $(\C,\B(\C)^n)$. We have already seen two examples of stochastic processes in the previous sections:
+\begin{itemize}
+\item The \textit{discrete random walk} $(S_n)_{n\geq 1}$, with $S_n := \xi_1 + ... + \xi_n$, where $\xi_1, \xi_2,...$ are defined on a common probability space and being i.i.d. The collection $(S_n)_{n\geq 1}$ is a stochastic process indexed with $n \in \N$.
+\item There are some "continuous" analogues of the above random walk, in the sense that it has a "continuous" index $t \in \R$. One of the most important ones is the Brownian motion $W_t$.
+\item The empirical distribution function $[F(\omega)](x)$ is also a stochastic process indexed by $x \in \R$.
+\end{itemize}
+
+We will focus on the case when the index set $A$ has a metric and total order, e.g. $A = \N, \Z, \Q, \R, [0,\infty)$, as they represent "time". Nevertheless, we may let $A$ be anything. In fact, we let $A = L^2(\R)$ when studying empirical process theory.\\
+
+An important remark is that one may view stochastic processes as one single random variable with outputs as maps $\alpha \mapsto \xi_\alpha(\omega)$. Often the images of these single random variables are Polish spaces. For instance,
+\begin{itemize}
+\item The \textit{discrete random walk} $(S_n)_{n\geq 1}$ can be viewed as a single random variable taking values in $(\R^\N, \B(\R^\N))$.
+\item The Brownian motion $W_t$ can be viewed as a single random variable taking values in $(C^0[0,\infty), \B(C^0[0,\infty)))$, equipped with the uniform norm.
+\item The empirical distribution function $[F(\omega)](x)$ is also a stochastic process taking values in the space of the distribution function. Notice that this is a closed subspace of the Skorohod space $(D(\R), \B(D(\R)))$, equipped with the Skorokhod metric.
+\end{itemize}
+If you have studied weak convergence of measures in general Polish space (see chapter), then you will have a head-start in studying stochastic analysis, but you can probably still survive if you haven't so.
+\end{unexaminable}
 \newpage

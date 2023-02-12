@@ -260,18 +260,10 @@ and to count how many of the terms $\E[\xi_i \xi_j]$ satisfies $|i-j|=k$.
 
 If you have done some time series, then you will know from this exercise that any time average of a moving average or autoregressive $\mathsf{AR}(1)$ processes have time averages converging to zero. 
 
+\subsection{Interlude: Uniform Integrability*}
 \begin{unexaminable}
-\subsubsection{Weak Law of Large Numbers for uniformly integrable random variables}
-How far can we generalise the weak law of large numbers? It is unfortunate that the weak law of large numbers does not hold for any sequences of random variables. Here is an example:
-\begin{example}
-Consider $\xi_1, \xi_2, ...$ being independent and identically distributed, so that they follow a Cauchy distribution with the following density function
-\begin{equation}
-f(x) = \frac{1}{\pi(1+x^2)}
-\end{equation}
-The Cauchy distribution is famously know for $\E[|\xi_1|] = \infty$ and that $\E[\xi]$ being undefined. In Chapter 6, we will show that $(\xi_1 + ... + \xi_n)/n$ continues to be a Cauchy distribution as above, hence does not converge to any mean!
-\end{example}
+Let us define the notion of uniform integrability for a collection of random variables.
 
-However, we may still generalise the weak law of large numbers a little bit further. To explain the loosen condition on the sequence of random variables, let us first define the notion of uniform integrability:
 \begin{definition}[Uniform Integrability]
 Consider a family (or sequence) of random variables $\set{\xi_\alpha}_{\alpha \in A}$, defined on a common probability space $(\Omega,\F,\p)$ with $A$ being an index set (e.g. $A = \N$ or $\R_{>0}$). We say that the family $\set{\xi_\alpha}_{\alpha \in A}$ is uniformly integrable if 
 \begin{equation}
@@ -279,7 +271,9 @@ Consider a family (or sequence) of random variables $\set{\xi_\alpha}_{\alpha \i
 \end{equation}
 \end{definition}
 
-\begin{remark}
+There are two motivations of defining the notion of uniform integrability. Firstly, we will show later that WLLN remains true for uniformly integrable random variables. More importantly, uniform integrability serve as an extra condition for a sequence of random variables that converges in probability to be convergent in $L^p$ as well. This is known as the Vitali convergence theorem.
+
+\begin{remark} \label{rmk:uniform_L1_bounded}
 This is a slightly stronger condition than $\set{\xi_\alpha}_{\alpha \in A}$ being uniformly $L^1$ bounded. To show that any uniformly integrable families $\set{\xi_\alpha}_{\alpha \in A}$ are uniformly $L^1$ bounded, fix an $\epsilon > 0$, then by definition one can choose sufficiently large $x > 0$ such that $\sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| > x}}} < \epsilon$. Therefore, we have 
 \begin{equation*}
 \sup_{\alpha \in A} \E\sqbracket{\abs{\xi_\alpha}} \leq \sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| > x}}} + \sup_{\alpha \in A} \E\sqbracket{|\xi_\alpha| \chi_{\set{|\xi_\alpha| \leq x}}} \leq \epsilon + x < \infty.
@@ -290,7 +284,7 @@ To show the converse is false, we consider the random variables $\xi_i(\omega) =
 \begin{exercise}
 Show that in the following cases, the families $\set{\xi_\alpha}_{\alpha \in A}$ are uniformly integrable:
 \begin{enumerate}
-\item $\set{\xi_{\alpha}}_{\alpha \in A}$ are $L^p$ bounded.
+\item $\set{\xi_{\alpha}}_{\alpha \in A}$ are uniformly $L^p$ bounded for $p>1$.
 \item $\xi_{\alpha}$ are identically distributed with $\xi_\alpha \in L^1$.
 \end{enumerate}
 \end{exercise}
@@ -299,6 +293,59 @@ Show that in the following cases, the families $\set{\xi_\alpha}_{\alpha \in A}$
 For (1) use H\"{o}lder inequality. For (2), split $\xi_\alpha = \xi_\alpha \chi_{|\xi_\alpha|>x} + \xi_\alpha \chi_{|\xi_\alpha|\leq x}$ with a carefully chosen $x$.
 \end{hint}
 
+\subsubsection{Vitali Convergence Theorem}
+Let us first show that uniform integrability of a collection of random variables is equivalent to the absolute equi-continuity of that collection.
+\begin{proposition}[Absolute equi-continuity of uniformly integrable r.v.] \label{prop:absolute_equicontinuity} The  family of random variable $\set{\xi_\alpha}_{\alpha \in A}$ on $(\Omega,\F,\p)$ is uniformly integrable $\iff$ it is uniformly $L^1$ bounded, and $\set{\xi_\alpha}_{\alpha \in A}$ is absolutely equi-continuous, i.e. for all $\epsilon > 0$ there exists $\delta > 0$ such that whenever $D \in \F$ such that $\p(D)<\delta$ then $\sup_{\alpha \in A} \E\sqbracket{\abs{\xi_\alpha} \chi_D} < \epsilon$. 
+\end{proposition}
+
+\begin{proof}
+$(\implies)$: Uniform $L^1$-boundedness is shown in remark \ref{rmk:uniform_L1_bounded}. For any $x > 0$, we have
+\begin{align}
+    \E\sqbracket{\abs{\xi_\alpha} \chi_D} = \E\sqbracket{\abs{\xi_\alpha} \chi_{D \cap \set{|\xi_\alpha| \leq x}}} + \E\sqbracket{\abs{\xi_\alpha} \chi_{D \cap \set{|\xi_\alpha|>x}}} \leq N\p(D) + \E\sqbracket{\abs{\xi_\alpha} \chi_{\set{|\xi_\alpha|>x}}},
+\end{align}
+so the desired result holds if we \textbf{first} choose sufficiently large $x > 0$ such that $\sup_{\alpha \in A} \E\sqbracket{\abs{\xi_\alpha} \chi_{\set{|\xi_\alpha|>x}}} < \epsilon$, then choose $\delta < \epsilon/(2N)$. \\
+
+$(2) \implies (1)$: Let's say $\sup_{\alpha \in A} \E|\xi_\alpha| \leq M$, then by Markov inequality we have
+\begin{equation}
+    \sup_{\alpha \in A} \p(|\xi_\alpha| > x) \leq \frac{M}{x}.
+\end{equation}
+Fix $\epsilon > 0$ and choose $\delta > 0$ such that absolute equi-continuity (point (2)) holds, then choose $x > M/\delta$, then 
+\begin{equation}
+    \sup_{\alpha \in A} \p(|\xi_\alpha| > x) < \delta \overset{(2)}{\implies} \E\sqbracket{\abs{\xi_\alpha} \chi_{\set{|\xi_\alpha|>x}}} < \epsilon.
+\end{equation}
+\end{proof}
+
+With this, we may prove the Vitali convergence theorem.
+\begin{theorem}[Vitali convergence theorem] \label{thm:vitali_convergence}
+Let $(\xi_i)_{i\geq 1}$ be sequence of random variables on $(\Omega,\F,\p)$, then the following are equivalent:
+\begin{enumerate}
+    \item $\xi_i \overset{i\to\infty}\to \xi$ in $L^1$,
+    \item $(\xi_i)_{i\geq 1}$ is uniformly integrable and converges in probability to $\xi$.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+We may generalise the above theorem so that we know that $\xi_i \to \xi$ in $L^p$ iff $\xi_i \to \xi$ in probability and $(|\xi_i|^p)$ is uniformly integrable.
+\end{remark}
+
+\begin{proof} 
+$(1) \implies (2)$: Shown by Markov inequality that $L^1$ convergence implies convergence in probability. It is also trivial to see that $(\xi_i)_{i\geq 1}$ are uniformly $L^1$-bounded. It follows that for any finite $N$, we know that for any $\epsilon > 0$ there is $\delta > 0$ such that for any $D$ such that $\p(D)<\delta$, 
+\begin{equation}
+    \E\sqbracket{\bracket{\abs{\xi}+\sum_{i=1}^n \abs{\xi_i}}\chi_D} < \frac{\epsilon}{2}
+\end{equation}
+Choosing $N$ such that $\E\sqbracket{|\xi_n - \xi|} < \epsilon$ whenever $n \geq N$ yields the result.
+
+$(2) \implies (1)$: We first check that $\xi \in L^1$. This follows from Fatou's lemma and remark \ref{rmk:uniform_L1_bounded} that $\E[\abs{\xi}] \leq \liminf_{n\to\infty} \E\abs{\xi_n} \leq M < \infty$. We therefore can also show (exercise!) that $(\abs{\xi_i - \xi})_{i\geq 1}$ is uniformly integrable, hence absolute equi-continuous (proposition \ref{prop:absolute_equicontinuity}). Therefore, for any $\epsilon > 0$, we may choose $\delta > 0$ such that if $\p(D)<\delta$ then $\sup_{i\geq 1} \E\sqbracket{|\xi_i|\chi_D} < \epsilon/2$. By convergence in probability, there is a large enough $N$ such that
+\begin{equation}
+    i \geq N \implies \p(|\xi_i - \xi| > \epsilon/2) < \delta,
+\end{equation}
+and hence, for any $i \geq N$
+\begin{align}
+    \E\sqbracket{|\xi_i - \xi|} &= \E\sqbracket{|\xi_i - \xi| \chi_{\set{|\xi_i - \xi|>\epsilon/2}}} + \E\sqbracket{|\xi_i - \xi| \chi_{\set{|\xi_i - \xi|\leq \epsilon/2}}} < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\end{align}
+\end{proof}
+
+\subsubsection{Weak Law of Large Numbers for uniformly integrable random variables}
 We are now ready to state the WLLN for uniformly integrable random variables.
 \begin{theorem}[Weak Law of Large Number for uniformly integrable random variables] Let $(\xi_i)_{i\geq 1}$ be an independent, uniformly integrable sequence of random variables. Then 
 \begin{equation*}
@@ -339,6 +386,14 @@ Let $\xi_1, \xi_2, ...$ be i.i.d. with $\E|\xi_1|<\infty$. Let $S_n = \sum_{i=1}
 \begin{example}[Monte-Carlo Integration, continued]
 Returning to the example \ref{eg:Monte_Carlo_L2}, we see that Monte-Carlo method is still valid for any integrable functions $f \in L^1[0,1]$.
 \end{example}
+
+\begin{remark}
+How far can we generalise the weak law of large numbers? It is unfortunate that the weak law of large numbers does not hold for any sequences of random variables. Consider $\xi_1, \xi_2, ...$ being independent and identically distributed, so that they follow a Cauchy distribution with the following density function
+\begin{equation}
+f(x) = \frac{1}{\pi(1+x^2)}
+\end{equation}
+The Cauchy distribution is famously know for $\E[|\xi_1|] = \infty$ and that $\E[\xi]$ being undefined. In Chapter 6, we will show that $(\xi_1 + ... + \xi_n)/n$ continues to be a Cauchy distribution as above, hence does not converge to any mean!
+\end{remark}
 
 \subsubsection{Triangular Arrays}
 We may also look at an array of random variables as arranged below
@@ -426,6 +481,7 @@ Use DCT to check that the required condition is satisfied, and that $\mu_n = \E[
 We now return to our coin-flipping scenario. Recall we have $S_n = \xi_1 + \xi_2 + \cdots + \xi_n$, where $\xi \iid \mathsf{B}(1,p)$ as constructed in section 4.1. As discussed in previous section, $S_n$ tends to be close to $np$ for large $n$. 
 \begin{center}
     \includegraphics[scale=0.8]{sa.png}
+    \captionof{figure}{Concentration of measure $S_n^*\p$.}
 \end{center}
 
 Specifically, let us take some interval $\I_n = (n(p-\varepsilon), n(p+\varepsilon))$. If we pick some sufficiently large $\varepsilon$, say $\varepsilon = n^{\alpha}$ where $\alpha > 1/2$, then by Chebyshev inequality  \eqref{eq:Bernoulli_Chebyshev} (or Hoeffding bound \eqref{eq:Bernoulli_hoeffding}) we know that
@@ -648,7 +704,7 @@ Let us give an overview to the upcoming chapters. In previous sections we have d
 \begin{definition}[Almost sure convergence]
 A sequence $(\xi_n)_{n\geq 1}$ of random variables on probability space $(\Omega,\F,\p)$ converges $\p$-almost surely to the random variable $\xi$ (denoted by $\xi_n \overset{a.e.}{\to} \xi$) if 
 \begin{equation}
-    \p\bracket{\set{\omega\,|\, \xi_n(\omega) \overset{n\to\infty}{\not\to} \xi(\omega)}}
+    \p\bracket{\set{\omega\,|\, \xi_n(\omega) \overset{n\to\infty}{\not\to} \xi(\omega)}} = 0
 \end{equation}
 \end{definition}
 
@@ -658,6 +714,7 @@ Further discussions will follow, but having this definition is probably enough f
 
 The double arrows refer to implications. This means, in particular, that almost sure convergence and convergence in $L^p$ both imply convergence in probability, and convergence in probability implies convergence in distribution. Notice that all these implications cannot be reversed.\\
 
+\begin{unexaminable}
 One should also note that most of the above notions of convergence are related to some metrics. For instance, it is apparent that $L^p$ convergence involves the metric induced by the $L^p$ norm, and we will see in the next chapter that convergence in distribution involves the so-called Levy-Prokhorov metric. The following exercise shows that convergence in probability induces a metric in the space of all random variables.
 
 \begin{exercise}[Metric for convergence in probability] \label{ex:metric_for_conv_in_prob}
@@ -671,4 +728,5 @@ Let $\M$ be the set of the real-valued random variables on the probability space
 \end{enumerate}
 Note that the notion of metric can be generalised when $\M$ is the set of random variables taking value on a generic Polish space with metric $d$.
 \end{exercise}
+\end{unexaminable}
 \newpage

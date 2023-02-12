@@ -55,19 +55,21 @@ $(\Rightarrow)$ \textbf{Assume $F_\xi^{-1}(u) \leq y$ but $u > F_\xi(y)$ by cont
 \begin{example}
 Suppose that the distribution function $F$ for $\xi$ uniform on $[0, 1/3] \cup [2/3, 1]$ with an atom at $2/3$. 
 \begin{center}
-    \input{figures/prob_integral_transform_cdf.tex}
+\input{figures/prob_integral_transform_cdf.tex}
+\captionof{figure}{An example of distribution function.}
 \end{center}
 The inverse $F^{-1}(u)$ is shown below
 \begin{center}
-    \input{figures/prob_integral_transform_invcdf.tex}
+\input{figures/prob_integral_transform_invcdf.tex}
+\captionof{figure}{The psuedo-inverse of the previous example}
 \end{center}
 \end{example}
 
 Now we turn to the problem of determining $f_\eta(y)$. Let us suppose that the range of $\xi$ is a (finite or infinite) open interval $I = (a,b)$, and that the function $\varphi = \varphi(x)$, with domain $(a,b)$, is continuously differentiable and either strictly increasing or strictly decreasing. We also suppose that $\varphi'(x) \ne 0, x\in I$. Let us write $h(y) = \varphi^{-1}(y)$ and suppose for definiteness that $\varphi$ is strictly increasing. Then when $y \in \varphi(I)$,
 \begin{align*}
-    F_\eta(y) = \p(\eta \le y) = \p(\varphi(\xi) \le y) = \p(\xi \le \varphi^{-1}(y)) &= \p(\xi \le h(y))\\
-    &= \int_{-\infty}^{h(y)}f_\xi(x) \d x\\
-    &= \int_{-\infty}^y f_\xi(h(z))h'(z) \d z.
+    F_\eta(y) = \p(\eta \le y) = \p(\varphi(\xi) \le y) = \p(\xi \le \varphi^{-1}(y)) &= \p(\xi \le h(y))
+    = \int_{-\infty}^{h(y)}f_\xi(x)\, \d x
+    = \int_{-\infty}^y f_\xi(h(z))h'(z)\, \d z.
 \end{align*}
 Therefore,
 \begin{equation}

@@ -230,7 +230,7 @@ Suppose that $(\Omega, \F,\p)$ is a probability space and $\xi$ is an integrable
 \end{equation}
 \end{theorem}
 
-\begin{property}[III. Tower/Telescopic Properties]
+\begin{property}[III. Tower/Telescopic Properties] \label{prop:tower_property_general}
 Let $(\Omega, \F,\p)$ be a probability space, $\xi$ an integrable random variable and $\F_1, \F_2$ be $\sigma-$algebras with $\F_1 \subseteq \F_2 \subseteq \F$. Then almost surely
 \begin{equation}
 \E[\E[\xi | \F_2] | \F_1] = \E[\xi | \F_1] = \E[\E[\xi | \F_1] | \F_2]
@@ -452,8 +452,9 @@ then $\E[Y|X] = f(X)$. Assume we know that $f(x) = ax+b$, then we know that $a,b
     \E(Y\,|\,X) = \mu_Y + \rho \frac{\sigma_Y}{\sigma_X}(X - \mu_X) = \bracket{\mu_Y - \rho \frac{\sigma_Y}{\sigma_X}\mu_X} + \rho \frac{\sigma_Y}{\sigma_X} X.
 \end{equation}
 \end{exercise}
-\
-\subsection{Regular conditional distribution}
+\newpage
+
+\subsection{Regular conditional distribution*}
 \begin{unexaminable}
 Let us revisit the above examples. We know from example \ref{eg:conditional_expectation_joint_rv} that if $(X,Y)$ has joint density $f_{X,Y}(x,y) > 0$ then we have
 \begin{equation}
@@ -511,7 +512,7 @@ When $Q$ is restricted so that the above equality is satisfied, then $Q(.,B)$ is
 
 We first assume $(E,\mathcal{E})$ to be $(\R,\B(\R))$ for simplicity. The main difficulty of constructing appropriate regular conditional distribution is that the conditional expectation $[\p(Y \in B \,|\, \G)](\omega)$ is unique up to measure-zero set. Moreover, many properties of probability measures only hold almost surely, e.g. monotonicity and continuity from above/below. Fortunately, we only need the equality \eqref{eq:rcd} to hold for almost all $\omega$. Our plan is therefore to construct the stochastic kernel $Q(\omega,B)$ for almost all "good" $\omega$ when all desired properties hold, and extend this kernel to other "bad" $\omega$. This will work if the set of "bad" $\omega$ is measure zero.
 
-\begin{theorem}[Existence of regular conditional distribution for real-valued random variables] 
+\begin{theorem}[Existence of regular conditional distribution for real-valued random variables] \label{thm:existence_rcd}
 Let $\xi:(\Omega,\F,\p) \to (\R,\B(\R))$ be a random variable, then for all $\sigma$-algebra $\G \subseteq \F$ we can construct a regular conditional distribution $\xi$ given $\G$.
 \end{theorem}
 
@@ -626,3 +627,4 @@ For question 1, one can prove the desired result to $h$ being simple function by
 \end{enumerate}
 \end{exercise}
 \end{unexaminable}
+\newpage

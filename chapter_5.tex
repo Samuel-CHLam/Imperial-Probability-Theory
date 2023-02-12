@@ -51,6 +51,7 @@ g_\epsilon(x) = \max\bracket{0, 1-\frac{\rho(x,E)}{\epsilon}} = \bracket{1-\frac
 If $E \subseteq \R$ is a closed interval, then the function $g(x)$ can be visualised as below:
 \begin{center}
     \input{figures/smoothen_indicator.tex}
+    \captionof{figure}{Approximation of an indicator function of a closed-interval.}
 \end{center}
 Let $E_\epsilon := \set{x \,|\, \rho(x,E) < \epsilon}$. Then clearly 
 \begin{equation*}
@@ -121,7 +122,7 @@ Each probability measure of $(\R,\B(\R))$ can be represented by a distribution f
 \end{unexaminable}
 
 \subsection{Portmanteau Theorem and related facts}
-But wait! We have defined the notion of convergence in distribution in another way in elementary probability classes. Specifically if $(X,\B(X)) = (\R, \B(\R))$ then we say $\xi_n \to \xi$ in distribution if the distribution function $F_{\xi_n}(x) \to F_{\xi}(x)$ for all $x$ when $F_\xi$ is continuous. Turns out the Portmanteau theorem provides us with the required equivalence. This theorem was given its name since it involves a lot of equivalent statements, which look like lots of coats hanging on a coat hanger (\textit{Portmanteau} in French). \footnote{Figure provided by Hobvias Sudoneighm \url{https://www.flickr.com/people/34427466731@N01} under the Creative Common 2.0 License: \url{https://creativecommons.org/licenses/by-sa/2.0/}}
+But wait! We have defined the notion of convergence in distribution in another way in elementary probability classes. Specifically if $(X,\B(X)) = (\R, \B(\R))$ then we say $\xi_n \to \xi$ in distribution if the distribution function $F_{\xi_n}(x) \to F_{\xi}(x)$ for all $x$ when $F_\xi$ is continuous. Turns out the Portmanteau theorem provides us with the required equivalence. This theorem was given its name since it involves a lot of equivalent statements, which look like lots of coats hanging on a coat hanger (\textit{Portmanteau} in French).
 
 \begin{theorem}[Portmanteau Theorem] \label{def:conv_in_dist}
 Let $(X,\B(X))$ be a Polish space induced by a metric $d$ and $\mu_n, \mu$ are measures with $\mu_n(X), \mu(X) \leq 1$. Writing $\E_\mu$ as expectation (or integral) with respect to the probability measure $\mu$, then the following are equivalent.
@@ -137,9 +138,11 @@ Let $(X,\B(X))$ be a Polish space induced by a metric $d$ and $\mu_n, \mu$ are m
 \end{enumerate}
 \end{theorem}
 
-\begin{center}
-\includegraphics[width=0.5\textwidth]{figures/hanger.jpg}
-\end{center}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/hanger.jpg}
+    \caption{A portmanteau. Figure provided by Hobvias Sudoneighm \url{https://www.flickr.com/people/34427466731@N01} under the Creative Common 2.0 License: \url{https://creativecommons.org/licenses/by-sa/2.0/}}
+\end{figure}
 
 \begin{proof} We will follow the order of proving $(4) \implies (1) \implies (2) \implies (3) \implies (5) \implies (6) \implies (7) \implies (4)$. \\
 
@@ -598,6 +601,9 @@ F_1 & \boxed{F_2} & F_3 & F_4 & F_5 & F_6 & \boxed{F_7} & F_8 & F_9 & F_{10} & F
  & & & & & & & & ... & & & ... & & 
 \end{array}
 \end{equation*}
+\captionof{figure}{Procedure of extracting a diagonal subsequence of $(F_n)$.}
+\vspace{12pt}
+
 We then extract the "diagonal subsequence" is as highlighted above, and write it as $F_{n_k} := F_{n_k^{(k)}}$. An important observation is that the sequence $(F_{n_k})_{k \geq \textcolor{red}{m}}$ is a subsequence of $\bracket{F_{n^{(m)}_k}}_{k\geq 1}$ for any $m \geq 1$. \\
 
 \textbf{Claim 1:} For all $q \in \Q$, we have $F_{n_k}(q) \to G(q)$.\\
@@ -740,7 +746,7 @@ hence $\mathcal{P}$ is tight.
 \end{proof}
 \end{unexaminable}
 
-\subsection{Vague Convergence}
+\subsection{Vague Convergence*}
 \begin{unexaminable}
 We conclude our discussion with another notion of convergence of measures, namely vague convergence. This is even weaker than the notion of weak convergence we have covered, and we need that since this is what we get when the moment generating functions (MGF) / characteristic functions (CF) of a sequence of random variables converges. We will show that in some cases, vague convergence is equivalent to weak convergence, then we might use the convergence of MGF/CF to establish weak convergence of random variables.\\
 

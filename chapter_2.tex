@@ -241,7 +241,7 @@ The ultimate goal is to establish that $\L^p(\Omega)$ is almost a normed vector 
 We recall some notions of convexity.
 \begin{definition}[Convexity] \phantom{blah\\}
 \begin{itemize}
-    \item A set $E \subseteq \R^n$ \footnote{You can safely assume $n = 1$ for this section, and treat any gradient/Hessian as derivatives.} is convex if, for all $x,y \in \Omega$ and $\lambda \in [0,1]$, the point $(1-\lambda) x + \lambda y \in \Omega$.
+    \item A set $\Omega \subseteq \R^n$ \footnote{You can safely assume $n = 1$ for this section, and treat any gradient/Hessian as derivatives.} is convex if, for all $x,y \in \Omega$ and $\lambda \in [0,1]$, the point $(1-\lambda) x + \lambda y \in \Omega$.
     \item Let $E \subseteq \R^n$ be a convex set. A function $g:E \to \R$ is convex (downward) if, for all $x,y \in \Omega$ and $\lambda \in [0,1]$, 
     \begin{equation}
         g((1-\lambda) x + \lambda y) \leq (1-\lambda) g(x) + \lambda g(y)
@@ -294,13 +294,13 @@ for all $x \in \R$. Putting $x = \xi$ and $x_0 = \E [\xi]$, we find that
 \begin{equation}
     g(\xi) \ge g(\E[\xi]) + v(\xi - \E [\xi])
 \end{equation}
-and by taking expectation for both sides we get  $g(\E [\xi]) \le \E [g(\xi]).$
+and by taking expectation for both sides we get  $g(\E [\xi]) \le \E [g(\xi)].$
 \end{proof}
 
 \subsubsection{Inclusions of $\L^p$ spaces}
 We can immediately observe that if $\xi \in \L^\infty(\Omega)$ then $\xi \in \L^p(\Omega)$ for any $p \in [1,\infty)$. To show this we let $E$ be the set $\set{\omega \in \Omega \,|\, |\xi(\omega)| > M }$. Then $\p(E) = 0$. Therefore 
 \begin{equation} \label{eq:Holder_infty}
-    \E(|\xi|^p) = \E(|\xi|^p \chi_{\Omega \setminus E}) \leq M^p \p(E) = M^p < \infty
+    \E(|\xi|^p) = \E(|\xi|^p \chi_{\Omega \setminus E}) \leq M^p \p(\Omega \setminus E) = M^p < \infty
 \end{equation}
 We therefore have $\L^\infty(\Omega) \subseteq \L^p(\Omega)$ for all $p \in [1,\infty)$.\\
 
@@ -543,11 +543,11 @@ To motivate, consider the following random variables living on the same probabil
     \end{equation*}
     For such case, we have 
     \begin{align*}
-        \p(\xi_1 > c) &= \int_c^\infty \frac{1}{\sqrt{2\pi}} \frac{x}{c} \exp \bracket{-\frac{x^2}{2}}\, dx
+        \p(\xi_1 > c) &= \int_c^\infty \frac{1}{\sqrt{2\pi}} \exp \bracket{-\frac{x^2}{2}}\, dx
         \leq \int_c^\infty \frac{1}{\sqrt{2\pi}} \frac{x}{c} \exp \bracket{-\frac{x^2}{2}}\, dx
         = \frac{1}{c \sqrt{2\pi}} \exp\bracket{-\frac{c^2}{2}} =: r_1(c)
     \end{align*}
-    \item $\xi_2$ following a double exponential (Laplace) distribution $\text{Laplace}(1)$ with density
+    \item $\xi_2$ following a double exponential (Laplace) distribution with density
     \begin{equation*}
         f_2(x) = \frac{1}{2} e^{-|x|}
     \end{equation*}
@@ -556,7 +556,7 @@ To motivate, consider the following random variables living on the same probabil
         \p(\xi_2 > c) &= \int_c^\infty \frac{1}{2}\exp \bracket{-x}\, dx
         = \frac{1}{2} \exp(-c) =: r_2(c)
     \end{align*}
-    \item $\xi_3$ following a Cauchy distribution $\text{Cauchy}(1)$ with density
+    \item $\xi_3$ following a (standard Cauchy) distribution with density
     \begin{equation*}
         f_3(x) = \frac{1}{\pi (1+x^2)}
     \end{equation*}

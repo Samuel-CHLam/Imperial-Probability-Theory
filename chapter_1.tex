@@ -105,11 +105,11 @@ Let $\p$ be a finitely additive set function defined over an algebra $\A$, with 
 \begin{proof}
 $(1) \implies (2)$. Since
 \begin{equation*}
-    \bigcup_{n=1}^\infty A_n = A_1 + (A_2\backslash A_1) + (A_3\backslash A_2) + \cdots,
+    \bigcup_{n=1}^\infty A_n = A_1 \cup (A_2\backslash A_1) \cup (A_3\backslash A_2) \cup \cdots,
 \end{equation*}
 we have
 \begin{align*}
-    \p \bigg( \bigcup_{n=1}^\infty A_n \bigg) &= \p(A_1) + \p(A_1\backslash A_2) + \p(A_3\backslash A_2) + \cdots\\
+    \p \bigg( \bigcup_{n=1}^\infty A_n \bigg) &= \p(A_1) \cup \p(A_1\backslash A_2) + \p(A_3\backslash A_2) \cup \cdots\\
     &= \p(A_1) + \p(A_2) - \p(A_1) + \p(A_3) - \p(A_2) + \cdots\\
     &= \lim_{n\rightarrow \infty} \p(A_n).
 \end{align*}
@@ -133,15 +133,15 @@ and therefore
 \end{align*}
 $(3) \implies (4)$. Obvious.
 
-$(4) \implies (1)$. Let $A_1, A_2, \dots \in \A$ be pairwise disjoint and let $ \sum_{n=1}^\infty A_n \in \A$. Then 
+$(4) \implies (1)$. Let $A_1, A_2, \dots \in \A$ be pairwise disjoint and let $ \cup_{n=1}^\infty A_n \in \A$. Then 
 \begin{equation*}
-    \p \bigg( \sum_{i=1}^\infty A_i \bigg) = \p \bigg( \sum_{i=1}^n A_i\bigg) + \p \bigg( \sum_{i=n+1}^\infty A_i \bigg),
+    \p \bigg( \bigcup_{i=1}^\infty A_i \bigg) = \p \bigg( \bigcup_{i=1}^n A_i\bigg) + \p \bigg( \bigcup_{i=n+1}^\infty A_i \bigg),
 \end{equation*}
-and since $\sum_{i=n+1}^\infty A_i \downarrow \varnothing, n\rightarrow \infty$, we have 
+and since $\cup_{i=n+1}^\infty A_i \downarrow \varnothing, n\rightarrow \infty$, we have 
 \begin{align*}
-    \sum_{i=1}^\infty \p(A_i) &= \lim_{n \rightarrow \infty} \sum_{i=1}^n \p(A_i) = \lim_{n \rightarrow \infty} \p \bigg( \sum_{i=1}^n A_i\bigg)\\
-    &= \lim_{n \rightarrow \infty} \bigg[ \p\bigg( \sum_{i=1}^\infty A_i\bigg) - \p\bigg( \sum_{i=n+1}^\infty A_i\bigg) \bigg]\\
-    &= \p \bigg( \sum_{i=1}^\infty A_i \bigg) - \lim_{n \rightarrow \infty}  \p \bigg( \sum_{i=n+1}^\infty A_i \bigg) =  \p \bigg( \sum_{i=1}^\infty A_i \bigg).
+    \sum_{i=1}^\infty \p(A_i) &= \lim_{n \rightarrow \infty} \sum_{i=1}^n \p(A_i) = \lim_{n \rightarrow \infty} \p \bigg( \bigcup_{i=1}^n A_i\bigg)\\
+    &= \lim_{n \rightarrow \infty} \bigg[ \p\bigg( \bigcup_{i=1}^\infty A_i\bigg) - \p\bigg( \bigcup_{i=n+1}^\infty A_i\bigg) \bigg]\\
+    &= \p \bigg( \bigcup_{i=1}^\infty A_i \bigg) - \lim_{n \rightarrow \infty}  \p \bigg( \bigcup_{i=n+1}^\infty A_i \bigg) =  \p \bigg( \bigcup_{i=1}^\infty A_i \bigg).
 \end{align*}
 \end{proof}
 
@@ -373,7 +373,9 @@ We can generalise this to the following: for probability measure defined on a Po
 \textbf{Discrete/Atomic measures} are measures $\p$ for which the corresponding distributions $F = F(x)$ are piecewise constant, changing their values at the points $x_1, x_2, \dots$ ($\Delta F(x_i) >0$, where $\Delta F(x) = F(x) - F(x^-))$. 
 \begin{center}
     \includegraphics[scale = 0.2]{1.jpg}
+    \captionof{figure}{CDF of a (purely) atomic measure.}
 \end{center}
+
 In this case the measure is concentrated at the points $x_1, x_2, \dots$, known as \textbf{atoms}:
 \begin{equation*}
     \p(\{ x_k \}) = \Delta F(x_k)>0, \quad \sum_k \p(\{x_k \}) = 1
@@ -408,7 +410,7 @@ Measures of such kind is \textbf{absolutely continuous} (with respect to the Leb
 \begin{theorem}[Radon-Nikodym] If $\p$ is a measure such that $\mu(A) = 0\implies \p(A) = 0$, then $\p$ has a density.
 \end{theorem}
 
-Note that there is a connection between absolute continuity of measures and absolute continuity of measures: if $\p$ is an absolutely continuous measure then $F_{ac}(x)$ is an absolutely continuous function, and that $F'_{ac}(x) = f(x)$ almost everywhere.\\
+Note that there is a connection between absolute continuity of measures and absolute continuity of functions: if $\p$ is an absolutely continuous measure then $F_{ac}(x)$ is an absolutely continuous function, and that $F'_{ac}(x) = f(x)$ almost everywhere.\\
 
 Finally, the notion of absolute continuity can be generalised. This is useful in constructing conditional expectations: see Chapter 8.
 
@@ -427,6 +429,7 @@ Recall that a measure $\nu$ is said to be \textbf{concentrated} on a measurable 
 We consider the interval $[0,1]$ and construct $F(x)$ by the following procedure originated by Cantor. 
 \begin{center}
     \input{figures/cantor_1.tex}
+    \captionof{figure}{First step of constructing the devil staircase.}
 \end{center}
 We divide $[0,1]$ into thirds and put 
 \begin{equation*}
@@ -442,6 +445,7 @@ We divide $[0,1]$ into thirds and put
 defining it in the intermediate intervals by linear interpolation. Then we divide each of the intervals $[0,1/3]$ and $[2/3, 1]$ into three parts and define the function shown below with its values at other points determined by linear interpolation.
 \begin{center}
     \input{figures/cantor_2.tex}
+    \captionof{figure}{Second step of constructing the devil staircase.}
 \end{center}
 Continuing with this process, we construct a sequence of functions $F_n(x)$, $n= 1,2,\dots$ which converges to a non-decreasing continuous function $F(x)$ (the Cantor function), whose points of increase form a set of Lebesgue measure zero. In fact, it is clear from the construction of $F(x)$ that the total length of the intervals $(\frac13, \frac23), (\frac19, \frac29), (\frac79, \frac89), \dots$ on which the function is constant is
 \begin{equation*}
@@ -462,7 +466,7 @@ Distribution functions on $(\R^n, \B(\R^n))$ are defined similarly, e.g.
 \begin{equation*}
     F(x,y) = \p((-\infty, x] \times (-\infty, y]), \quad n=2
 \end{equation*}
-The product measure on $(\Omega_1 \times \Omega_2, \F_1 \otimes \F_2)$ is defined as follows. First set $$\p_0(A_1 \times A_2) = \p_1(A_1)\p_2(A_2)$$ for $A_1 \in \F_1, A_2 \in \F_2$. (Probability spaces $(\Omega_1, \F_1, \p_1)$, $(\Omega_2, \F_2, \p_2))$ Then extend $p_0$ to the algebra generated by $A_1 \times A_2,$ show that $\p_0$ is a $\sigma$-additive measure on this algebra, and apply Caratheodory theorem to obtain the extension. This extension is called the product measure, denoted $\p_1 \otimes \p_2$.\\
+The product measure on $(\Omega_1 \times \Omega_2, \F_1 \otimes \F_2)$ is defined as follows. First set $$\p_0(A_1 \times A_2) = \p_1(A_1)\p_2(A_2)$$ for $A_1 \in \F_1, A_2 \in \F_2$. (Probability spaces $(\Omega_1, \F_1, \p_1)$, $(\Omega_2, \F_2, \p_2))$ Then extend $\p_0$ to the algebra generated by $A_1 \times A_2,$ show that $\p_0$ is a $\sigma$-additive measure on this algebra, and apply Caratheodory theorem to obtain the extension. This extension is called the product measure, denoted $\p_1 \otimes \p_2$.\\
 
 \subsubsection{Probability Measures on $(\R^\infty, \B(\R^\infty))$}
 For the spaces $\R^n$, $n \ge 1$, the probability measures were constructed in the following way: first for elementary sets (rectangles $(a, b]$), then, in a natural way, for sets $A = \sum (a_i, b_i]$, and finally, by using Caratheodory’s theorem, for sets in $\B(\R^n)$.\\
@@ -615,7 +619,7 @@ Let $\varphi = \varphi(x)$ be a Borel function and $\xi = \xi(\omega)$ a random 
 \begin{proof}
 The proof follows from the equations:
 \begin{equation*}
-    \{w:\eta(\omega) \in B \} = \{w:\eta(\xi(\omega)) \in B \} = \{w:\xi(\omega) \in \varphi^{-1}(B)  \} \in \F
+    \{w:\eta(\omega) \in B \} = \{w:\varphi(\xi(\omega)) \in B \} = \{w:\xi(\omega) \in \varphi^{-1}(B)  \} \in \F
 \end{equation*}
 for $B \in \B(\R)$, since $\varphi^{-1}(B) \in \B(\R)$.
 \end{proof}
@@ -689,7 +693,7 @@ Consider a measurable space $(\Omega, \F)$ and a finite or countable decompositi
 \begin{equation*}
     \xi(\omega) = \sum_{k=1}^\infty \alpha_k \chi_{D_k}(\omega), 
 \end{equation*}
-where $\alpha_k \in \R$, i.e. $\xi(\omega)$ is constant on the elements $\D_k$ of the decomposition.
+where $\alpha_k \in \R$, i.e. $\xi(\omega)$ is constant on the elements $D_k$ of the decomposition.
 \end{lemma}
 \subsubsection{Distributions of random variables}
 

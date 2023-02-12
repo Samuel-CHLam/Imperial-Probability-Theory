@@ -88,7 +88,7 @@ Here are the main books referenced in this set of notes
 - Details of proof regarding Helly's selection theorems are based on [ICL] and [MIT].
 
 ### Chapter 6 - Characteristic Functions
-- Sections 6.1- early 6.3 (before generalised version of CLT is introduced) follows closely with [ICL], with details of proofs filled out by [MIT].
+- Sections 6.1- early 6.3 (before generalised version of CLT is introduced) follow closely with [ICL], with details of proofs filled out by [MIT].
 - Later part of section 6.3 (Lindeberg-Feller theorem) follows [MIT].
 - We follow [ICL] for section 6.5
 
@@ -102,11 +102,15 @@ Here are the main books referenced in this set of notes
 
 ### Chapter 8 - Conditioning and Disintegration
 - Section 8.1 is a motivation of the idea, written based on [Oxford].
-- Section 8.2-4 follows from a wide-range of textbooks as introduced above.
+- Section 8.2-4 follows from a wide range of textbooks as introduced above.
 - Section 8.5 is written based on [AK] to aid your understanding.
 
 ### (Planned material) Chapter 9 - Theory of Martingales
+Advanced coursework 2021. 
+Describe WLLN, SLLN, and CLT for a r.v.’s given by the Brownian motion
+$B_{t_n}, n \in \mathbb{N}$, and a suitable quadratic function of the Brownian motion from the point of view of Martingales.
 
 ### (Planned material) Chapter 10 - An introduction to Markov Chains
 
 ### (Planned material) Chapter 11 - Ergodic Theory
+Advanced coursework 2020.

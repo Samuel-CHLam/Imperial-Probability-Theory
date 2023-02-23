@@ -29,10 +29,10 @@ A standard way of describing $n$ independent coin flips (or $n$ independent tria
 
 the new collection of events are
 \begin{equation*}
-    \A^{(n)} = \sigma(\set{A_1 \times ... \times A_n \,:\, \forall i, \; A_i \in \A_i}) = 2^{\Omega^{(n)}}
+    \A^{(n)} = \sigma(\set{A_1 \times ... \times A_n \,:\, \forall i, \; A_i \in \A_i})
 \end{equation*}
 
-and the new probability measures are $\p_n$ satisfying 
+and the new probability measures are $\p^{(n)}$ satisfying 
 \begin{equation*}
     \p^{(n)}(A_1 \times ... \times A_n) = \prod_{i=1}^n \p_i(A_i)
 \end{equation*}
@@ -40,7 +40,7 @@ and the new probability measures are $\p_n$ satisfying
 Then we can define the family of projection function onto the $i$-th component,  $\proj^{(n)}_i: (\Omega^{(n)},\A^{(n)}) \to (\Omega_i, \A_i)$ such that $\proj^{(n)}_i(\omega_1, ..., \omega_n) = \omega_i$. For convenience, we drop the superscript $(n)$ if there is no ambiguity. Notice that the projection functions are measurable, since the preimage of any sets in $\A_i$ is 
 $$\proj_i^{-1}(A_i) = \Omega_1 \times ... \times \Omega_{i-1} \times A_i \times \Omega_{i+1}, ..., \Omega_n \in \A^{(n)}$$
 
-Now we can define new random variables $\tilde{\xi}:(\Omega^{(n)}, \A^{(n)}, \p^{(n)}) \to \set{0,1}$ such that $\tilde{\xi}_i(\omega) = \xi_i(\proj_i(\omega))$. These random variables are an accurate description of flipping $n$ coins since:
+Now we can define new random variables $\tilde{\xi}_i:(\Omega^{(n)}, \A^{(n)}, \p^{(n)}) \to \set{0,1}$ such that $\tilde{\xi}_i(\omega) = \xi_i(\proj_i(\omega))$. These random variables are an accurate description of flipping $n$ coins since:
 \begin{enumerate}
     \item The marginal distribution of $\xi_i$, defined as the measure $A \mapsto \p_{\tilde{\xi}_i}(\Omega_1 \times ... \times A \times ... \times \Omega_n)$ satisfies \eqref{eq:Bernoulli_pmf}.
     \item The family $(\tilde{\xi}_i)$ of random variables are independent.
@@ -334,6 +334,7 @@ $(1) \implies (2)$: Shown by Markov inequality that $L^1$ convergence implies co
     \E\sqbracket{\bracket{\abs{\xi}+\sum_{i=1}^n \abs{\xi_i}}\chi_D} < \frac{\epsilon}{2}
 \end{equation}
 Choosing $N$ such that $\E\sqbracket{|\xi_n - \xi|} < \epsilon$ whenever $n \geq N$ yields the result.
+\\
 
 $(2) \implies (1)$: We first check that $\xi \in L^1$. This follows from Fatou's lemma and remark \ref{rmk:uniform_L1_bounded} that $\E[\abs{\xi}] \leq \liminf_{n\to\infty} \E\abs{\xi_n} \leq M < \infty$. We therefore can also show (exercise!) that $(\abs{\xi_i - \xi})_{i\geq 1}$ is uniformly integrable, hence absolute equi-continuous (proposition \ref{prop:absolute_equicontinuity}). Therefore, for any $\epsilon > 0$, we may choose $\delta > 0$ such that if $\p(D)<\delta$ then $\sup_{i\geq 1} \E\sqbracket{|\xi_i|\chi_D} < \epsilon/2$. By convergence in probability, there is a large enough $N$ such that
 \begin{equation}

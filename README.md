@@ -3,9 +3,13 @@
 
 This is the GitHub repository for an exposition of Probability Theory, written based on the lecture with the same name given at Imperial College London in spring 2022 by [Dr. Igor Krasovsky](https://www.imperial.ac.uk/people/i.krasovsky). This is an exposition with an excessive amount of motivations, examples and extra content, so if you only need a handbook for (last-minute) revision, you should read the following [notes by Jason Yi](https://github.com/JasonKYi/y3_notes/blob/main/Probability_Theory/Probability_Theory.pdf).
 
-# [Click here for PDF Preview](https://github.com/Samuel-CHLam/Imperial-Probability-Theory/blob/main/Probability_Theory.pdf) 
-Version 0.1.2, generated on 24/08/2022
-**Warning: this preview does not update regularly! See below if you want to look at more updated versions.**
+## License
+The work is *currently* subject to [Creative Common Attribution 4.0 International (CC BY 4.0) license](https://creativecommons.org/licenses/by/4.0/legalcode}) You are free to share and/or adapt the work, on condition of 
+- giving appropriate credit to the lecturer, Prof. Igor Krasovsky. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+- retain the link to the license,
+- not applying legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+The license may change in line with the college regulations.
 
 ## Better preview
 The following guide is written based on the [ICL Notes Organisation page](https://icl-notes.github.io/), made by Mayeul (Mike) Fournial.
